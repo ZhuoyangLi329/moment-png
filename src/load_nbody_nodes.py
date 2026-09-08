@@ -62,7 +62,14 @@ def main():
             bad = [x["realization"] for x in selected if x.get("dtype") != "float32" or x.get("shape", [None, None])[1] != 3 or float(x.get("boxsize_mpc_h")) != 1000.0 or float(x.get("redshift")) != 1.0]
             if bad:
                 raise ValueError(f"{node}: catalog metadata failed dtype/shape/box/redshift check: {bad}")
-            metadata[node] = {"n_halo": [int(x["n_halo"]) for x in selected], "dtype": sorted(set(x["dtype"] for x in selected)), "boxsize_mpc_h": sorted(set(float(x["boxsize_mpc_h"]) for x in selected)), "redshift": sorted(set(float(x["redshift"]) for x in selected))}
+            meta_bad = []
+            for x in selected:
+                md = json.loads(Path(x["metadata"]).read_text())
+                if (float(md.get("mass_threshold_msun_h", 0.0)) != 1.0e13 or int(md.get("snapnum", -1)) != 2 or md.get("cosmology") != node or int(md.get("n_halo_selected", -1)) != int(x["n_halo"])):
+                    meta_bad.append(x["realization"])
+            if meta_bad:
+                raise ValueError(f"{node}: metadata failed mass-cut/snapshot/cosmology/count check: {meta_bad}")
+            metadata[node] = {"n_halo": [int(x["n_halo"]) for x in selected], "dtype": sorted(set(x["dtype"] for x in selected)), "boxsize_mpc_h": sorted(set(float(x["boxsize_mpc_h"]) for x in selected)), "redshift": sorted(set(float(x["redshift"]) for x in selected)), "mass_threshold_msun_h": 1.0e13, "snapnum": 2}
     def stack(key):
         return np.stack([np.asarray(d[key]) for d in arrays], axis=0)
     args.output.parent.mkdir(parents=True, exist_ok=True)
