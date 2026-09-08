@@ -9,3 +9,8 @@ At the first k bin (0.0075 h/Mpc), model/data ratios are about 0.90 (fiducial), 
 Next actions are to verify the P_L/P_phi/M units and growth convention, compare no-CIC and CIC-transfer variants, include explicit shot-noise choices, and then test the MARISA-B finite halo-tree PNG components. Only after those checks should a kmax or production cut be considered.
 
 
+
+
+## Formal mu1 N-body validation
+
+src/validate_mu1_nbody_model.py creates results/mu1_nbody_tree_validation_v1.json using the frozen 70/30 split and node-matched p=1.12 exact-discrete predictions. The covariance-aware chi2/dof values are 253.10 (fiducial), 367.22 (LC_m), and 185.72 (LC_p), so the tree model is decisively rejected as a full N-body mean model under the current conventions.
