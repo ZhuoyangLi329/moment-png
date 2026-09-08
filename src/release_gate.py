@@ -27,7 +27,7 @@ def main():
  nodes=(manifest or {}).get('nodes',{})
  split_ok=bool(manifest and manifest.get('status')=='FROZEN' and set(nodes)=={'fiducial','LC_m','LC_p'} and all(v.get('n')==100 and len(v.get('ids',[]))==100 for v in nodes.values()))
  checks.append({'name':'immutable_validation_manifest','status':'PASS' if split_ok else 'BLOCKED','manifest':str(manifests[0]) if manifests else None})
- align=read(r/'results/main_nersc_source_alignment_v2.json') or read(r/'results/main_nersc_source_alignment_v1.json'); checks.append({'name':'source_alignment','status':'PASS' if align and align.get('status')=='PASS' and not align.get('mismatches') else 'BLOCKED','evidence':str(r/'results/main_nersc_source_alignment_v2.json') if (r/'results/main_nersc_source_alignment_v2.json').exists() else str(r/'results/main_nersc_source_alignment_v1.json')})
+ align_path=next((p for p in (r/'results/main_nersc_source_alignment_v3.json',r/'results/main_nersc_source_alignment_v2.json',r/'results/main_nersc_source_alignment_v1.json') if p.exists()),None); align=read(align_path) if align_path else None; checks.append({'name':'source_alignment','status':'PASS' if align and align.get('status')=='PASS' and not align.get('mismatches') else 'BLOCKED','evidence':str(align_path) if align_path else None})
  stage=read(r/'results/stage_progress_v2.json'); stages=(stage or {}).get('stages',{}); scientific=[]
  for name in ['1','2','3','4','5','6','7','8']:
   status=stages.get(name,{}).get('status','MISSING'); checks.append({'name':f'stage_{name}','status':'PASS' if status=='PASS' else 'BLOCKED','stage_status':status})
