@@ -16,6 +16,11 @@ def main():
  checks.append({'name':'github_main_commit','status':'PASS' if prov and prov.get('github_main_commit') else 'BLOCKED','value':prov.get('github_main_commit') if prov else None})
  checks.append({'name':'batch_provenance','status':'PASS' if prov and len(prov.get('completed_batch_jobs',[]))>=8 else 'BLOCKED','value':prov.get('completed_batch_jobs',[]) if prov else []})
  checks.append({'name':'frozen_protocol','status':'PASS' if prov and prov.get('frozen_config') and prov.get('split') else 'BLOCKED'})
+ manifests=sorted(r.glob('results/validation_manifest_v*.json'),key=lambda p:int(p.stem.split('_v')[-1]),reverse=True)
+ manifest=read(manifests[0]) if manifests else None
+ nodes=(manifest or {}).get('nodes',{})
+ split_ok=bool(manifest and manifest.get('status')=='FROZEN' and set(nodes)=={'fiducial','LC_m','LC_p'} and all(v.get('n')==100 and len(v.get('ids',[]))==100 for v in nodes.values()))
+ checks.append({'name':'immutable_validation_manifest','status':'PASS' if split_ok else 'BLOCKED','manifest':str(manifests[0]) if manifests else None})
  align=read(r/'results/main_nersc_source_alignment_v1.json'); checks.append({'name':'source_alignment','status':'PASS' if align and align.get('status')=='PASS' and not align.get('mismatches') else 'BLOCKED'})
  stage=read(r/'results/stage_progress_v2.json'); stages=(stage or {}).get('stages',{}); scientific=[]
  for name in ['1','2','3','4','5','6','7','8']:
