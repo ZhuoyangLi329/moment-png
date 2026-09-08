@@ -1,0 +1,64 @@
+***************************************************************************
+                          NOTICE TO USERS
+
+Lawrence Berkeley National Laboratory operates this computer system under 
+contract to the U.S. Department of Energy.  This computer system is the 
+property of the United States Government and is for authorized use only.
+Users (authorized or unauthorized) have no explicit or implicit 
+expectation of privacy.
+
+Any or all uses of this system and all files on this system may be
+intercepted, monitored, recorded, copied, audited, inspected, and disclosed
+to authorized site, Department of Energy, and law enforcement personnel,
+as well as authorized officials of other agencies, both domestic and foreign.
+By using this system, the user consents to such interception, monitoring,
+recording, copying, auditing, inspection, and disclosure at the discretion
+of authorized site or Department of Energy personnel.
+
+Unauthorized or improper use of this system may result in administrative
+disciplinary action and civil and criminal penalties. By continuing to use
+this system you indicate your awareness of and consent to these terms and
+conditions of use. LOG OFF IMMEDIATELY if you do not agree to the conditions
+stated in this warning.
+
+*****************************************************************************
+
+Login connection to host x3116c0s3b0n0:
+
+# Independent halo-bias inputs for pure analytic MARISA-B adaptation
+schema_version: 1
+model: MARISA-B halo bias-v1 truncated fixed-cutoff one-loop
+scope:
+  redshift: 1.0
+  mass_min_msun_h: 1.0e13
+  smoothing_radius_mpc_h: 15.0
+  stage: pre
+  validation_nodes: fiducial_LC_m_LC_p
+  calibration_nodes: null
+parameters:
+  b1: 2.7340475186190334
+  b2: -0.665
+  bK2: 0.516666666666667
+  bphi: null
+  bphi_model: universal_mass_function_optional
+  universality_p_tracer: 1.12
+  universality_p_reconstruction: 1.0
+  bphidelta: null
+  alpha3: 0.7885698383313215
+  alpha4: -0.30779796761910205
+  nbar: 0.000195530218
+sources:
+  type: external_or_disjoint_calibration
+  citation_or_path: /pscratch/sd/l/lzy/marisa-b-portable/analysis/theory_vectors/marisa_b_halo_bias_v1/quijote_halo_z1_r15_bias_v1_gaussian_canonical_point_diag9_kmax0p18_nmu12_qmax30_eps5e5_20260715_pre.json
+  calibration_realizations: fiducial_fNL0_aggregate
+  calibration_covariance: fixed_metadata_only_pending_parameter_covariance
+  gaussian_fit_scope: fiducial Gaussian one-loop fit, kmax=0.18
+  scheme: fixed_cutoff
+  qmin: null
+  qmax: null
+  quadrature_tolerance: null
+policy:
+  freeze_before_png_validation: true
+  forbid_same_response_fit: true
+  allow_empirical_template_as_mean_model: false
+  note: MARISA-B reference defaults are not copied because their stage/selection must be demonstrated compatible before reuse.
