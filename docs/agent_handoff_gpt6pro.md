@@ -66,3 +66,10 @@ The v1 protocol is frozen in configs/validation_v1.yaml and the NERSC validation
 A first tree halo-power versus N-body mesh-spectrum comparison with the p=1.12 universal branch is stored in results/ph_nbody_tree_comparison_v1.json. Its low-k (k<=0.03) RMS pulls are 6.78, 11.00, and 3.66 for fiducial, LC_m, and LC_p. Removing the CIC transfer changes these to 5.22, 9.72, and 2.17, showing CIC convention matters but does not explain the full mismatch.
 
 The comparison is diagnostic only. The model still lacks complete MARISA-B PNG halo-tree terms, fully audited P_m/M normalization at the mesh level, and complete shot-noise/contact closure. Do not tune bphi on these validation nodes.
+
+
+## Latest loop and bias-input evidence
+
+The Ngrid=64 binned-loop cutoff scan is now quantified. At fixed low quadrature, changing qmax from 0.03 to 0.05 changes the total projected mu1 by up to 0.0199 (fiducial), 0.1291 (LC_m), and 0.1690 (LC_p), while qmax=0.08 produces very large pulls. Changing qmin from 1e-4 to 1e-3 also materially changes the first-shell prediction. Loop convergence is therefore an open gate.
+
+A user-requested fiducial training fit of the linear P(k) model at kmax=0.08 gives b1=2.78134 and P_shot=3603.0 using real000-real069 only. The p=1.12 universal-bphi node-matched held-out test still has large covariance-aware chi2/dof (215.85, 329.36, 155.06), so this b1 is retained as a candidate diagnostic input and is not promoted to the production config.
