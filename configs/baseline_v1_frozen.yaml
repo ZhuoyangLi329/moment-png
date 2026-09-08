@@ -1,0 +1,83 @@
+***************************************************************************
+                          NOTICE TO USERS
+
+Lawrence Berkeley National Laboratory operates this computer system under 
+contract to the U.S. Department of Energy.  This computer system is the 
+property of the United States Government and is for authorized use only.
+Users (authorized or unauthorized) have no explicit or implicit 
+expectation of privacy.
+
+Any or all uses of this system and all files on this system may be
+intercepted, monitored, recorded, copied, audited, inspected, and disclosed
+to authorized site, Department of Energy, and law enforcement personnel,
+as well as authorized officials of other agencies, both domestic and foreign.
+By using this system, the user consents to such interception, monitoring,
+recording, copying, auditing, inspection, and disclosure at the discretion
+of authorized site or Department of Energy personnel.
+
+Unauthorized or improper use of this system may result in administrative
+disciplinary action and civil and criminal penalties. By continuing to use
+this system you indicate your awareness of and consent to these terms and
+conditions of use. LOG OFF IMMEDIATELY if you do not agree to the conditions
+stated in this warning.
+
+*****************************************************************************
+
+Login connection to host x3113c0s11b0n0:
+
+project: byd2pcf
+catalog_root: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions
+nodes:
+  fiducial: 0
+  LC_m: -100
+  LC_p: 100
+redshift: 1.0
+snapshot: 2
+boxsize_mpc_h: 1000.0
+mass_min_msun_h: 1.0e13
+space: real
+nmesh_login: 64
+nmesh_highres: 256
+shell_s_min_mpc_h: 40.0
+shell_s_max_mpc_h: 300.0
+shell_delta_mpc_h: 20.0
+shell_width_mpc_h: 20.0
+login_max_threads: 1
+slurm_max_cpus: 6
+
+# Optional first-principles PNG bias inputs (must be externally calibrated)
+png_bias_model: local_bphi
+png_bias:
+  b1: null
+  bphi: null
+  delta_c: 1.686
+  matter_pk_file: null
+  transfer_M_file: null
+  independent_calibration: true
+  validation_policy: holdout_only
+resource_policy:
+  login_max_cores: 6
+  login_default_threads: 1
+  login_memory_conservative: true
+  compute_node_only_if: ngrid_or_memory_exceeds_login_limit
+
+# Explicit estimator and correction conventions for the current baseline.
+measurement_conventions:
+  halo_overdensity: CIC_count_over_cell_mean_minus_one
+  shell_kernel: periodic_discrete_top_hat
+  zero_mode_subtracted: true
+  CIC_power_convention: mesh_field_power
+  random_normalization: ConKer_Gamma_if_random_catalog_present
+  boundary_condition: periodic_box
+  primary_space: real
+shot_noise_policy:
+  mu1: P_shot_optional_parameter_not_frozen
+  mu2: matched_Poisson_control_required
+  analytic_single_cell_contact: K0_squared_over_lambda_cubed_only
+  clustered_halo_contacts: pending_derivation
+scale_cut_policy:
+  status: FROZEN_V1_DIAGNOSTIC_BASELINE
+  selected_without_PNG_response_inspection: true
+  mu1_range_mpc_h: [40.0, 300.0]
+  mu2_range_mpc_h: [40.0, 300.0]
+  note: v1 diagnostic cuts frozen for held-out validation; publication release cuts still require independent resolution and shot-noise review
