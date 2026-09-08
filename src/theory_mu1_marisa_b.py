@@ -1,30 +1,3 @@
-***************************************************************************
-                          NOTICE TO USERS
-
-Lawrence Berkeley National Laboratory operates this computer system under 
-contract to the U.S. Department of Energy.  This computer system is the 
-property of the United States Government and is for authorized use only.
-Users (authorized or unauthorized) have no explicit or implicit 
-expectation of privacy.
-
-Any or all uses of this system and all files on this system may be
-intercepted, monitored, recorded, copied, audited, inspected, and disclosed
-to authorized site, Department of Energy, and law enforcement personnel,
-as well as authorized officials of other agencies, both domestic and foreign.
-By using this system, the user consents to such interception, monitoring,
-recording, copying, auditing, inspection, and disclosure at the discretion
-of authorized site or Department of Energy personnel.
-
-Unauthorized or improper use of this system may result in administrative
-disciplinary action and civil and criminal penalties. By continuing to use
-this system you indicate your awareness of and consent to these terms and
-conditions of use. LOG OFF IMMEDIATELY if you do not agree to the conditions
-stated in this warning.
-
-*****************************************************************************
-
-Login connection to host x3115c0s15b0n0:
-
 """Pure analytic tree-level halo P_h and exact-window mu1 forward model."""
 from pathlib import Path
 import argparse,json,sys
@@ -66,10 +39,14 @@ def predict_with_halo_p22(kvecs, pm, M, b1, b2, bK2, bphi, fnl, pshot=0., box=10
     ph=tree+loop
     return mu1_discrete(kvecs, ph, s, width, box, cell), {"tree":tree, "halo_P22":loop, "cutoff":(qmin,qmax), "kernel":"b1F2+b2/2+bK2S2"}
 def main():
- ap=argparse.ArgumentParser(); ap.add_argument('input',type=Path); ap.add_argument('--bias',default='configs/bias_inputs_v1.yaml'); ap.add_argument('--b1',type=float); ap.add_argument('--bphi',type=float); ap.add_argument('--bphi-universal',action='store_true',help='derive bphi=2 delta_c (b1-p) from universal mass function'); ap.add_argument('--universality-p',type=float,default=1.0,help='universality parameter p; tracer reference uses 1.12, reconstruction uses 1.0'); ap.add_argument('--fNL',type=float,default=0.); ap.add_argument('--pshot',type=float,default=0.); ap.add_argument('--box',type=float,default=1000.); ap.add_argument('--shells',default='40,60,80,100'); ap.add_argument('--width',type=float,default=20.); ap.add_argument('--cell',type=float); ap.add_argument('--output',required=True); a=ap.parse_args(); d=np.load(a.input); kv=np.asarray(d['kvecs']); pm=np.asarray(d['Pm']); M=np.asarray(d['M']); b=load_bias_inputs(a.bias,False); b1=b['parameters']['b1'] if a.b1 is None else a.b1; bp=b['parameters']['bphi'] if a.bphi is None else a.bphi
+ ap=argparse.ArgumentParser(); ap.add_argument('input',type=Path); ap.add_argument('--bias',default='configs/bias_inputs_v1.yaml'); ap.add_argument('--b1',type=float); ap.add_argument('--bphi',type=float); ap.add_argument('--bphi-universal',action='store_true',help='derive bphi=2 delta_c (b1-p) from universal mass function'); ap.add_argument('--universality-p',type=float,default=None,help='universality parameter p; defaults to bias config universality_p_tracer'); ap.add_argument('--fNL',type=float,default=0.); ap.add_argument('--pshot',type=float,default=0.); ap.add_argument('--box',type=float,default=1000.); ap.add_argument('--shells',default='40,60,80,100'); ap.add_argument('--width',type=float,default=20.); ap.add_argument('--cell',type=float); ap.add_argument('--output',required=True); a=ap.parse_args(); d=np.load(a.input); kv=np.asarray(d['kvecs']); pm=np.asarray(d['Pm']); M=np.asarray(d['M']); b=load_bias_inputs(a.bias,False); b1=b['parameters']['b1'] if a.b1 is None else a.b1; bp=b['parameters']['bphi'] if a.bphi is None else a.bphi
  if b1 is None: raise ValueError('supply --b1 or freeze it in bias config')
- if bp is None and a.bphi_universal: bp=2*1.686*(float(b1)-a.universality_p)
+ p_univ = a.universality_p if a.universality_p is not None else float(b.get('parameters',{}).get('universality_p_tracer',1.12))
+ if bp is None and a.bphi_universal: bp=2*1.686*(float(b1)-p_univ)
  if bp is None: raise ValueError('supply --bphi, freeze it in bias config, or explicitly select --bphi-universal')
  vals=[{'s':s,'mu1':predict(kv,pm,M,float(b1),float(bp),a.fNL,a.pshot,a.box,s=s,width=a.width,cell=a.cell)[0]} for s in map(float,a.shells.split(','))]
- out={'model':'MARISA-B-inspired pure analytic tree-level halo P_h exact-window projection','fNL':a.fNL,'b1':float(b1),'bphi':float(bp),'bphi_source':('universal_mass_function' if a.bphi_universal and a.bphi is None else 'config_or_cli'),'universality_p':a.universality_p,'P_shot':a.pshot,'predictions':vals,'equation':'P_h=[b1+fNL*2 delta_c (b1-p)bphi/M(k)]^2 P_m+P_shot','scope':'tree level; b2,bK2 and fixed-cutoff one-loop contractions are not yet included'}; Path(a.output).write_text(json.dumps(out,indent=2)+'\n'); print(json.dumps({'status':'PASS','nshell':len(vals),'scope':out['scope']}))
+ out={'model':'MARISA-B-inspired pure analytic tree-level halo P_h exact-window projection','fNL':a.fNL,'b1':float(b1),'bphi':float(bp),'bphi_source':('universal_mass_function' if a.bphi_universal and a.bphi is None else 'config_or_cli'),'universality_p':p_univ,'P_shot':a.pshot,'predictions':vals,'equation':'P_h=[b1+fNL*bphi/M(k)]^2 P_m+P_shot; universal bphi=2*delta_c*(b1-p)','scope':'tree level; b2,bK2 and fixed-cutoff one-loop contractions are not yet included'}; Path(a.output).write_text(json.dumps(out,indent=2)+'\n'); print(json.dumps({'status':'PASS','nshell':len(vals),'scope':out['scope']}))
 if __name__=='__main__': main()
+
+
+
