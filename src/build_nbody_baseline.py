@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 def main():
  ap=argparse.ArgumentParser(); ap.add_argument('--root',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); ap.add_argument('--nmesh',type=int,default=64); a=ap.parse_args()
- a.output.mkdir(parents=True,exist_ok=True); rows={}; project=a.root.parent.parent
+ a.output.mkdir(parents=True,exist_ok=True); rows={}; project=a.root.parent
  for node in ('fiducial','LC_m','LC_p'):
   m=np.load(a.root/f'moments_{node}_n{a.nmesh}.npz'); cp=project/'resolution_clean'/f'connected_{node}_n{a.nmesh}.npz'; c=np.load(cp) if cp.exists() else None; p=np.load(a.root/f'power_{node}_n{a.nmesh}.npz')
   ids=np.asarray(m['realization_ids']).astype(str)
@@ -17,5 +17,6 @@ def main():
   rows[node]={'fNL':float(m['fNL']),'nreal':len(ids),'n_s':int(len(m['s'])),'n_k':int(len(p['k'])),'has_mu2_gaussian':bool(np.isfinite(mu2g).all())}
  json.dump({'schema':'nbody_baseline_v1','nmesh':a.nmesh,'nodes':rows,'scope':'packaging of canonical realization products; no PNG response fit'},open(a.output/'manifest.json','w'),indent=2); print({'status':'PASS','nodes':len(rows),'nmesh':a.nmesh})
 if __name__=='__main__': main()
+
 
 
