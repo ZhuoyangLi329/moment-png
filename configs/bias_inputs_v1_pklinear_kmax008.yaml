@@ -1,0 +1,31 @@
+# Training-calibrated linear-P(k) bias candidate
+schema_version: 1
+model: linear halo P(k) fit with CIC mesh transfer
+scope:
+  redshift: 1.0
+  mass_min_msun_h: 1.0e13
+  nmesh: 64
+  kmax_h_mpc: 0.08
+  calibration_nodes: fiducial_real000_real069
+  validation_nodes: LC_m_LC_p_real070_real099
+parameters:
+  b1: 2.7813407736463485
+  b2: -0.665
+  bK2: 0.516666666666667
+  bphi: null
+  bphi_model: universal_mass_function_optional
+  universality_p_tracer: 1.12
+  bphidelta: null
+  P_shot: 3602.999871825086
+  nbar: 0.000195530218
+sources:
+  type: disjoint_fiducial_training_fit
+  source_result: results/fiducial_b1_linear_pk_training_kmax008.json
+  model: P_h_mesh=b1^2 P_m_linear |W_CIC|^2 + P_shot
+policy:
+  freeze_before_png_validation: true
+  forbid_same_response_fit: true
+  production_adopted: false
+  note: candidate must pass independent convention audit and held-out response validation before promotion
+
+
