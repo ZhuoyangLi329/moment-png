@@ -18,3 +18,7 @@ The canonical diagnostic baseline is in configs/baseline_v1_frozen.yaml. Large c
 - slurm/: reproducible compute-node recipes
 
 All paths to NERSC data are configuration inputs, not bundled data.
+
+## v1 audit status (2026-09-09)
+
+The reproducible audit line is frozen on `main` and has successful NERSC batch records for resolution moments, loop component scans, CIC conventions, Poisson controls, and held-out bookkeeping. The current scientific status remains partial: the independent `b_phi`/`b_phi_delta` gate is blocked, loop IR/quadrature convergence is open, and the complete halo connected four-point closure is not yet validated. Diagnostic passes are recorded separately from production acceptance in `docs/stage_progress_v2.md` and `docs/stage7_gate_v2.md`.
