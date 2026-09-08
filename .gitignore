@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.npz
+*.npy
+*.dat
+*.bin
+*.log
+*.out
+*.err
+work/
+inputs/*.npz
+inputs/*.dat
+results/**/*.npz
+results/**/*.npy
+results/slurm_*
