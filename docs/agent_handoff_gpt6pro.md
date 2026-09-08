@@ -57,3 +57,12 @@ Do not promote universal-mass-function assumptions, empirical A/k^2 templates, o
 3. Audit the external z=1 theory table and interpolation onto periodic mesh modes.
 4. Compare tree-only and composite predictions on the same grid and exact window.
 5. Decide whether to prioritize independent bias calibration, two-point loop closure, or the connected mu2 derivation.
+
+
+## Latest validation checkpoint (2026-09-09)
+
+The v1 protocol is frozen in configs/validation_v1.yaml and the NERSC validation manifest. A unified Ngrid=64 N-body baseline package now joins P_h(k), mu1, mu2, Gaussian mu2 baseline, R_mu2, mode counts, and realization IDs for fiducial, LC_m, and LC_p.
+
+A first tree halo-power versus N-body mesh-spectrum comparison with the p=1.12 universal branch is stored in results/ph_nbody_tree_comparison_v1.json. Its low-k (k<=0.03) RMS pulls are 6.78, 11.00, and 3.66 for fiducial, LC_m, and LC_p. Removing the CIC transfer changes these to 5.22, 9.72, and 2.17, showing CIC convention matters but does not explain the full mismatch.
+
+The comparison is diagnostic only. The model still lacks complete MARISA-B PNG halo-tree terms, fully audited P_m/M normalization at the mesh level, and complete shot-noise/contact closure. Do not tune bphi on these validation nodes.
