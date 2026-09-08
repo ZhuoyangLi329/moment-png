@@ -1,30 +1,3 @@
-***************************************************************************
-                          NOTICE TO USERS
-
-Lawrence Berkeley National Laboratory operates this computer system under 
-contract to the U.S. Department of Energy.  This computer system is the 
-property of the United States Government and is for authorized use only.
-Users (authorized or unauthorized) have no explicit or implicit 
-expectation of privacy.
-
-Any or all uses of this system and all files on this system may be
-intercepted, monitored, recorded, copied, audited, inspected, and disclosed
-to authorized site, Department of Energy, and law enforcement personnel,
-as well as authorized officials of other agencies, both domestic and foreign.
-By using this system, the user consents to such interception, monitoring,
-recording, copying, auditing, inspection, and disclosure at the discretion
-of authorized site or Department of Energy personnel.
-
-Unauthorized or improper use of this system may result in administrative
-disciplinary action and civil and criminal penalties. By continuing to use
-this system you indicate your awareness of and consent to these terms and
-conditions of use. LOG OFF IMMEDIATELY if you do not agree to the conditions
-stated in this warning.
-
-*****************************************************************************
-
-Login connection to host x3114c0s9b0n0:
-
 """Estimator-matched periodic shell windows. Input P is power per FULL FFT mode.
 
 CIC applies to P, not to the shell transfer. For a continuum input the optional
@@ -123,3 +96,4 @@ def mu2_gaussian_discrete(kvecs, pk, s, width=20., boxsize=1000., cell=None,
         'sigma0_sq':sig0,'sigma_s_sq':sigs,'xi_s':xi,
         'ensemble_centered_wick':wick,'sample_mean_variance':correction,
         'sample_centered':sample_centered,'power_convention':power_convention}
+
