@@ -1,0 +1,282 @@
+{
+  "schema": "stage8_holdout_validation_report_v1",
+  "status": "REJECTED_DIAGNOSTIC",
+  "config": "configs/baseline_v1_canonical.yaml",
+  "config_sha256": "be18d402ea4d0d7fbf6fbb4988dbe0bb227b77f20c3af4d85632bf13aacc0eb5",
+  "manifest": "results/validation_manifest_v5.json",
+  "manifest_sha256": "e14ddf939933a62714838a24b7dae8bec6f942752afa3eaa9d584d4e89ab91be",
+  "protocol_guard": "results/protocol_consistency_audit_v1.json",
+  "protocol_guard_sha256": "f6f7b8e903a4b896c60f1a6b64254804d3ea60bf9c02747c1d0728777d4fa9d1",
+  "holdout_ids": [
+    "real070",
+    "real071",
+    "real072",
+    "real073",
+    "real074",
+    "real075",
+    "real076",
+    "real077",
+    "real078",
+    "real079",
+    "real080",
+    "real081",
+    "real082",
+    "real083",
+    "real084",
+    "real085",
+    "real086",
+    "real087",
+    "real088",
+    "real089",
+    "real090",
+    "real091",
+    "real092",
+    "real093",
+    "real094",
+    "real095",
+    "real096",
+    "real097",
+    "real098",
+    "real099"
+  ],
+  "n_holdout": 30,
+  "scales_mpc_h": [
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300
+  ],
+  "nodes": {
+    "fiducial": 0,
+    "LC_m": -100,
+    "LC_p": 100
+  },
+  "summary": {
+    "mu1_universal_tree": {
+      "fiducial": {
+        "n_holdout": 30,
+        "chi2_dof": 253.10259546172477,
+        "hartlap_chi2_dof": 122.18745987807404,
+        "rms_pull": 5.175393135132895,
+        "coverage_abs_pull_le_2": 0.5,
+        "covariance_condition_number": 4118.194161160138,
+        "covariance_estimator": "sample covariance of holdout realizations divided by n_holdout"
+      },
+      "LC_m": {
+        "n_holdout": 30,
+        "chi2_dof": 367.2165813764667,
+        "hartlap_chi2_dof": 177.27697031967358,
+        "rms_pull": 7.174108983226165,
+        "coverage_abs_pull_le_2": 0.42857142857142855,
+        "covariance_condition_number": 3508.684299160708,
+        "covariance_estimator": "sample covariance of holdout realizations divided by n_holdout"
+      },
+      "LC_p": {
+        "n_holdout": 30,
+        "chi2_dof": 185.71727946782252,
+        "hartlap_chi2_dof": 89.65661767412122,
+        "rms_pull": 3.137914023179058,
+        "coverage_abs_pull_le_2": 0.5714285714285714,
+        "covariance_condition_number": 6153.042858436729,
+        "covariance_estimator": "sample covariance of holdout realizations divided by n_holdout"
+      }
+    },
+    "mu1_training_ph": {
+      "fiducial": {
+        "n_holdout": 30,
+        "chi2_dof": 15.566165762124282,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 1.9632967572496067,
+        "coverage_abs_pull_le_2": 0.5714285714285714,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      },
+      "LC_m": {
+        "n_holdout": 30,
+        "chi2_dof": 16.8254904940913,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 1.3035067360684713,
+        "coverage_abs_pull_le_2": 0.7857142857142857,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      },
+      "LC_p": {
+        "n_holdout": 30,
+        "chi2_dof": 19.003064891893338,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 3.651812850951319,
+        "coverage_abs_pull_le_2": 0.07142857142857142,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      }
+    },
+    "mu2G_training_ph": {
+      "fiducial": {
+        "n_holdout": 30,
+        "chi2_dof": 7.40846637281724,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 4.619288245016362,
+        "coverage_abs_pull_le_2": 0.07142857142857142,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      },
+      "LC_m": {
+        "n_holdout": 30,
+        "chi2_dof": 7.029373176132144,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 2.4502796319098463,
+        "coverage_abs_pull_le_2": 0.5,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      },
+      "LC_p": {
+        "n_holdout": 30,
+        "chi2_dof": 7.689940924545549,
+        "hartlap_chi2_dof": null,
+        "rms_pull": 5.896529830623214,
+        "coverage_abs_pull_le_2": 0.0,
+        "covariance_condition_number": null,
+        "covariance_estimator": null
+      }
+    }
+  },
+  "joint_mu1_mu2G": {
+    "fiducial": {
+      "n_holdout": 30,
+      "dimension": 28,
+      "hartlap_factor": null,
+      "hartlap_reason": "n_holdout <= dimension+2 for joint 28-vector",
+      "shrinkage_scans": {
+        "0.0": {
+          "chi2": 4878152.174967062,
+          "chi2_dof": 174219.72053453792,
+          "condition_number": 20448826.505861707
+        },
+        "0.1": {
+          "chi2": 11665.088933205654,
+          "chi2_dof": 416.61031904305906,
+          "condition_number": 14078.494538045614
+        },
+        "0.5": {
+          "chi2": 4634.307568010951,
+          "chi2_dof": 165.5109845718197,
+          "condition_number": 2201.653467649398
+        },
+        "0.9": {
+          "chi2": 5957.472680179528,
+          "chi2_dof": 212.76688143498313,
+          "condition_number": 799.3128974593656
+        }
+      },
+      "coverage_fraction_abs_pull_le_2": 0.25
+    },
+    "LC_m": {
+      "n_holdout": 30,
+      "dimension": 28,
+      "hartlap_factor": null,
+      "hartlap_reason": "n_holdout <= dimension+2 for joint 28-vector",
+      "shrinkage_scans": {
+        "0.0": {
+          "chi2": 3102455.0244321255,
+          "chi2_dof": 110801.9651582902,
+          "condition_number": 32240975.603838813
+        },
+        "0.1": {
+          "chi2": 4165.477872285146,
+          "chi2_dof": 148.76706686732663,
+          "condition_number": 32838.333938593394
+        },
+        "0.5": {
+          "chi2": 2585.2116609665,
+          "chi2_dof": 92.32898789166072,
+          "condition_number": 5462.587343616684
+        },
+        "0.9": {
+          "chi2": 4695.43847569054,
+          "chi2_dof": 167.69423127466214,
+          "condition_number": 2031.8047882148596
+        }
+      },
+      "coverage_fraction_abs_pull_le_2": 0.25
+    },
+    "LC_p": {
+      "n_holdout": 30,
+      "dimension": 28,
+      "hartlap_factor": null,
+      "hartlap_reason": "n_holdout <= dimension+2 for joint 28-vector",
+      "shrinkage_scans": {
+        "0.0": {
+          "chi2": 7518013.520326123,
+          "chi2_dof": 268500.4828687901,
+          "condition_number": 11685752.09003912
+        },
+        "0.1": {
+          "chi2": 21281.418004208776,
+          "chi2_dof": 760.0506430074563,
+          "condition_number": 7887.756504442263
+        },
+        "0.5": {
+          "chi2": 7084.458739441228,
+          "chi2_dof": 253.01638355147244,
+          "condition_number": 1157.1623042811004
+        },
+        "0.9": {
+          "chi2": 6492.704788048381,
+          "chi2_dof": 231.88231385887073,
+          "condition_number": 393.93866435407483
+        }
+      },
+      "coverage_fraction_abs_pull_le_2": 0.32142857142857145
+    }
+  },
+  "mu2_png_response_holdout": {
+    "mu2": {
+      "rms_pull_vs_zero": 24.25485123174999,
+      "hartlap_corrected_chi2_dof_vs_zero": 458.9637781007431,
+      "large_scale_hartlap_corrected_chi2_dof_vs_zero": 183.25177925347862,
+      "coverage_abs_pull_le_2": 0.0
+    },
+    "mu2_gaussian": {
+      "rms_pull_vs_zero": 26.98054618759669,
+      "hartlap_corrected_chi2_dof_vs_zero": 1020.6730184510459,
+      "large_scale_hartlap_corrected_chi2_dof_vs_zero": 291.6350237804238,
+      "coverage_abs_pull_le_2": 0.0
+    },
+    "mu2_connected": {
+      "rms_pull_vs_zero": 4.632968785548422,
+      "hartlap_corrected_chi2_dof_vs_zero": 73.84546299779399,
+      "large_scale_hartlap_corrected_chi2_dof_vs_zero": 3.7244296700216113,
+      "coverage_abs_pull_le_2": 0.5
+    }
+  },
+  "source_sha256": {
+    "mu1_universal_tree": "0896febbc9df8324deb133ea46f75d3abbc3076cabdf629fc01474c9849b420f",
+    "mu1_training_ph": "c89478f15b8e0ea1bafff38278e8c69d27c337f2c5cf1f48ca2e1485f103b44f",
+    "mu2G_training_ph": "6c0d21c5a60fea1d6fc7095563fcd2495dc1a6fea5868c32592b33401c7514c3",
+    "joint_mu1_mu2G": "a602d47b33f3f56b3391413f8288bdb3513c5c02be211890c2274a075ef87380",
+    "mu2_png_response": "8824d2335c8a857db630f5e386ecad3cbd5dbede033cb8b347ee0bf76c51feba"
+  },
+  "policy": {
+    "all_models_same_config_split_scales": true,
+    "empirical_A_over_k2_plus_B_plus_Ck2": "diagnostic_only",
+    "heldout_realizations_not_used_for_calibration": true,
+    "bphi_independent_provenance_required": true,
+    "production_promotion": false,
+    "failures_retained": true
+  },
+  "rejection_reasons": [
+    "universal and training-only \u03bc1/\u03bc2G diagnostics are not an independent production model",
+    "joint \u03bc1+\u03bc2G and PNG response residuals remain significant",
+    "independent b_phi and full connected halo four-point closure are unavailable"
+  ]
+}
