@@ -1,0 +1,42 @@
+{
+  "schema": "bphi_literature_scope_audit_v1",
+  "status": "PASS",
+  "decision": "BLOCKED",
+  "target": {
+    "redshift": 1.0,
+    "halo_finder": "FoF",
+    "mass_cut_msun_h": 10000000000000.0,
+    "space": "real",
+    "selection": "pre-reconstruction halo response"
+  },
+  "candidates": [
+    {
+      "citation": "Quijote-PNG bias-response analysis, JCAP 06 (2025) 053",
+      "doi": "10.1088/1475-7516/2025/06/053",
+      "url": "https://doi.org/10.1088/1475-7516/2025/06/053",
+      "simulation": "Quijote and Quijote-PNG",
+      "redshift": 1.0,
+      "fNL": [
+        100,
+        -100
+      ],
+      "halo_selection": "Rockstar M200b/M200c/M500c > 5e13 h^-1 Msun",
+      "relation": "b_phi=2 delta_c,0 (b1-p), p=1 tested",
+      "match": false,
+      "rejection_reasons": [
+        "Rockstar rather than FoF",
+        "mass threshold 5e13 rather than 1e13",
+        "mass definitions are spherical-overdensity rather than current FoF Mh",
+        "no disjoint calibration table for current CIC real-space estimator"
+      ]
+    }
+  ],
+  "strict_match_count": 0,
+  "scope": "literature screening for independent bphi provenance; no numeric promotion",
+  "policy": {
+    "independent_source_required": true,
+    "selection_must_match_all_target_fields": true,
+    "unmatched_literature_is_rejected": true
+  },
+  "created_utc": "2026-09-09T05:29:44.640238+00:00"
+}
