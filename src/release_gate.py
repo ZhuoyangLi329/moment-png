@@ -26,7 +26,7 @@ def main():
  manifest=read(manifests[0]) if manifests else None; nodes=(manifest or {}).get('nodes',{})
  split_ok=bool(manifest and manifest.get('status')=='FROZEN' and set(nodes)=={'fiducial','LC_m','LC_p'} and all(v.get('n')==100 and len(v.get('ids',[]))==100 for v in nodes.values()))
  checks.append({'name':'immutable_validation_manifest','status':'PASS' if split_ok else 'BLOCKED','manifest':str(manifests[0]) if manifests else None})
- align_path=next((r/'results'/f'main_nersc_source_alignment_v{i}.json' for i in [8,7,6,5,4,3,2,1] if (r/'results'/f'main_nersc_source_alignment_v{i}.json').exists()),None)
+ align_path=next((r/'results'/f'main_nersc_source_alignment_v{i}.json' for i in [9,8,7,6,5,4,3,2,1] if (r/'results'/f'main_nersc_source_alignment_v{i}.json').exists()),None)
  align=read(align_path) if align_path else None
  checks.append({'name':'source_alignment','status':'PASS' if align and align.get('status')=='PASS' and not align.get('mismatches') else 'BLOCKED','evidence':str(align_path) if align_path else None,'n_files':(align or {}).get('n_files')})
  scope_path=r/'results/bphi_calibration_scope_audit_v1.json'; scope=read(scope_path)
@@ -37,6 +37,7 @@ def main():
   if status!='PASS': scientific.append({'stage':name,'status':status})
  out={'status':'PASS' if all(x['status']=='PASS' for x in checks) else 'BLOCKED','schema':'release_gate_v4','checks':checks,'scientific_blockers':scientific,'policy':'No production release while any stage is not PASS; diagnostics may be published with their failure labels.','scope':'release decision only; does not alter data or fit parameters'}; a.output.write_text(json.dumps(out,indent=2)+'\n'); print(json.dumps({'status':out['status'],'blocked':len(scientific),'execution_checks':sum(x['status']=='PASS' for x in checks),'total_checks':len(checks)}))
 if __name__=='__main__':main()
+
 
 
 
