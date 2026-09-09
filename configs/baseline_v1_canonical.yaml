@@ -1,0 +1,41 @@
+# Canonical v1 release configuration (frozen successor to baseline_v1_frozen.yaml)
+version: v1
+repository: ZhuoyangLi329/moment-png
+github_branch: main
+nersc_project_root: /pscratch/sd/l/lzy/byd2pcf
+catalog_root: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions
+redshift: 1.0
+snapshot: 2
+boxsize_mpc_h: 1000.0
+mass_min_msun_h: 1.0e13
+halo_finder: FoF
+space: real
+estimator: CIC_count_over_cell_mean_minus_one
+shell_kernel: periodic_discrete_top_hat
+shell_width_mpc_h: 20.0
+s_mpc_h: [40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300]
+primary_nmesh: 64
+convergence_nmesh: 128
+supplement_nmesh: 256
+zero_mode_subtracted: true
+power_volume_normalization: V_over_Ngrid_to_the_6_abs_fft_squared
+train_realizations: 70
+holdout_realizations: 30
+train_ids: real000-real069
+holdout_ids: real070-real099
+nodes:
+  fiducial: 0
+  LC_m: -100
+  LC_p: 100
+fit_png_response_on_holdout: false
+empirical_templates_are_production_model: false
+shot_noise_policy: explicit_options_only
+mu1_shot_options: [0, inverse_nbar, independent_training_estimate]
+mu2_contact_policy: iid_poisson_control_plus_separate_halo_terms
+png_bias:
+  b1: null
+  bphi: null
+  delta_c: 1.686
+  p_branches: [1.12, 1.0]
+  independent_calibration_required: true
+production_promotion_requires: independent_bphi_provenance
