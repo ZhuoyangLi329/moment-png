@@ -1,0 +1,432 @@
+{
+  "schema": "main_nersc_source_alignment_v21",
+  "status": "PASS",
+  "github_main_commit": "54199e8691199fec406b2bc92c098b5a369f7c49",
+  "n_files": 70,
+  "n_matches": 70,
+  "n_mismatches": 0,
+  "mismatches": [],
+  "files": [
+    {
+      "path": "src/analytic_bias_covariance.py",
+      "repo_sha256": "9dfbbbd4fe4af9f091fc63650f1c6bcafed921e9e18a9606cb00437056eeaa58",
+      "nersc_sha256": "9dfbbbd4fe4af9f091fc63650f1c6bcafed921e9e18a9606cb00437056eeaa58",
+      "match": true
+    },
+    {
+      "path": "src/analyze_cic_poisson_contact.py",
+      "repo_sha256": "9d095650567a1cbffdbd794df874393b59d4a3d765f8deea23c2c7b43b39610a",
+      "nersc_sha256": "9d095650567a1cbffdbd794df874393b59d4a3d765f8deea23c2c7b43b39610a",
+      "match": true
+    },
+    {
+      "path": "src/analyze_halo_contact_excess.py",
+      "repo_sha256": "e7ed3bb32817b45b4e2d236ea012a4229b0adbc4be0fe48128b67897ee32d832",
+      "nersc_sha256": "e7ed3bb32817b45b4e2d236ea012a4229b0adbc4be0fe48128b67897ee32d832",
+      "match": true
+    },
+    {
+      "path": "src/analyze_mu2_png_response_components.py",
+      "repo_sha256": "e71fdd06bd0d97fe7e12c56cc20ee69213990926c0daf31238b255d17944ed81",
+      "nersc_sha256": "e71fdd06bd0d97fe7e12c56cc20ee69213990926c0daf31238b255d17944ed81",
+      "match": true
+    },
+    {
+      "path": "src/analyze_mu2_png_response_holdout.py",
+      "repo_sha256": "16a431802f3b80e96437f356095ea1381e920226ad264156ef589729ebd1486e",
+      "nersc_sha256": "16a431802f3b80e96437f356095ea1381e920226ad264156ef589729ebd1486e",
+      "match": true
+    },
+    {
+      "path": "src/analyze_poisson_contact_resolution.py",
+      "repo_sha256": "d7a552acfd8fcb57b307fa4a5e98ee6595a4b7497e6b352f38193ab78cd6454c",
+      "nersc_sha256": "d7a552acfd8fcb57b307fa4a5e98ee6595a4b7497e6b352f38193ab78cd6454c",
+      "match": true
+    },
+    {
+      "path": "src/assemble_bias_covariance.py",
+      "repo_sha256": "e815269accb922914cad48157e0c319786686874b3725934e048276e8b0defaf",
+      "nersc_sha256": "e815269accb922914cad48157e0c319786686874b3725934e048276e8b0defaf",
+      "match": true
+    },
+    {
+      "path": "src/assemble_stage8_holdout_report.py",
+      "repo_sha256": "78c07c2aec3869b7ad0286a85ae6d4dea8f82034a32a3aa352d780ff289803ef",
+      "nersc_sha256": "78c07c2aec3869b7ad0286a85ae6d4dea8f82034a32a3aa352d780ff289803ef",
+      "match": true
+    },
+    {
+      "path": "src/audit_bphi_calibration_scope.py",
+      "repo_sha256": "0ba21dee1fc9edc730000fd5ff2907cd7b578b6f7a19368b1e98c6cf3a5a322e",
+      "nersc_sha256": "0ba21dee1fc9edc730000fd5ff2907cd7b578b6f7a19368b1e98c6cf3a5a322e",
+      "match": true
+    },
+    {
+      "path": "src/audit_loop_qmin_fundamental.py",
+      "repo_sha256": "dc4c8e03079b9fc0ed2536e4606bf45dbae787eed43cd9553a619a39487f357d",
+      "nersc_sha256": "dc4c8e03079b9fc0ed2536e4606bf45dbae787eed43cd9553a619a39487f357d",
+      "match": true
+    },
+    {
+      "path": "src/audit_ph_pm_norm.py",
+      "repo_sha256": "6fc603f3fe5e6a1366b01609762b26fbd087db38a3871e40101afdb8bab2935d",
+      "nersc_sha256": "6fc603f3fe5e6a1366b01609762b26fbd087db38a3871e40101afdb8bab2935d",
+      "match": true
+    },
+    {
+      "path": "src/audit_primordial_mu2.py",
+      "repo_sha256": "4ff1b90590b3c4b6497c7ddcfd6eba15a3d5f017cdc7fc9d434246dc29dd542d",
+      "nersc_sha256": "4ff1b90590b3c4b6497c7ddcfd6eba15a3d5f017cdc7fc9d434246dc29dd542d",
+      "match": true
+    },
+    {
+      "path": "src/build_nbody_baseline.py",
+      "repo_sha256": "f92b255be66915bb901cc1274e478ec1605af6b06de5636058e5d6ab81379b20",
+      "nersc_sha256": "f92b255be66915bb901cc1274e478ec1605af6b06de5636058e5d6ab81379b20",
+      "match": true
+    },
+    {
+      "path": "src/check_protocol_consistency.py",
+      "repo_sha256": "7bace1ea1a76002669f000dbabb948267db0386b077b594dca780579484693d1",
+      "nersc_sha256": "7bace1ea1a76002669f000dbabb948267db0386b077b594dca780579484693d1",
+      "match": true
+    },
+    {
+      "path": "src/compare_mu1_binned_loops.py",
+      "repo_sha256": "1ba25833b92e4c9544ae222eb80bf417678e6b9a14ab9cc50545e544024135e9",
+      "nersc_sha256": "1ba25833b92e4c9544ae222eb80bf417678e6b9a14ab9cc50545e544024135e9",
+      "match": true
+    },
+    {
+      "path": "src/compare_ph_cic_variants.py",
+      "repo_sha256": "a0f2645525d2923b5e8ebd7c1540c96148df4ab5d69980a6abfdb89e9403c213",
+      "nersc_sha256": "a0f2645525d2923b5e8ebd7c1540c96148df4ab5d69980a6abfdb89e9403c213",
+      "match": true
+    },
+    {
+      "path": "src/compare_ph_nbody.py",
+      "repo_sha256": "2dc6e783cd5f302c8645490991298d100d5a16703d7e82a049f31fcd13db7536",
+      "nersc_sha256": "2dc6e783cd5f302c8645490991298d100d5a16703d7e82a049f31fcd13db7536",
+      "match": true
+    },
+    {
+      "path": "src/compare_resolution_mu1_mu2.py",
+      "repo_sha256": "302c6560e6163e496eb7671f361ba81cd6c138263005ef6420e30a27a57da409",
+      "nersc_sha256": "302c6560e6163e496eb7671f361ba81cd6c138263005ef6420e30a27a57da409",
+      "match": true
+    },
+    {
+      "path": "src/derive_b1_nbody.py",
+      "repo_sha256": "021d2c5ab1bf64176eaf55640da1d134c39a24db50e9cd0d1eff2a22727f79b5",
+      "nersc_sha256": "021d2c5ab1bf64176eaf55640da1d134c39a24db50e9cd0d1eff2a22727f79b5",
+      "match": true
+    },
+    {
+      "path": "src/exact_window.py",
+      "repo_sha256": "09776c42906a07992b5c537c92362d1d274c404f9fae380d504bd47bdb4bf506",
+      "nersc_sha256": "09776c42906a07992b5c537c92362d1d274c404f9fae380d504bd47bdb4bf506",
+      "match": true
+    },
+    {
+      "path": "src/fit_b1_covariance_scan.py",
+      "repo_sha256": "2106494edbda730e3704f9befae4e8c39869883232bd51a7ce6b1aff6eaa0b19",
+      "nersc_sha256": "2106494edbda730e3704f9befae4e8c39869883232bd51a7ce6b1aff6eaa0b19",
+      "match": true
+    },
+    {
+      "path": "src/fit_b1_linear_pk.py",
+      "repo_sha256": "30a24d62c5d18fd74da8f3834ccb7f5ab30996cf0aead28ad8e26acd50925e5e",
+      "nersc_sha256": "30a24d62c5d18fd74da8f3834ccb7f5ab30996cf0aead28ad8e26acd50925e5e",
+      "match": true
+    },
+    {
+      "path": "src/fit_bphi_training_response.py",
+      "repo_sha256": "fcb508cb00f39d6cab44befb040b235d06418757f32ee1d48d96905c5c42809a",
+      "nersc_sha256": "fcb508cb00f39d6cab44befb040b235d06418757f32ee1d48d96905c5c42809a",
+      "match": true
+    },
+    {
+      "path": "src/freeze_manifest_v2.py",
+      "repo_sha256": "1bbdc052526102d4fcee661e0fa1670d1991b5c8aec347f922ef59b5ce58af26",
+      "nersc_sha256": "1bbdc052526102d4fcee661e0fa1670d1991b5c8aec347f922ef59b5ce58af26",
+      "match": true
+    },
+    {
+      "path": "src/halo_kernels.py",
+      "repo_sha256": "3a89a0d9007007c606463e4d0de8c41c86a684dff5a64fa5f3789979adcbfe10",
+      "nersc_sha256": "3a89a0d9007007c606463e4d0de8c41c86a684dff5a64fa5f3789979adcbfe10",
+      "match": true
+    },
+    {
+      "path": "src/halo_p13.py",
+      "repo_sha256": "1615678523886b2d41ec601aa06eaf4a80eb84a4787aeca0684c58c15120b2c2",
+      "nersc_sha256": "1615678523886b2d41ec601aa06eaf4a80eb84a4787aeca0684c58c15120b2c2",
+      "match": true
+    },
+    {
+      "path": "src/halo_two_point.py",
+      "repo_sha256": "7d3e90b20a56696a95870475dfb2ba83edea3d74b7d260097493050d7992544b",
+      "nersc_sha256": "7d3e90b20a56696a95870475dfb2ba83edea3d74b7d260097493050d7992544b",
+      "match": true
+    },
+    {
+      "path": "src/load_nbody_nodes.py",
+      "repo_sha256": "91b66fd5c066b7ed4d3741ac85db981a5ad317fa86f5f681f0c4d809ba910ffa",
+      "nersc_sha256": "91b66fd5c066b7ed4d3741ac85db981a5ad317fa86f5f681f0c4d809ba910ffa",
+      "match": true
+    },
+    {
+      "path": "src/make_loop_audit.py",
+      "repo_sha256": "4e00cd1a658b966805d3877ff665f0c705c3e439c467fcf75c1049907ffe039d",
+      "nersc_sha256": "4e00cd1a658b966805d3877ff665f0c705c3e439c467fcf75c1049907ffe039d",
+      "match": true
+    },
+    {
+      "path": "src/make_loop_batch_qmin_audit.py",
+      "repo_sha256": "7b384203870586b92667f57384c5ea2d6bfd21163963742acbcb69aa7ccab6ba",
+      "nersc_sha256": "7b384203870586b92667f57384c5ea2d6bfd21163963742acbcb69aa7ccab6ba",
+      "match": true
+    },
+    {
+      "path": "src/make_loop_qmin_audit.py",
+      "repo_sha256": "49832bee49760c9d8383fed4ea2dca1fa505cd8811f4766a6a7f2c1a9805b447",
+      "nersc_sha256": "49832bee49760c9d8383fed4ea2dca1fa505cd8811f4766a6a7f2c1a9805b447",
+      "match": true
+    },
+    {
+      "path": "src/make_mu2_input_scan.py",
+      "repo_sha256": "7b54fe70b75057a6f90e6031eb8fd8d8ae964f7e575d9360172c72aa5ca720df",
+      "nersc_sha256": "7b54fe70b75057a6f90e6031eb8fd8d8ae964f7e575d9360172c72aa5ca720df",
+      "match": true
+    },
+    {
+      "path": "src/measure_cic_conventions.py",
+      "repo_sha256": "d83433bd32e333b096c97cfc3cffd9e2688528a39ac4bacecf57cbb2ec38de26",
+      "nersc_sha256": "d83433bd32e333b096c97cfc3cffd9e2688528a39ac4bacecf57cbb2ec38de26",
+      "match": true
+    },
+    {
+      "path": "src/measure_mode_power.py",
+      "repo_sha256": "68081113f6102103b3dc35cc9952d29e0ef947a8b1bab7efdf15c3c075f3988e",
+      "nersc_sha256": "68081113f6102103b3dc35cc9952d29e0ef947a8b1bab7efdf15c3c075f3988e",
+      "match": true
+    },
+    {
+      "path": "src/moments.py",
+      "repo_sha256": "c943626f173ec2c9aa3f8ec9acf9f309a132b91c6545106ab3202017e1bba521",
+      "nersc_sha256": "c943626f173ec2c9aa3f8ec9acf9f309a132b91c6545106ab3202017e1bba521",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu1_bphi_comparison.py",
+      "repo_sha256": "ad9e853c9b32f7e05db8c0f0fddb0ad2fe1935a90e81d3cb25378c0a0df7044d",
+      "nersc_sha256": "ad9e853c9b32f7e05db8c0f0fddb0ad2fe1935a90e81d3cb25378c0a0df7044d",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu1_convention_scan.py",
+      "repo_sha256": "408bdb3c7980d2c40279e2bb1ce6e4338531d5ed602f62538b7de36d995d3b30",
+      "nersc_sha256": "408bdb3c7980d2c40279e2bb1ce6e4338531d5ed602f62538b7de36d995d3b30",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu1_mu2_training_bestfit.py",
+      "repo_sha256": "1c15cca9fa1ad34ed7dcb0581774b99fcceac511c00a69e41f45b6b0f4d39ec6",
+      "nersc_sha256": "1c15cca9fa1ad34ed7dcb0581774b99fcceac511c00a69e41f45b6b0f4d39ec6",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu1_training_bestfit.py",
+      "repo_sha256": "42d55c8fccbb46cff040d62b7ba78979522d6101b12ef1d71f6c56625a1f63d8",
+      "nersc_sha256": "42d55c8fccbb46cff040d62b7ba78979522d6101b12ef1d71f6c56625a1f63d8",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu2_diagnostic.py",
+      "repo_sha256": "81b2cf07d3016a042a9bf2e8db653b064836c9b43941e1a839864888e2f2febd",
+      "nersc_sha256": "81b2cf07d3016a042a9bf2e8db653b064836c9b43941e1a839864888e2f2febd",
+      "match": true
+    },
+    {
+      "path": "src/plot_mu2_overlay.py",
+      "repo_sha256": "629894923d5166b01c669afd5b4313f55492a1b7781d0210ff4042c58460881a",
+      "nersc_sha256": "629894923d5166b01c669afd5b4313f55492a1b7781d0210ff4042c58460881a",
+      "match": true
+    },
+    {
+      "path": "src/propagate_universal_bias_covariance.py",
+      "repo_sha256": "f5d3adb097a8657276a35f00619b13b1587ef32dd78a1af71ae335f77c9f9d12",
+      "nersc_sha256": "f5d3adb097a8657276a35f00619b13b1587ef32dd78a1af71ae335f77c9f9d12",
+      "match": true
+    },
+    {
+      "path": "src/release_gate.py",
+      "repo_sha256": "18073a252bde8c7c8d969276f30178e926dd56a5f6c859875ef7f520b6f09cb6",
+      "nersc_sha256": "18073a252bde8c7c8d969276f30178e926dd56a5f6c859875ef7f520b6f09cb6",
+      "match": true
+    },
+    {
+      "path": "src/run_final_batch_diagnostics.py",
+      "repo_sha256": "00ff30b09b11148421bc720302adb7b27981a85b71dd7f18abb04e357ef618d5",
+      "nersc_sha256": "00ff30b09b11148421bc720302adb7b27981a85b71dd7f18abb04e357ef618d5",
+      "match": true
+    },
+    {
+      "path": "src/scan_mu1_training_theory_conventions.py",
+      "repo_sha256": "15aa7b930bb4e77ada5931d1a85c431a7bbfe371c0d2f846633fb9a432c269c6",
+      "nersc_sha256": "15aa7b930bb4e77ada5931d1a85c431a7bbfe371c0d2f846633fb9a432c269c6",
+      "match": true
+    },
+    {
+      "path": "src/summarize_b1_kmax.py",
+      "repo_sha256": "3b30ce6011fdbfc93a916fa6069b26673d76f05569ccf77574eb870b34a5316f",
+      "nersc_sha256": "3b30ce6011fdbfc93a916fa6069b26673d76f05569ccf77574eb870b34a5316f",
+      "match": true
+    },
+    {
+      "path": "src/summarize_cic_conventions.py",
+      "repo_sha256": "92a7c439dbe58635e47fd356588002266db9b12dbbb0974819c71bc05d23cbae",
+      "nersc_sha256": "92a7c439dbe58635e47fd356588002266db9b12dbbb0974819c71bc05d23cbae",
+      "match": true
+    },
+    {
+      "path": "src/test_exact_window.py",
+      "repo_sha256": "b9d03e67e0c4c72b2a1ed7cee778eaa446e6f945862986bd3db920716d45ada6",
+      "nersc_sha256": "b9d03e67e0c4c72b2a1ed7cee778eaa446e6f945862986bd3db920716d45ada6",
+      "match": true
+    },
+    {
+      "path": "src/test_halo_two_point.py",
+      "repo_sha256": "091d17960774da11dc9d03ac51a59ec5be0cb21be0998880b77bdeb975c77cb6",
+      "nersc_sha256": "091d17960774da11dc9d03ac51a59ec5be0cb21be0998880b77bdeb975c77cb6",
+      "match": true
+    },
+    {
+      "path": "src/test_mu2_connected_interface.py",
+      "repo_sha256": "e7c865257a6ead2acfde9e9f99c84e60d1500aa875ef9aac3a3ae57f25b7b7e6",
+      "nersc_sha256": "e7c865257a6ead2acfde9e9f99c84e60d1500aa875ef9aac3a3ae57f25b7b7e6",
+      "match": true
+    },
+    {
+      "path": "src/theory_mu1_bphi.py",
+      "repo_sha256": "5437abd346243440d0a04f3d5324513d5d4a2e0712c9be1a574aa6f8a45cc8a4",
+      "nersc_sha256": "5437abd346243440d0a04f3d5324513d5d4a2e0712c9be1a574aa6f8a45cc8a4",
+      "match": true
+    },
+    {
+      "path": "src/theory_mu1_marisa_b.py",
+      "repo_sha256": "2bebedea5a23966e14066ccf0df0a871d0798fa6adaa94b143d0201e4cb5bf82",
+      "nersc_sha256": "2bebedea5a23966e14066ccf0df0a871d0798fa6adaa94b143d0201e4cb5bf82",
+      "match": true
+    },
+    {
+      "path": "src/theory_mu2_gaussian.py",
+      "repo_sha256": "a7030fcb95f78c10fadc1228f8ad2fc80b5efa225f86ddab1365597e17a093b9",
+      "nersc_sha256": "a7030fcb95f78c10fadc1228f8ad2fc80b5efa225f86ddab1365597e17a093b9",
+      "match": true
+    },
+    {
+      "path": "src/theory_mu2_gaussian_discrete.py",
+      "repo_sha256": "3947e70986359e31795f4f853ecd7b01d4123d0b19fb5c7498cc0f1d48dc0fbb",
+      "nersc_sha256": "3947e70986359e31795f4f853ecd7b01d4123d0b19fb5c7498cc0f1d48dc0fbb",
+      "match": true
+    },
+    {
+      "path": "src/theory_mu2_halo_analytic.py",
+      "repo_sha256": "60f15402d66e3e88ebd712143325bd66dfa2093bca29e0e8ea642fc1d0f0e722",
+      "nersc_sha256": "60f15402d66e3e88ebd712143325bd66dfa2093bca29e0e8ea642fc1d0f0e722",
+      "match": true
+    },
+    {
+      "path": "src/validate_joint_mu1_mu2.py",
+      "repo_sha256": "91091fa14288c6bb11e8c23d54ef6a51a37c240d5f9605372558fd3065edd78d",
+      "nersc_sha256": "91091fa14288c6bb11e8c23d54ef6a51a37c240d5f9605372558fd3065edd78d",
+      "match": true
+    },
+    {
+      "path": "src/validate_loop_components.py",
+      "repo_sha256": "5cd7dd6ccec93123a8f95e59c747cd39fac041a0df8e07d883c079e8f99aa3ed",
+      "nersc_sha256": "5cd7dd6ccec93123a8f95e59c747cd39fac041a0df8e07d883c079e8f99aa3ed",
+      "match": true
+    },
+    {
+      "path": "src/validate_loop_signed_cic_transfer.py",
+      "repo_sha256": "95152c9607222ee0d5767450646d8a8168c314bd71d4ad3eae4f7cb99ad5af7d",
+      "nersc_sha256": "95152c9607222ee0d5767450646d8a8168c314bd71d4ad3eae4f7cb99ad5af7d",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_analytic_holdout.py",
+      "repo_sha256": "38569b48f96bca2ba5ecefeb0bfe4f12642bfe675c114af86f9966e77ab327b9",
+      "nersc_sha256": "38569b48f96bca2ba5ecefeb0bfe4f12642bfe675c114af86f9966e77ab327b9",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_measured_power.py",
+      "repo_sha256": "de19c99f7aef9205930abee94f54d4f95c57ec2202b63fb2b935a35354916094",
+      "nersc_sha256": "de19c99f7aef9205930abee94f54d4f95c57ec2202b63fb2b935a35354916094",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_modewise_power.py",
+      "repo_sha256": "3e524c551006550aa827453c82509942b20ba279792881c7bb242c61cfbcaaf5",
+      "nersc_sha256": "3e524c551006550aa827453c82509942b20ba279792881c7bb242c61cfbcaaf5",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_nbody_model.py",
+      "repo_sha256": "22454e4de3507dfa253dae1ba6d8a1d5daac50a6f7d45c8f41da8410b717237e",
+      "nersc_sha256": "22454e4de3507dfa253dae1ba6d8a1d5daac50a6f7d45c8f41da8410b717237e",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_nodes.py",
+      "repo_sha256": "2bee075f7f3bf6864bacf59788f2e9d3814f06f5defac56f75acbc389d479915",
+      "nersc_sha256": "2bee075f7f3bf6864bacf59788f2e9d3814f06f5defac56f75acbc389d479915",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_shotnoise_variants.py",
+      "repo_sha256": "620cfd3bc2b8438c5ba45d7efb84da010cdd85630b15ad6194fd0f0fd56b1e26",
+      "nersc_sha256": "620cfd3bc2b8438c5ba45d7efb84da010cdd85630b15ad6194fd0f0fd56b1e26",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu1_training_power.py",
+      "repo_sha256": "b695b286c9a17ea6eca8f112125d38d5f4b606bd036a2a29f20acd21128294c5",
+      "nersc_sha256": "b695b286c9a17ea6eca8f112125d38d5f4b606bd036a2a29f20acd21128294c5",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu2_gaussian_analytic.py",
+      "repo_sha256": "7f5e69ee577260833b7a6748004e3259455a7985a56b267399697eb37ab0692c",
+      "nersc_sha256": "7f5e69ee577260833b7a6748004e3259455a7985a56b267399697eb37ab0692c",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu2_measured_power.py",
+      "repo_sha256": "316db107e973ca038c05129e20a8f852705eae9c8736a6045701fedbc7657e26",
+      "nersc_sha256": "316db107e973ca038c05129e20a8f852705eae9c8736a6045701fedbc7657e26",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu2_modewise_power.py",
+      "repo_sha256": "beef8457b9f8b6b4ae15ad2141dc4e674529f6b364f72d39de7260e020f6d207",
+      "nersc_sha256": "beef8457b9f8b6b4ae15ad2141dc4e674529f6b364f72d39de7260e020f6d207",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu2_perreal.py",
+      "repo_sha256": "b859a079f8cd6ff93a09a49c0d9a3dc7bae6ed296f8ada4599cf2bb3477213bf",
+      "nersc_sha256": "b859a079f8cd6ff93a09a49c0d9a3dc7bae6ed296f8ada4599cf2bb3477213bf",
+      "match": true
+    },
+    {
+      "path": "src/validate_mu2_training_power.py",
+      "repo_sha256": "3838fed13d991e65efeaae373970e9bb36dc725a237660edc2b945ecbc18bb36",
+      "nersc_sha256": "3838fed13d991e65efeaae373970e9bb36dc725a237660edc2b945ecbc18bb36",
+      "match": true
+    }
+  ],
+  "created_utc": "2026-09-09T04:54:53.789574+00:00"
+}
