@@ -1,0 +1,125 @@
+{
+  "schema": "protocol_consistency_audit_v1",
+  "status": "PASS",
+  "config": "configs/baseline_v1_canonical.yaml",
+  "manifest": "results/validation_manifest_v5.json",
+  "config_sha256": "be18d402ea4d0d7fbf6fbb4988dbe0bb227b77f20c3af4d85632bf13aacc0eb5",
+  "manifest_sha256": "e14ddf939933a62714838a24b7dae8bec6f942752afa3eaa9d584d4e89ab91be",
+  "checks": [
+    {
+      "name": "config_exists",
+      "status": "PASS",
+      "value": "configs/baseline_v1_canonical.yaml"
+    },
+    {
+      "name": "manifest_exists",
+      "status": "PASS",
+      "value": "results/validation_manifest_v5.json"
+    },
+    {
+      "name": "config_sha256",
+      "status": "PASS",
+      "value": "be18d402ea4d0d7fbf6fbb4988dbe0bb227b77f20c3af4d85632bf13aacc0eb5"
+    },
+    {
+      "name": "manifest_schema",
+      "status": "PASS",
+      "value": "validation_manifest_v3"
+    },
+    {
+      "name": "manifest_frozen",
+      "status": "PASS",
+      "value": "FROZEN"
+    },
+    {
+      "name": "manifest_config_path",
+      "status": "PASS",
+      "value": "configs/baseline_v1_canonical.yaml"
+    },
+    {
+      "name": "redshift",
+      "status": "PASS",
+      "value": 1.0
+    },
+    {
+      "name": "boxsize",
+      "status": "PASS",
+      "value": 1000.0
+    },
+    {
+      "name": "mass_cut",
+      "status": "PASS",
+      "value": "1.0e13"
+    },
+    {
+      "name": "fof_real_cic",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "shells",
+      "status": "PASS",
+      "value": [
+        40,
+        60,
+        80,
+        100,
+        120,
+        140,
+        160,
+        180,
+        200,
+        220,
+        240,
+        260,
+        280,
+        300
+      ]
+    },
+    {
+      "name": "grid_roles",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "zero_mode",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "split",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "no_holdout_response_fit",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "node_set",
+      "status": "PASS",
+      "value": [
+        "fiducial",
+        "LC_m",
+        "LC_p"
+      ]
+    },
+    {
+      "name": "node_shapes_ids",
+      "status": "PASS",
+      "value": null
+    },
+    {
+      "name": "fnl_labels",
+      "status": "PASS",
+      "value": null
+    }
+  ],
+  "scope": "single canonical v1 protocol gate",
+  "policy": {
+    "immutable_manifest": true,
+    "same_config_split_scales_required": true,
+    "production_promotion": false
+  }
+}
