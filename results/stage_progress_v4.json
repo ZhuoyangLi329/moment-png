@@ -1,0 +1,83 @@
+{
+  "schema": "stage_progress_v4",
+  "repository": "ZhuoyangLi329/moment-png",
+  "github_main_commit": "9f8692c52c63b761ab619f5f1a0658adf5931188",
+  "nersc_root": "/pscratch/sd/l/lzy/byd2pcf",
+  "frozen_protocol": "configs/baseline_v1_frozen.yaml; s=40--300 step20; Ngrid64 primary,128/256 resolution; real000-069 training, real070-099 heldout",
+  "stages": {
+    "0": {
+      "status": "PARTIAL",
+      "evidence": [
+        "results/run_provenance_v43.json",
+        "results/main_nersc_source_alignment_v6.json"
+      ],
+      "open": "older loop/theory products were interactive and need batch regeneration"
+    },
+    "1": {
+      "status": "PASS",
+      "evidence": [
+        "results/nbody_baseline_v1/manifest.json",
+        "results/resolution_mu1_mu2_audit_batch_58080924.json"
+      ]
+    },
+    "2": {
+      "status": "DIAGNOSTIC_OPEN",
+      "evidence": [
+        "results/ph_nbody_tree_comparison_v1.json",
+        "results/fiducial_b1_covariance_scan_v1.json"
+      ]
+    },
+    "3": {
+      "status": "REJECTED_DIAGNOSTIC",
+      "evidence": [
+        "results/power_real_n100_n64/heldout_mu1_universal_p112_covariance_v2.json"
+      ]
+    },
+    "4": {
+      "status": "OPEN",
+      "evidence": [
+        "results/loop_batch_qmin_audit_58081558.json",
+        "results/mu1_loop_quadrature_audit_v1.json"
+      ],
+      "open": "IR cutoff and quadrature changes remain material"
+    },
+    "5": {
+      "status": "PARTIAL_BLOCKED",
+      "evidence": [
+        "results/cic_convention_summary_58081876.json",
+        "results/mu1_shot_noise_variant_audit_v1.json",
+        "results/resolution_mu1_mu2_audit_batch_58080924.json",
+        "results/stage5_gate.json"
+      ],
+      "open": "mu2 contact/clustered terms and independent bphi provenance"
+    },
+    "6": {
+      "status": "ASSUMPTION_ONLY",
+      "evidence": [
+        "results/analytic_input_covariance_v2.json",
+        "results/marisa_b_reference_audit.json",
+        "results/bphi_calibration_scope_audit_v1.json"
+      ],
+      "open": "strict scan of external/disjoint JSON artifacts found zero files matching all frozen z=1, FoF, M_h>=1e13, real-space pre-recon and independent/disjoint PNG-calibration requirements"
+    },
+    "7": {
+      "status": "BASELINE_OPEN",
+      "evidence": [
+        "results/mu2_nbody_decomposition_v1.json",
+        "results/mu2_gaussian_analytic_mesh_validation_v1.json",
+        "results/mu2_modewise_power_identity_v2_58096167.json"
+      ],
+      "open": "Gaussian Wick estimator identity is PASS when using each realization full-lattice P_h; connected halo four-point terms, PNG response and contact closure remain open"
+    },
+    "8": {
+      "status": "NOT_READY",
+      "evidence": [
+        "results/stage8_holdout_gate_v1.json",
+        "results/joint_mu1_mu2G_holdout_validation_v1.json"
+      ],
+      "open": "analytic mean and input provenance fail heldout gate"
+    }
+  },
+  "policy": "No production claim while any stage remains OPEN, BLOCKED, ASSUMPTION_ONLY, or NOT_READY.",
+  "created_utc": "2026-09-09T02:49:44.013834+00:00"
+}
