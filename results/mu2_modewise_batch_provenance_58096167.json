@@ -1,0 +1,15 @@
+{
+  "schema": "mu2_modewise_batch_provenance_v1",
+  "slurm_job_id": "58096167",
+  "github_main_commit": "fcfdbbf95979a64edd258da005e9c630fa0afcc8",
+  "hostname": "nid004079",
+  "account": "desi",
+  "qos": "shared",
+  "files_sha256": {
+    "configs/baseline_v1_frozen.yaml": "dc530a3cce285018918d15fb94954a8a5ea34940761535108d0e72ca8eeaa2f4",
+    "results/validation_manifest_v4.json": "f41150be83941609764856cbeda2a0f9f250edca2d5ceef2b6f6c2a58e283377",
+    "results/mu2_modewise_power_identity_v2_58096167.json": "8b714e65d285a266a10ea549d917a567ad445db7705c12690b0099c684a1ba89"
+  },
+  "source": "src/validate_mu2_modewise_power.py",
+  "scope": "heldout full-lattice P_h to ensemble-centered Gaussian mu2 Wick identity; diagnostic only"
+}
