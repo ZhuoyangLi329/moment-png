@@ -1,0 +1,99 @@
+{
+  "schema": "stage_progress_v10",
+  "repository": "ZhuoyangLi329/moment-png",
+  "github_main_commit": "0a27f29",
+  "nersc_root": "/pscratch/sd/l/lzy/byd2pcf",
+  "frozen_protocol": "configs/baseline_v1_canonical.yaml; z=1; L=1000 Mpc/h; FoF Mh>=1e13 Msun/h; real-space CIC count overdensity; periodic shells; ds=20 Mpc/h; s=40--300 step20; Ngrid64 primary,128/256 resolution; real000-069 training, real070-099 heldout",
+  "stages": {
+    "0": {
+      "status": "PASS",
+      "evidence": [
+        "results/protocol_consistency_audit_v1.json",
+        "results/validation_manifest_v5.json",
+        "results/main_nersc_source_alignment_v19.json"
+      ]
+    },
+    "1": {
+      "status": "PASS",
+      "evidence": [
+        "results/nbody_baseline_v1/manifest.json",
+        "results/resolution_mu1_mu2_audit_batch_58080924.json",
+        "results/nbody_unified_loader_smoke_v1.json",
+        "results/nbody_unified_v4.npz"
+      ],
+      "open": "none for canonical Ngrid64 package; resolution products remain separate diagnostic arrays"
+    },
+    "2": {
+      "status": "DIAGNOSTIC_OPEN",
+      "evidence": [
+        "results/ph_nbody_tree_comparison_b1pk008_v1.json",
+        "results/fiducial_b1_kmax_summary_v1.json",
+        "results/mu1_from_measured_ph_validation_v1.json"
+      ],
+      "open": "tree P_h ratios and kmax scans are quantified, but LC+- and nonlinear residuals prevent production acceptance"
+    },
+    "3": {
+      "status": "REJECTED_DIAGNOSTIC",
+      "evidence": [
+        "results/power_real_n100_n64/heldout_mu1_universal_p112_covariance_v2.json",
+        "results/mu1_training_bphi_response_diagnostic_v2.json",
+        "results/mu1_from_measured_ph_validation_v1.json"
+      ],
+      "open": "training-only P_h/bphi diagnostics improve the held-out curve but cannot replace independent bphi calibration"
+    },
+    "4": {
+      "status": "OPEN",
+      "evidence": [
+        "results/mu1_loop_quadrature_audit_v1.json",
+        "results/mu1_loop_qmin_quadrature_audit_v1.json",
+        "results/loop_ir_cutoff_fundamental_audit_v1.json",
+        "results/loop_component_nbody_validation_qfund_58097316.json"
+      ],
+      "open": "qmin=1e-4, 1e-3 and k_fundamental differences remain material; qfund total held-out chi2/dof is 162.3, 374.6, 69.2"
+    },
+    "5": {
+      "status": "PARTIAL_BLOCKED",
+      "evidence": [
+        "results/cic_convention_summary_58081876.json",
+        "results/mu1_shot_noise_variant_audit_v1.json",
+        "results/resolution_mu1_mu2_audit_batch_58080924.json",
+        "results/stage5_gate.json",
+        "results/cic_poisson_contact_resolution_audit_v1.json",
+        "results/stage5_scale_stability_audit_v2.json"
+      ],
+      "open": "mu1 has a three-shell candidate interval 140--300, but connected mu2 has only one passing shell at 260 and no qualified interval; clustered/repeated-index halo terms and independent bphi remain unresolved"
+    },
+    "6": {
+      "status": "ASSUMPTION_ONLY",
+      "evidence": [
+        "results/analytic_input_covariance_v2.json",
+        "results/marisa_b_reference_audit.json",
+        "results/bphi_calibration_scope_audit_v1.json"
+      ],
+      "open": "strict scan of external/disjoint JSON artifacts found zero files matching all frozen z=1, FoF, M_h>=1e13, real-space pre-recon and independent/disjoint PNG-calibration requirements"
+    },
+    "7": {
+      "status": "BASELINE_OPEN",
+      "evidence": [
+        "results/mu2_modewise_power_identity_v2_58096167.json",
+        "results/mu2_gaussian_discrete_cic_validation_v1.json",
+        "results/halo_contact_excess_audit_v1.json",
+        "results/mu2_png_response_holdout_covariance_v1.json",
+        "results/cic_poisson_contact_resolution_audit_v1.json",
+        "results/stage7_gate_v4.json"
+      ],
+      "open": "Gaussian Wick and CIC Poisson baselines pass, but no independent halo b1/b2/bK2/bphi/bphidelta curves or closed PNG/contact response exists"
+    },
+    "8": {
+      "status": "NOT_READY",
+      "evidence": [
+        "results/stage8_holdout_validation_report_v1.json",
+        "results/joint_mu1_mu2G_holdout_validation_v1.json",
+        "results/mu2_png_response_holdout_covariance_v1.json"
+      ],
+      "open": "held-out report is formally assembled but rejected for production because independent analytic mean and input provenance fail"
+    }
+  },
+  "policy": "No production claim while any stage remains OPEN, BLOCKED, ASSUMPTION_ONLY, or NOT_READY.",
+  "created_utc": "2026-09-09T05:19:46.329773+00:00"
+}
