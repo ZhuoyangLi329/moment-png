@@ -1,0 +1,19 @@
+{
+  "schema": "slurm_disjoint_b1_provenance_v1",
+  "slurm_job_id": "58104847",
+  "hostname": "nid004110",
+  "account": "desi",
+  "qos": "shared",
+  "partition": "shared_milan_ss11",
+  "cpus": "8",
+  "outputs": [
+    "results/fiducial_disjoint_modepower_58104847.npz",
+    "results/fiducial_disjoint_modepower_58104847.json"
+  ],
+  "outputs_sha256": {
+    "results/fiducial_disjoint_modepower_58104847.npz": "28bb6d81aed145188c6417858b0f7123123811336aba583875e759c86c0253a5",
+    "results/fiducial_disjoint_modepower_58104847.json": "62b2de68a1340d6aa70e9c2777ec300334efc58c971cf1f33037d450c1c7c834"
+  },
+  "realization_block": "fiducial real100-real199 disjoint from frozen real000-real099",
+  "scope": "Gaussian b1/P_h audit only; no PNG response fit"
+}
