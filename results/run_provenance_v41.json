@@ -1,0 +1,67 @@
+{
+  "schema": "run_provenance_v41",
+  "created_utc": "2026-09-09T02:06:41.710390+00:00",
+  "repository": "ZhuoyangLi329/moment-png",
+  "github_ref": "main",
+  "github_main_commit": "12b777286fbfefb9e98a070e9b756c56bb49f5c5",
+  "nersc_root": "/pscratch/sd/l/lzy/byd2pcf",
+  "frozen_config": "configs/baseline_v1_frozen.yaml",
+  "frozen_config_sha256": "dc530a3cce285018918d15fb94954a8a5ea34940761535108d0e72ca8eeaa2f4",
+  "manifest": "results/validation_manifest_v4.json",
+  "manifest_sha256": "f41150be83941609764856cbeda2a0f9f250edca2d5ceef2b6f6c2a58e283377",
+  "protocol": "z=1; L=1000 Mpc/h; FoF Mh>=1e13 Msun/h; real-space CIC count overdensity; periodic shells; ds=20 Mpc/h; s=40--300 Mpc/h; Ngrid=64 primary,128/256 checks",
+  "split": "real000-real069 training; real070-real099 held-out; resolution/control real000-real009",
+  "latest_job": {
+    "slurm_job_id": 58089819,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed": "00:00:34",
+    "node": "nid004078",
+    "account": "desi",
+    "qos": "shared",
+    "partition": "shared_milan_ss11",
+    "cpus": 8,
+    "memory": "15240M"
+  },
+  "completed_batch_jobs": [
+    58080440,
+    58080924,
+    58081558,
+    58081876,
+    58082476,
+    58083372,
+    58085501,
+    58086167,
+    58086560,
+    58087691,
+    58089819
+  ],
+  "source_alignment": "results/main_nersc_source_alignment_v6.json",
+  "source_alignment_sha256": "131ba1f4cf71bcfcb4ed9af898d835b841fd7e81fa108179e466971940bd40e9",
+  "bphi_scope_audit": "results/bphi_calibration_scope_audit_v1.json",
+  "bphi_scope_audit_sha256": "256bfeeb25effb251add56fbd6d22dd8129bb0e542c7df7821029d999337fb88",
+  "theory_improvements": [
+    {
+      "name": "CIC both training convention scan",
+      "scheduler": "interactive_login",
+      "slurm_job_id": null,
+      "status": "DIAGNOSTIC_IMPROVED_NOT_PRODUCTION"
+    },
+    {
+      "name": "training-only bphi response diagnostic",
+      "scheduler": "interactive_login",
+      "slurm_job_id": null,
+      "bphi_training_fit": 3.7636466187234556,
+      "bphi_universal_reference": 5.4670236,
+      "status": "EXPLANATORY_ONLY_BLOCKED_INDEPENDENT_CALIBRATION"
+    }
+  ],
+  "release_gate": "results/release_gate_v12.json",
+  "status": "PARTIAL",
+  "open_items": [
+    "Independent bphi/bphidelta calibration remains unavailable; strict scope audit found zero matching files.",
+    "Loop IR-cutoff convergence and CIC transfer of loop components remain open.",
+    "Clustered/repeated-index contact and complete halo four-point closure remain open.",
+    "Held-out LCm/LCp residuals remain above production acceptance."
+  ]
+}
