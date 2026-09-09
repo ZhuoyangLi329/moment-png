@@ -1,0 +1,141 @@
+{
+  "status": "BLOCKED",
+  "schema": "release_gate_v7",
+  "checks": [
+    {
+      "name": "github_main_commit",
+      "status": "PASS",
+      "value": "7e486f6"
+    },
+    {
+      "name": "batch_provenance",
+      "status": "PASS",
+      "value": [
+        58080440,
+        58080924,
+        58081558,
+        58081876,
+        58082476,
+        58083372,
+        58085501,
+        58086167,
+        58086560,
+        58087691,
+        58089819,
+        58096167,
+        58097316
+      ]
+    },
+    {
+      "name": "frozen_protocol",
+      "status": "PASS"
+    },
+    {
+      "name": "canonical_config_checksum",
+      "status": "PASS",
+      "config": "configs/baseline_v1_canonical.yaml",
+      "sha256": "be18d402ea4d0d7fbf6fbb4988dbe0bb227b77f20c3af4d85632bf13aacc0eb5"
+    },
+    {
+      "name": "provenance_fields",
+      "status": "PASS",
+      "resource_record": true,
+      "checksum_record": true
+    },
+    {
+      "name": "immutable_validation_manifest",
+      "status": "PASS",
+      "manifest": "/pscratch/sd/l/lzy/byd2pcf/results/validation_manifest_v5.json"
+    },
+    {
+      "name": "source_alignment",
+      "status": "PASS",
+      "evidence": "/pscratch/sd/l/lzy/byd2pcf/results/main_nersc_source_alignment_v24.json",
+      "n_files": 72
+    },
+    {
+      "name": "bphi_scope_audit",
+      "status": "PASS",
+      "evidence": "/pscratch/sd/l/lzy/byd2pcf/results/bphi_calibration_scope_audit_v1.json",
+      "strict_matches": 0
+    },
+    {
+      "name": "stage8_holdout_report",
+      "status": "PASS",
+      "evidence": "/pscratch/sd/l/lzy/byd2pcf/results/stage8_holdout_validation_report_v1.json",
+      "diagnostic_status": "REJECTED_DIAGNOSTIC"
+    },
+    {
+      "name": "stage_1",
+      "status": "PASS",
+      "stage_status": "PASS"
+    },
+    {
+      "name": "stage_2",
+      "status": "BLOCKED",
+      "stage_status": "DIAGNOSTIC_OPEN"
+    },
+    {
+      "name": "stage_3",
+      "status": "BLOCKED",
+      "stage_status": "REJECTED_DIAGNOSTIC"
+    },
+    {
+      "name": "stage_4",
+      "status": "BLOCKED",
+      "stage_status": "OPEN"
+    },
+    {
+      "name": "stage_5",
+      "status": "BLOCKED",
+      "stage_status": "PARTIAL_BLOCKED"
+    },
+    {
+      "name": "stage_6",
+      "status": "BLOCKED",
+      "stage_status": "ASSUMPTION_ONLY"
+    },
+    {
+      "name": "stage_7",
+      "status": "BLOCKED",
+      "stage_status": "BASELINE_OPEN"
+    },
+    {
+      "name": "stage_8",
+      "status": "BLOCKED",
+      "stage_status": "NOT_READY"
+    }
+  ],
+  "scientific_blockers": [
+    {
+      "stage": "2",
+      "status": "DIAGNOSTIC_OPEN"
+    },
+    {
+      "stage": "3",
+      "status": "REJECTED_DIAGNOSTIC"
+    },
+    {
+      "stage": "4",
+      "status": "OPEN"
+    },
+    {
+      "stage": "5",
+      "status": "PARTIAL_BLOCKED"
+    },
+    {
+      "stage": "6",
+      "status": "ASSUMPTION_ONLY"
+    },
+    {
+      "stage": "7",
+      "status": "BASELINE_OPEN"
+    },
+    {
+      "stage": "8",
+      "status": "NOT_READY"
+    }
+  ],
+  "policy": "No production release while any stage is not PASS; diagnostics retain failure labels.",
+  "scope": "release decision only; does not alter data or fit parameters"
+}
