@@ -1,0 +1,119 @@
+{
+  "status": "DIAGNOSTIC_OPEN",
+  "schema": "stage2_ph_residual_attribution_v1",
+  "nodes": {
+    "fiducial": {
+      "low_k_bias": {
+        "kmax": 0.03,
+        "mean_ratio_model_over_nbody": 0.9992823224688641,
+        "mean_fractional_residual": -0.0007176775311360295,
+        "rms_ratio_residual": 0.02444630335123372
+      },
+      "cic_mesh_proxy": {
+        "description": "fiducial b1 raw versus CIC-corrected large-scale b1; transfer mismatch proxy, not a fit",
+        "b1_raw_kmax003": 2.838548135461168,
+        "b1_cic_corrected_kmax003": 2.859893292895085,
+        "delta_b1": 0.021345157433917183
+      },
+      "shot_convention_coupled": {
+        "Pshot0_chi2_dof_kmax003": 6.783534521345967,
+        "Pshot3603_chi2_dof_kmax003": 1.2711891596833185,
+        "delta_chi2_dof": -5.512345361662648,
+        "warning": "files also use different fitted b1; this is a coupled shot+amplitude convention diagnostic"
+      },
+      "nonlinear_growth": {
+        "chi2_dof_by_kmax": {
+          "0.03": 1.2711891596833185,
+          "0.05": 1.690252866981815,
+          "0.08": 4.8404962330590795,
+          "0.1": 11.035125381960839,
+          "0.15": 35.83893594298601,
+          "0.2": 88.18821167450024
+        },
+        "mean_abs_ratio_residual_k0308": 0.02135945117337109,
+        "mean_abs_ratio_residual_k0815": 0.10627215061157136
+      }
+    },
+    "LC_m": {
+      "low_k_bias": {
+        "kmax": 0.03,
+        "mean_ratio_model_over_nbody": 0.9074860325713654,
+        "mean_fractional_residual": -0.09251396742863456,
+        "rms_ratio_residual": 0.11919548072559574
+      },
+      "cic_mesh_proxy": {
+        "description": "fiducial b1 raw versus CIC-corrected large-scale b1; transfer mismatch proxy, not a fit",
+        "b1_raw_kmax003": 2.838548135461168,
+        "b1_cic_corrected_kmax003": 2.859893292895085,
+        "delta_b1": 0.021345157433917183
+      },
+      "shot_convention_coupled": {
+        "Pshot0_chi2_dof_kmax003": 11.00415365984198,
+        "Pshot3603_chi2_dof_kmax003": 4.879693261547626,
+        "delta_chi2_dof": -6.124460398294355,
+        "warning": "files also use different fitted b1; this is a coupled shot+amplitude convention diagnostic"
+      },
+      "nonlinear_growth": {
+        "chi2_dof_by_kmax": {
+          "0.03": 4.879693261547626,
+          "0.05": 5.986098208058467,
+          "0.08": 10.031221729172213,
+          "0.1": 16.83408858623298,
+          "0.15": 42.44458846970571,
+          "0.2": 95.66097437741246
+        },
+        "mean_abs_ratio_residual_k0308": 0.053640201399615874,
+        "mean_abs_ratio_residual_k0815": 0.1285527377673195
+      }
+    },
+    "LC_p": {
+      "low_k_bias": {
+        "kmax": 0.03,
+        "mean_ratio_model_over_nbody": 1.0726606013345836,
+        "mean_fractional_residual": 0.07266060133458359,
+        "rms_ratio_residual": 0.08641242103169464
+      },
+      "cic_mesh_proxy": {
+        "description": "fiducial b1 raw versus CIC-corrected large-scale b1; transfer mismatch proxy, not a fit",
+        "b1_raw_kmax003": 2.838548135461168,
+        "b1_cic_corrected_kmax003": 2.859893292895085,
+        "delta_b1": 0.021345157433917183
+      },
+      "shot_convention_coupled": {
+        "Pshot0_chi2_dof_kmax003": 3.657487525383679,
+        "Pshot3603_chi2_dof_kmax003": 3.6682359948883447,
+        "delta_chi2_dof": 0.010748469504665792,
+        "warning": "files also use different fitted b1; this is a coupled shot+amplitude convention diagnostic"
+      },
+      "nonlinear_growth": {
+        "chi2_dof_by_kmax": {
+          "0.03": 3.6682359948883447,
+          "0.05": 3.4785437616491115,
+          "0.08": 3.2074563558329072,
+          "0.1": 7.310609429637649,
+          "0.15": 29.76576481624929,
+          "0.2": 84.18148829810642
+        },
+        "mean_abs_ratio_residual_k0308": 0.015626444831731024,
+        "mean_abs_ratio_residual_k0815": 0.08397840763110766
+      }
+    }
+  },
+  "inputs": {
+    "tree_pshot0": "results/ph_nbody_tree_comparison_v1.json",
+    "tree_pshot3603": "results/ph_nbody_tree_comparison_b1pk008_v1.json",
+    "b1_scan": "results/fiducial_b1_kmax_summary_v1.json"
+  },
+  "definitions": {
+    "low_k_bias": "ratio at k<=0.03 after CIC tree convention",
+    "cic_mesh_proxy": "difference between raw and CIC-corrected b1 at kmax=0.03",
+    "shot_convention": "paired Pshot=0 versus 3603 comparison, coupled to b1 values in source files",
+    "nonlinear": "growth of chi2/dof with kmax"
+  },
+  "policy": {
+    "zero_mode_subtracted": true,
+    "volume_normalization": "same source comparison; V=L^3",
+    "production_promotion": false
+  },
+  "conclusion": "Low-k, CIC proxy, shot/convention coupling and nonlinear growth are separately reported, but the coupled shot+b1 and nonlinear residuals keep Stage 2 open."
+}

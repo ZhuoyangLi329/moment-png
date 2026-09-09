@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Stage 2 diagnostic attribution for halo P_h residuals."""
+import argparse,json
+from pathlib import Path
+import numpy as np
+
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();r=a.root
+ p0=json.loads((r/'results/ph_nbody_tree_comparison_v1.json').read_text()); p1=json.loads((r/'results/ph_nbody_tree_comparison_b1pk008_v1.json').read_text()); b=json.loads((r/'results/fiducial_b1_kmax_summary_v1.json').read_text()); rows={}
+ for node in ['fiducial','LC_m','LC_p']:
+  x=p1['nodes'][node]; y=p0['nodes'][node]; k=np.asarray(x['k'],float); ratio=np.asarray(x['ratio_model_over_nbody'],float); r0=np.asarray(y['ratio_model_over_nbody'],float)
+  low=k<=.03; mid=(k>.03)&(k<=.08); hi=(k>.08)&(k<=.15)
+  rows[node]={'low_k_bias':{'kmax':0.03,'mean_ratio_model_over_nbody':float(ratio[low].mean()),'mean_fractional_residual':float((ratio[low]-1).mean()),'rms_ratio_residual':float(np.sqrt(np.mean((ratio[low]-1)**2)))},'cic_mesh_proxy':{'description':'fiducial b1 raw versus CIC-corrected large-scale b1; transfer mismatch proxy, not a fit','b1_raw_kmax003':b['scans']['0.03']['b1_raw']['mean'],'b1_cic_corrected_kmax003':b['scans']['0.03']['b1_cic_corrected']['mean'],'delta_b1':b['scans']['0.03']['b1_cic_corrected']['mean']-b['scans']['0.03']['b1_raw']['mean']},'shot_convention_coupled':{'Pshot0_chi2_dof_kmax003':p0['kmax_scans']['0.03'][node],'Pshot3603_chi2_dof_kmax003':p1['kmax_scans']['0.03'][node],'delta_chi2_dof':p1['kmax_scans']['0.03'][node]-p0['kmax_scans']['0.03'][node],'warning':'files also use different fitted b1; this is a coupled shot+amplitude convention diagnostic'},'nonlinear_growth':{'chi2_dof_by_kmax':{kmax:p1['kmax_scans'][kmax][node] for kmax in ['0.03','0.05','0.08','0.1','0.15','0.2']},'mean_abs_ratio_residual_k0308':float(np.mean(np.abs(ratio[mid]-1))),'mean_abs_ratio_residual_k0815':float(np.mean(np.abs(ratio[hi]-1)))}}
+ out={'status':'DIAGNOSTIC_OPEN','schema':'stage2_ph_residual_attribution_v1','nodes':rows,'inputs':{'tree_pshot0':'results/ph_nbody_tree_comparison_v1.json','tree_pshot3603':'results/ph_nbody_tree_comparison_b1pk008_v1.json','b1_scan':'results/fiducial_b1_kmax_summary_v1.json'},'definitions':{'low_k_bias':'ratio at k<=0.03 after CIC tree convention','cic_mesh_proxy':'difference between raw and CIC-corrected b1 at kmax=0.03','shot_convention':'paired Pshot=0 versus 3603 comparison, coupled to b1 values in source files','nonlinear':'growth of chi2/dof with kmax'},'policy':{'zero_mode_subtracted':True,'volume_normalization':'same source comparison; V=L^3','production_promotion':False},'conclusion':'Low-k, CIC proxy, shot/convention coupling and nonlinear growth are separately reported, but the coupled shot+b1 and nonlinear residuals keep Stage 2 open.'}
+ a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'low_k_ratio':{n:round(v['low_k_bias']['mean_ratio_model_over_nbody'],4) for n,v in rows.items()},'chi2_growth_fid':rows['fiducial']['nonlinear_growth']['chi2_dof_by_kmax']}))
+if __name__=='__main__':main()
