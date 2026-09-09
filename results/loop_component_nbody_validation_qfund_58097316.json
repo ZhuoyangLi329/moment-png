@@ -1,0 +1,165 @@
+{
+  "status": "PASS",
+  "schema": "loop_component_nbody_validation_v2",
+  "loop_source": "results/loop_batch_58097316_qminfund.json",
+  "nbody_source": "results/nbody_baseline_v1",
+  "moments_source": "results/power_real_n100_n64",
+  "holdout_start": 70,
+  "nodes": {
+    "fiducial": {
+      "fNL": 0.0,
+      "n_holdout": 30,
+      "components": {
+        "tree": {
+          "power_ratio_first": 0.4215412139234694,
+          "power_rms_pull": 388.59113473892927,
+          "mu1_rms_pull": 5.175393135132895,
+          "mu1_chi2": 3543.4363364641467,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 253.10259546172477,
+          "mu1_coverage_abs_pull_le_2": 0.5
+        },
+        "P22": {
+          "power_ratio_first": 0.007046390054153011,
+          "power_rms_pull": 212.60611424854875,
+          "mu1_rms_pull": 34.300096322216845,
+          "mu1_chi2": 60722.151659060946,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4337.296547075782,
+          "mu1_coverage_abs_pull_le_2": 0.14285714285714285
+        },
+        "P13": {
+          "power_ratio_first": 2.0006421433630927e-05,
+          "power_rms_pull": 465.0201238143139,
+          "mu1_rms_pull": 34.17426807783137,
+          "mu1_chi2": 57623.88357310108,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4115.991683792934,
+          "mu1_coverage_abs_pull_le_2": 0.14285714285714285
+        },
+        "PNG_loop_response": {
+          "power_ratio_first": 0.0,
+          "power_rms_pull": 256.99042264449827,
+          "mu1_rms_pull": 34.66104418062456,
+          "mu1_chi2": 61154.13458876721,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4368.152470626229,
+          "mu1_coverage_abs_pull_le_2": 0.14285714285714285
+        },
+        "total": {
+          "power_ratio_first": 0.42860761039905604,
+          "power_rms_pull": 213.71934620247956,
+          "mu1_rms_pull": 4.304364818816943,
+          "mu1_chi2": 2272.7572558386732,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 162.33980398847666,
+          "mu1_coverage_abs_pull_le_2": 0.5
+        }
+      }
+    },
+    "LC_m": {
+      "fNL": -100.0,
+      "n_holdout": 30,
+      "components": {
+        "tree": {
+          "power_ratio_first": 6.931489348157412,
+          "power_rms_pull": 364.92056501267786,
+          "mu1_rms_pull": 7.174108983226161,
+          "mu1_chi2": 5141.03213927053,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 367.2165813764664,
+          "mu1_coverage_abs_pull_le_2": 0.42857142857142855
+        },
+        "P22": {
+          "power_ratio_first": 0.016485607697399842,
+          "power_rms_pull": 212.83514906291654,
+          "mu1_rms_pull": 33.886490433109756,
+          "mu1_chi2": 53826.482288346226,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 3844.748734881873,
+          "mu1_coverage_abs_pull_le_2": 0.0
+        },
+        "P13": {
+          "power_ratio_first": 4.680666449756107e-05,
+          "power_rms_pull": 456.46377919270054,
+          "mu1_rms_pull": 33.74141505234924,
+          "mu1_chi2": 50753.073216204524,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 3625.21951544318,
+          "mu1_coverage_abs_pull_le_2": 0.0
+        },
+        "PNG_loop_response": {
+          "power_ratio_first": -0.008884736797005188,
+          "power_rms_pull": 206.7978993522268,
+          "mu1_rms_pull": 38.084936192702386,
+          "mu1_chi2": 60600.16920113025,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4328.583514366446,
+          "mu1_coverage_abs_pull_le_2": 0.07142857142857142
+        },
+        "total": {
+          "power_ratio_first": 6.939137025722304,
+          "power_rms_pull": 270.4694679610208,
+          "mu1_rms_pull": 10.662856987723618,
+          "mu1_chi2": 5243.706084504243,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 374.55043460744594,
+          "mu1_coverage_abs_pull_le_2": 0.14285714285714285
+        }
+      }
+    },
+    "LC_p": {
+      "fNL": 100.0,
+      "n_holdout": 30,
+      "components": {
+        "tree": {
+          "power_ratio_first": 4.919460581638272,
+          "power_rms_pull": 403.40780333727196,
+          "mu1_rms_pull": 3.1379140231790585,
+          "mu1_chi2": 2600.041912549516,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 185.71727946782258,
+          "mu1_coverage_abs_pull_le_2": 0.5714285714285714
+        },
+        "P22": {
+          "power_ratio_first": 0.0038013253227253906,
+          "power_rms_pull": 214.1524232322919,
+          "mu1_rms_pull": 32.13012957384864,
+          "mu1_chi2": 68915.38432984323,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4922.52745213166,
+          "mu1_coverage_abs_pull_le_2": 0.5714285714285714
+        },
+        "P13": {
+          "power_ratio_first": 1.0792890519586587e-05,
+          "power_rms_pull": 467.55712827876897,
+          "mu1_rms_pull": 32.033792917971546,
+          "mu1_chi2": 65864.87783452508,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4704.6341310375055,
+          "mu1_coverage_abs_pull_le_2": 0.5
+        },
+        "PNG_loop_response": {
+          "power_ratio_first": 0.002048682438168949,
+          "power_rms_pull": 320.7666429163565,
+          "mu1_rms_pull": 29.683925307114528,
+          "mu1_chi2": 64365.16489446528,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 4597.511778176091,
+          "mu1_coverage_abs_pull_le_2": 0.35714285714285715
+        },
+        "total": {
+          "power_ratio_first": 4.9253213822896855,
+          "power_rms_pull": 152.34335294995518,
+          "mu1_rms_pull": 3.731794052270156,
+          "mu1_chi2": 968.4580334197722,
+          "mu1_dof": 14,
+          "mu1_chi2_dof": 69.17557381569802,
+          "mu1_coverage_abs_pull_le_2": 0.35714285714285715
+        }
+      }
+    }
+  },
+  "scope": "Ngrid64 batch loop component versus held-out Nbody P_h and mu1; no fitting",
+  "warning": "Individual loop pieces are diagnostic components; only the total is a candidate mean, and qmin/quadrature convergence remains open."
+}

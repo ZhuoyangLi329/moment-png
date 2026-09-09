@@ -1,0 +1,227 @@
+{
+  "status": "PASS",
+  "schema": "loop_ir_cutoff_fundamental_audit_v1",
+  "cutoff_runs": [
+    {
+      "qmin": 0.0001,
+      "qmax": 0.03,
+      "nq": 24,
+      "nmu": 24,
+      "elapsed_seconds": 44.13121223449707,
+      "unique_lattice_k": 60
+    },
+    {
+      "qmin": 0.001,
+      "qmax": 0.03,
+      "nq": 24,
+      "nmu": 24,
+      "elapsed_seconds": 43.84498834609985,
+      "unique_lattice_k": 60
+    },
+    {
+      "qmin": 0.006283185307179586,
+      "qmax": 0.03,
+      "nq": 24,
+      "nmu": 24,
+      "elapsed_seconds": 44.23258399963379,
+      "unique_lattice_k": 60
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison": "qmin001",
+      "against_qmin": 0.0001,
+      "terms": [
+        {
+          "fNL": 0.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 0.00012865157303121297,
+              "max_abs_mu1_difference": 0.00030576335581515844
+            },
+            "P13": {
+              "rms_mu1_difference": 3.075673462393653e-06,
+              "max_abs_mu1_difference": 1.0480354108256059e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "total": {
+              "rms_mu1_difference": 0.00012650706944712607,
+              "max_abs_mu1_difference": 0.0002952830017069058
+            }
+          }
+        },
+        {
+          "fNL": -100.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 0.00012865157303121297,
+              "max_abs_mu1_difference": 0.00030576335581515844
+            },
+            "P13": {
+              "rms_mu1_difference": 3.075673462393653e-06,
+              "max_abs_mu1_difference": 1.0480354108256059e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0013024812942476827,
+              "max_abs_mu1_difference": 0.0030822170931598582
+            },
+            "total": {
+              "rms_mu1_difference": 0.0011759835879467876,
+              "max_abs_mu1_difference": 0.002786934091452961
+            }
+          }
+        },
+        {
+          "fNL": 100.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 0.00012865157303121297,
+              "max_abs_mu1_difference": 0.00030576335581515844
+            },
+            "P13": {
+              "rms_mu1_difference": 3.075673462393653e-06,
+              "max_abs_mu1_difference": 1.0480354108256059e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0013024812942476827,
+              "max_abs_mu1_difference": 0.0030822170931598582
+            },
+            "total": {
+              "rms_mu1_difference": 0.0014289806583191562,
+              "max_abs_mu1_difference": 0.0033775000948667727
+            }
+          }
+        }
+      ]
+    },
+    {
+      "comparison": "fundamental",
+      "against_qmin": 0.0001,
+      "terms": [
+        {
+          "fNL": 0.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 9.885719839767599e-05,
+              "max_abs_mu1_difference": 0.0002387551712178087
+            },
+            "P13": {
+              "rms_mu1_difference": 2.8021483923668998e-05,
+              "max_abs_mu1_difference": 9.577870032762166e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "total": {
+              "rms_mu1_difference": 8.07220237256664e-05,
+              "max_abs_mu1_difference": 0.00017775041464943887
+            }
+          }
+        },
+        {
+          "fNL": -100.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 9.885719839767599e-05,
+              "max_abs_mu1_difference": 0.0002387551712178087
+            },
+            "P13": {
+              "rms_mu1_difference": 2.8021483923668998e-05,
+              "max_abs_mu1_difference": 9.577870032762166e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0009033529052255246,
+              "max_abs_mu1_difference": 0.0019195796638671301
+            },
+            "total": {
+              "rms_mu1_difference": 0.0008232905328029213,
+              "max_abs_mu1_difference": 0.0017766031929769555
+            }
+          }
+        },
+        {
+          "fNL": 100.0,
+          "terms": {
+            "tree": {
+              "rms_mu1_difference": 0.0,
+              "max_abs_mu1_difference": 0.0
+            },
+            "P22": {
+              "rms_mu1_difference": 9.885719839767599e-05,
+              "max_abs_mu1_difference": 0.0002387551712178087
+            },
+            "P13": {
+              "rms_mu1_difference": 2.8021483923668998e-05,
+              "max_abs_mu1_difference": 9.577870032762166e-05
+            },
+            "PNG_loop_response": {
+              "rms_mu1_difference": 0.0009033529052255246,
+              "max_abs_mu1_difference": 0.0019195796638671301
+            },
+            "total": {
+              "rms_mu1_difference": 0.0009835231220386323,
+              "max_abs_mu1_difference": 0.0020625561347573304
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "fundamental_nbody_validation": {
+    "path": "results/loop_component_nbody_validation_qfund_58097316.json",
+    "schema": "loop_component_nbody_validation_v2",
+    "nodes": {
+      "fiducial": {
+        "power_rms_pull": 213.71934620247956,
+        "mu1_rms_pull": 4.304364818816943,
+        "mu1_chi2_dof": 162.33980398847666,
+        "mu1_coverage_abs_pull_le_2": 0.5
+      },
+      "LC_m": {
+        "power_rms_pull": 270.4694679610208,
+        "mu1_rms_pull": 10.662856987723618,
+        "mu1_chi2_dof": 374.55043460744594,
+        "mu1_coverage_abs_pull_le_2": 0.14285714285714285
+      },
+      "LC_p": {
+        "power_rms_pull": 152.34335294995518,
+        "mu1_rms_pull": 3.731794052270156,
+        "mu1_chi2_dof": 69.17557381569802,
+        "mu1_coverage_abs_pull_le_2": 0.35714285714285715
+      }
+    }
+  },
+  "scope": "Ngrid=64 exact-window binned loop IR-cutoff diagnostic; no fit or production promotion",
+  "policy": {
+    "fundamental_kmin": "2*pi/L",
+    "fixed_qmax": true,
+    "fixed_quadrature": true,
+    "same_bias_inputs": true,
+    "production_promotion": false
+  },
+  "conclusion": "The box-fundamental cutoff is retained as a diagnostic anchor; agreement with the qmin=1e-4 run is required before any loop promotion."
+}

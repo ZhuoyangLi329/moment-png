@@ -1,0 +1,18 @@
+{
+  "schema": "slurm_loop_qfund_provenance_v1",
+  "slurm_job_id": "58097316",
+  "github_main_commit": "d97ea052660d9ac3a0a4d0f07559a0ef37569fcb",
+  "hostname": "nid004107",
+  "account": "desi",
+  "qos": "shared",
+  "partition": "shared_milan_ss11",
+  "cpus": "8",
+  "output": "results/loop_batch_58097316_qminfund.json",
+  "output_sha256": "040e148151a2c3f9ed1950e13ba57d66182a4ddd61463785833e343b5e371e3d",
+  "nmesh": 64,
+  "qmin": 0.006283185307179587,
+  "qmax": 0.03,
+  "nq": 24,
+  "nmu": 24,
+  "scope": "fundamental-mode IR cutoff diagnostic; no production promotion"
+}
