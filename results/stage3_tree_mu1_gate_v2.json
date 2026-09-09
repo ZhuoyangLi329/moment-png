@@ -1,0 +1,155 @@
+{
+  "schema": "stage3_tree_mu1_gate_v2",
+  "status": "BLOCKED",
+  "config": "configs/baseline_v1_canonical.yaml",
+  "split": "real000-real069 training; real070-real099 held-out",
+  "scales_mpc_h": [
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300
+  ],
+  "checks": {
+    "same_lattice_window_normalization": {
+      "status": "PASS",
+      "evidence": "results/mu1_modewise_power_identity_v2.json",
+      "note": "exact discrete lattice and zero-mode convention are shared"
+    },
+    "fNL0_universal_tree": {
+      "status": "BLOCKED",
+      "evidence": "results/power_real_n100_n64/heldout_mu1_universal_p112_covariance_v2.json",
+      "metrics": {
+        "fiducial": {
+          "chi2_dof": 253.10259546172477,
+          "hartlap_chi2_dof": 122.18745987807404,
+          "rms_pull": 5.175393135132895,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_m": {
+          "chi2_dof": 367.2165813764667,
+          "hartlap_chi2_dof": 177.27697031967358,
+          "rms_pull": 7.174108983226165,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_p": {
+          "chi2_dof": 185.71727946782252,
+          "hartlap_chi2_dof": 89.65661767412122,
+          "rms_pull": 3.137914023179058,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        }
+      },
+      "note": "absolute tree with universal p=1.12 fails held-out covariance gate"
+    },
+    "png_universal_tree": {
+      "status": "BLOCKED",
+      "metrics": {
+        "fiducial": {
+          "chi2_dof": 253.10259546172477,
+          "hartlap_chi2_dof": 122.18745987807404,
+          "rms_pull": 5.175393135132895,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_m": {
+          "chi2_dof": 367.2165813764667,
+          "hartlap_chi2_dof": 177.27697031967358,
+          "rms_pull": 7.174108983226165,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_p": {
+          "chi2_dof": 185.71727946782252,
+          "hartlap_chi2_dof": 89.65661767412122,
+          "rms_pull": 3.137914023179058,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        }
+      },
+      "note": "LC- and LC+ response residuals remain significant"
+    },
+    "training_ph_normalization_diagnostic": {
+      "status": "PASS_DIAGNOSTIC",
+      "evidence": "results/mu1_training_ph_calibration_holdout_v2.json",
+      "metrics": {
+        "fiducial": {
+          "chi2_dof": 15.566165762124282,
+          "hartlap_chi2_dof": null,
+          "rms_pull": 1.9632967572496067,
+          "coverage_abs_pull_le_2": 0.5714285714285714,
+          "n_holdout": 30
+        },
+        "LC_m": {
+          "chi2_dof": 16.8254904940913,
+          "hartlap_chi2_dof": null,
+          "rms_pull": 1.3035067360684713,
+          "coverage_abs_pull_le_2": 0.7857142857142857,
+          "n_holdout": 30
+        },
+        "LC_p": {
+          "chi2_dof": 19.003064891893338,
+          "hartlap_chi2_dof": null,
+          "rms_pull": 3.651812850951319,
+          "coverage_abs_pull_le_2": 0.07142857142857142,
+          "n_holdout": 30
+        }
+      },
+      "note": "training-only measured Ph is not an analytic production input"
+    },
+    "training_bphi_response_diagnostic": {
+      "status": "PASS_DIAGNOSTIC",
+      "evidence": "results/mu1_training_bphi_response_diagnostic_v2.json",
+      "bphi_training_fit": 3.7636466187234556,
+      "bphi_universal_reference": 5.467023599999999,
+      "metrics": {
+        "fiducial": {
+          "chi2_dof": 4.0671643913408815,
+          "hartlap_chi2_dof": 1.9634586716818048,
+          "rms_pull": 1.6538982001465017,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_m": {
+          "chi2_dof": 9.140466487112457,
+          "hartlap_chi2_dof": 4.412638993778428,
+          "rms_pull": 2.4618271932988853,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        },
+        "LC_p": {
+          "chi2_dof": 5.10162132679306,
+          "hartlap_chi2_dof": 2.462851675003546,
+          "rms_pull": 1.5363146811092212,
+          "coverage_abs_pull_le_2": null,
+          "n_holdout": 30
+        }
+      },
+      "note": "response fit uses training realizations only but lacks independent provenance"
+    }
+  },
+  "policy": {
+    "fNL0_before_png": true,
+    "same_window_required": true,
+    "no_heldout_response_fit": true,
+    "bphi_independent_provenance_required": true,
+    "production_promotion": false
+  },
+  "rejection_reasons": [
+    "universal tree fails absolute and PNG held-out tests",
+    "training-only Ph and bphi diagnostics cannot replace independent inputs"
+  ],
+  "created_utc": "2026-09-09T05:35:02.770621+00:00",
+  "github_main_commit": "b3de2decfa2df8326cefa9fc8c4a08ed8b4a9a1a"
+}
