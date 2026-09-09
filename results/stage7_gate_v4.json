@@ -1,0 +1,88 @@
+{
+  "schema": "stage7_gate_v4",
+  "status": "BLOCKED",
+  "nmesh": 64,
+  "scales_mpc_h": [
+    40,
+    60,
+    80,
+    100,
+    120,
+    140,
+    160,
+    180,
+    200,
+    220,
+    240,
+    260,
+    280,
+    300
+  ],
+  "checks": {
+    "gaussian_field_baseline": {
+      "status": "PASS",
+      "evidence": "results/gaussian_validation_n64.npz",
+      "note": "synthetic Gaussian Wick identity"
+    },
+    "iid_poisson_contact_cic_64_128_256": {
+      "status": "PASS",
+      "evidence": "results/cic_poisson_contact_resolution_audit_v1.json",
+      "note": "exact CIC kappa22 contact; RMS pulls 1.036, 1.151, 0.970"
+    },
+    "raw_mu2_and_gaussian_component": {
+      "status": "PASS",
+      "evidence": "results/mu2_nbody_decomposition_v1.json"
+    },
+    "gaussian_halo_full_lattice_identity": {
+      "status": "PASS",
+      "evidence": "results/mu2_modewise_power_identity_v2_58096167.json",
+      "note": "max per-realization residual <7e-17"
+    },
+    "connected_residual_resolution": {
+      "status": "BLOCKED",
+      "evidence": "results/stage5_scale_stability_audit_v2.json",
+      "note": "no three-shell common connected-mu2 stability interval"
+    },
+    "halo_b1_term": {
+      "status": "BLOCKED",
+      "note": "no independent connected four-point curve"
+    },
+    "halo_b2_term": {
+      "status": "BLOCKED",
+      "note": "no independent connected four-point curve"
+    },
+    "halo_bK2_term": {
+      "status": "BLOCKED",
+      "note": "no independent connected four-point curve"
+    },
+    "bphi_term": {
+      "status": "BLOCKED",
+      "evidence": "results/bphi_calibration_scope_audit_v1.json",
+      "note": "zero strict independent calibration matches"
+    },
+    "bphidelta_term": {
+      "status": "BLOCKED",
+      "evidence": "results/bphi_calibration_scope_audit_v1.json",
+      "note": "zero strict independent calibration matches"
+    },
+    "primordial_trispectrum": {
+      "status": "BLOCKED",
+      "evidence": "results/primordial_mu2_trispectrum_component_audit_v1.json",
+      "note": "continuum collapsed projection fails N-body normalization"
+    },
+    "clustered_repeated_index_contact": {
+      "status": "BLOCKED",
+      "evidence": "results/halo_contact_excess_audit_v1.json",
+      "note": "halo excess is grid dependent and unmodeled"
+    },
+    "png_response": {
+      "status": "BLOCKED",
+      "evidence": "results/mu2_png_response_holdout_covariance_v1.json",
+      "note": "connected response remains significant"
+    }
+  },
+  "policy": "Each connected component requires an independent theory curve, N-body comparison, error and scope before promotion; baselines do not close halo four-point terms.",
+  "next_action": "derive and validate halo b1/b2/bK2/bphi/bphidelta and contact operators term by term",
+  "created_utc": "2026-09-09T05:10:23.603814+00:00",
+  "github_main_commit": "5af919ac6ccfbda5113ce15b9f44ea64f089739e"
+}
