@@ -1,0 +1,56 @@
+{
+  "schema": "disjoint_b1_consistency_audit_v1",
+  "status": "PASS",
+  "training_b1_kmax003": 2.7340475186190334,
+  "disjoint_source": "results/disjoint_fiducial_b1_fit_v1.json",
+  "disjoint_job": "results/slurm_disjoint_b1_provenance_58104847.json",
+  "fits": {
+    "0.03": {
+      "b1": 2.7317333004945543,
+      "b1_sigma_linearized": 0.010067546534946941,
+      "delta_vs_training": -0.0023142181244790727,
+      "abs_delta_vs_training": 0.0023142181244790727,
+      "chi2_dof": 0.36554826598841156
+    },
+    "0.05": {
+      "b1": 2.8028981600485965,
+      "b1_sigma_linearized": 0.004809297040433057,
+      "delta_vs_training": 0.0688506414295631,
+      "abs_delta_vs_training": 0.0688506414295631,
+      "chi2_dof": 0.8957413853773387
+    },
+    "0.08": {
+      "b1": 2.775277329194853,
+      "b1_sigma_linearized": 0.009161150871875516,
+      "delta_vs_training": 0.04122981057581976,
+      "abs_delta_vs_training": 0.04122981057581976,
+      "chi2_dof": 0.8065152377748959
+    },
+    "0.1": {
+      "b1": 2.7907653509011587,
+      "b1_sigma_linearized": 0.004946131628706195,
+      "delta_vs_training": 0.05671783228212535,
+      "abs_delta_vs_training": 0.05671783228212535,
+      "chi2_dof": 1.2867326206009628
+    },
+    "0.15": {
+      "b1": 2.9024003129926443,
+      "b1_sigma_linearized": 0.0022215987741485395,
+      "delta_vs_training": 0.16835279437361095,
+      "abs_delta_vs_training": 0.16835279437361095,
+      "chi2_dof": 65.35419646661728
+    }
+  },
+  "criterion": {
+    "kmax_reference": 0.03,
+    "max_abs_delta_b1": 0.02,
+    "reason": "independent Gaussian calibration consistency; nonlinear high-k fits reported but not used for production cut"
+  },
+  "scope": "disjoint fiducial b1 input audit; no PNG response fit; no heldout leakage",
+  "policy": {
+    "production_bphi_unchanged": true,
+    "frozen_scales_unchanged": true,
+    "production_promotion": false
+  },
+  "created_utc": "2026-09-09T05:59:50.424830+00:00"
+}
