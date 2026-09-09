@@ -1,0 +1,51 @@
+{
+  "schema": "stage7_gate_v3",
+  "status": "BLOCKED",
+  "checks": {
+    "gaussian_field_baseline": {
+      "status": "PASS",
+      "evidence": "results/gaussian_validation_n64.npz",
+      "note": "synthetic Gaussian field identity"
+    },
+    "iid_poisson_contact_64_128_256": {
+      "status": "PASS",
+      "evidence": "results/poisson_contact_resolution_audit_v1.json",
+      "note": "RMS pulls 1.036, 1.151, 0.970 at Ngrid 64,128,256"
+    },
+    "raw_mu2_and_gaussian_component": {
+      "status": "PASS",
+      "evidence": "results/mu2_nbody_decomposition_v1.json"
+    },
+    "connected_residual_resolution": {
+      "status": "BLOCKED",
+      "evidence": "results/resolution_mu1_mu2_audit_batch_58080924.json",
+      "note": "connected residual remains grid dependent"
+    },
+    "halo_b1_b2_bK2_terms": {
+      "status": "BLOCKED",
+      "note": "no independent term-by-term connected four-point curves"
+    },
+    "bphi_bphidelta_terms": {
+      "status": "BLOCKED",
+      "evidence": "results/stage5_gate.json",
+      "note": "independent calibration unavailable"
+    },
+    "primordial_trispectrum": {
+      "status": "BLOCKED",
+      "note": "explicit halo projection not validated against N-body"
+    },
+    "clustered_and_repeated_index_contact": {
+      "status": "BLOCKED",
+      "note": "iid Poisson control does not supply halo contact renormalization"
+    },
+    "gaussian_halo_full_lattice_identity": {
+      "status": "PASS",
+      "evidence": "results/mu2_modewise_power_identity_v2_58096167.json",
+      "note": "ensemble-centered Wick identity; max per-realization residual <7e-17"
+    }
+  },
+  "policy": "Gaussian Wick and iid Poisson baselines are necessary but insufficient for production mu2 closure.",
+  "next_action": "derive explicit halo connected four-point components and validate each against N-body residuals",
+  "created_utc": "2026-09-09T02:58:55.132552+00:00",
+  "github_main_commit": "467dc94c4c06b03631f74ee48bb1d73d136e5be4"
+}
