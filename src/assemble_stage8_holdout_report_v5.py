@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import argparse,hashlib,json
+from pathlib import Path
+def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();r=a.root;out=json.loads((r/'results/stage8_holdout_validation_report_v4.json').read_text());out['schema']='stage8_holdout_validation_report_v5';out['status']='REJECTED_DIAGNOSTIC';d=json.loads((r/'results/disjoint_b1_block_variance_audit_v1.json').read_text());out['disjoint_gaussian_b1_block_variance']= {'status':d['status'],'full_b1':d['full_fit']['b1'],'block_b1':[x['fit']['b1'] for x in d['blocks']],'interpretation':d['interpretation'],'source_sha256':sha(r/'results/disjoint_b1_block_variance_audit_v1.json')};out['rejection_reasons']=list(dict.fromkeys(out.get('rejection_reasons',[])+['full disjoint b1 shift is heterogeneous across 100-realization blocks, so the independent calibration has unresolved block variance']));out['source_sha256'].update({'stage8_v4':sha(r/'results/stage8_holdout_validation_report_v4.json'),'disjoint_b1_block_variance':sha(r/'results/disjoint_b1_block_variance_audit_v1.json')});a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'blocks':out['disjoint_gaussian_b1_block_variance']['block_b1']}))
+if __name__=='__main__':main()
