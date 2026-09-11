@@ -7,7 +7,8 @@ from moments import measure
 
 def main():
  ap=argparse.ArgumentParser(); ap.add_argument('--catalog-root',type=Path,required=True); ap.add_argument('--output-root',type=Path,required=True); ap.add_argument('--nodes',nargs='+',default=['LC_m','LC_p']); ap.add_argument('--start',type=int,default=100); ap.add_argument('--stop',type=int,default=500); ap.add_argument('--nmesh',type=int,default=64); ap.add_argument('--boxsize',type=float,default=1000.); ap.add_argument('--smin',type=float,default=40.); ap.add_argument('--smax',type=float,default=300.); ap.add_argument('--ds',type=float,default=20.); a=ap.parse_args()
- ss=np.arange(a.smin,a.smax+0.1,a.ds); rows=[]; t0=time.time(); a.output_root.mkdir(parents=True,exist_ok=True)
+ if a.start < 100 or a.stop <= a.start or not set(a.nodes).issubset({'LC_m','LC_p'}): raise ValueError('Use only nonempty disjoint LC_m/LC_p blocks starting at real100 or later')
+ ss=np.arange(a.smin,a.smax+0.1,a.ds); rows={}; t0=time.time(); a.output_root.mkdir(parents=True,exist_ok=True)
  for node in a.nodes:
   ids=[]; mu1=[]; mu2=[]; nh=[]
   for j in range(a.start,a.stop):

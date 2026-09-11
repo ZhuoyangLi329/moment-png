@@ -9,11 +9,13 @@
 #SBATCH --time=12:00:00
 #SBATCH --output=results/slurm_pngresp_%j.out
 #SBATCH --error=results/slurm_pngresp_%j.err
+#SBATCH --chdir=/pscratch/sd/l/lzy/byd2pcf
+set -euo pipefail
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
 cd /pscratch/sd/l/lzy/byd2pcf
 export PYTHONPATH=src
-python src/measure_disjoint_png_moments.py --catalog-root /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions --output-root results/disjoint_png_moments_\${SLURM_JOB_ID} --nodes LC_m LC_p --start 100 --stop 500 --nmesh 64
-python src/fit_bphi_disjoint_response.py --moments-root results/disjoint_png_moments_\${SLURM_JOB_ID} --input inputs/quijote_fiducial_z1_theory_lattice64.npz --b1 2.731733304 --b1-sigma 0.0 --output results/bphi_disjoint_response_calibration_\${SLURM_JOB_ID}.json
+python src/measure_disjoint_png_moments.py --catalog-root /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions --output-root results/disjoint_png_moments_${SLURM_JOB_ID} --nodes LC_m LC_p --start 100 --stop 500 --nmesh 64
+python src/fit_bphi_disjoint_response.py --moments-root results/disjoint_png_moments_${SLURM_JOB_ID} --input inputs/quijote_fiducial_z1_theory_lattice64.npz --b1 2.7317333004945543 --output results/bphi_disjoint_response_calibration_${SLURM_JOB_ID}.json
 python - <<'PY'
 import hashlib,json,os,platform
 from pathlib import Path

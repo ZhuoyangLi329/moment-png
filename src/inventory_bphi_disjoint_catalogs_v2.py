@@ -2,6 +2,7 @@
 """Inventory reconstructed disjoint LC-/LC+ catalogs for Stage 6."""
 import argparse, datetime, hashlib, json
 from pathlib import Path
+import numpy as np
 
 def sha(p):
  h=hashlib.sha256(); h.update(p.read_bytes()); return h.hexdigest()
@@ -14,7 +15,7 @@ def inventory_node(root,node):
    try: md=json.loads(meta.read_text())
    except Exception: md={}
   dtype_ok=False
-  try: dtype_ok=(np.load(pos,mmap_mode='r').dtype==np.float32 and np.load(mass,mmap_mode='r').dtype==np.float32)
+  try: dtype_ok=(np.load(pos,mmap_mode='r').dtype==np.float32 and np.load(mass,mmap_mode='r').dtype==np.float64)
   except Exception: dtype_ok=False
   rows.append({'realization':rid,'positions':pos.exists(),'masses':mass.exists(),'metadata':meta.exists(),'metadata_sha256':sha(meta) if meta.exists() else None,'selection_certified':bool(pos.exists() and mass.exists() and meta.exists() and dtype_ok and md.get('mass_threshold_msun_h')==1e13 and md.get('snapnum')==2 and md.get('redshift')==1.0 and md.get('boxsize_mpc_h')==1000.0)})
  return {'node':node,'n_realization_dirs':len(ids),'first_ids':ids[:3],'last_ids':ids[-3:],'positions_files':sum(x['positions'] for x in rows),'masses_files':sum(x['masses'] for x in rows),'metadata_files':sum(x['metadata'] for x in rows),'certified_files':sum(x['selection_certified'] for x in rows),'selection_certified':bool(rows and all(x['selection_certified'] for x in rows)),'rows':rows}
