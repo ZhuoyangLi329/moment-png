@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Assemble Stage 8 held-out report v3 with disjoint bphi evidence."""
+import argparse,hashlib,json
+from pathlib import Path
+def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def load(p): return json.loads(p.read_text())
+def main():
+ ap=argparse.ArgumentParser(); ap.add_argument('--root',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); a=ap.parse_args(); r=a.root
+ out=dict(load(r/'results/stage8_holdout_validation_report_v2.json')); out['schema']='stage8_holdout_validation_report_v3'; out['status']='REJECTED_DIAGNOSTIC'
+ inv=load(r/'results/bphi_disjoint_catalog_inventory_v2.json'); cal=load(r/'results/bphi_disjoint_response_calibration_v3_58195306.json'); aud=load(r/'results/bphi_disjoint_response_audit_v2_58195306.json'); gate=load(r/'results/stage6_bphi_disjoint_gate_v1.json'); norm=load(r/'results/bphi_disjoint_measured_ph_diagnostic_58195815.json'); normgate=load(r/'results/stage6_response_normalization_diagnostic_v1.json')
+ out['disjoint_bphi_response']={'inventory_status':inv.get('status'),'pair_available':inv.get('disjoint_png_pair_available'),'nreal_pair':cal.get('nreal'),'conditional_bphi':cal.get('bphi_conditional'),'conditional_sigma':cal.get('bphi_sigma_statistical_conditional'),'chi2_dof':cal.get('fit',{}).get('chi2_dof'),'audit_status':aud.get('status'),'audit_decision':aud.get('decision'),'stage6_gate_status':gate.get('status'),'stage6_gate_decision':gate.get('decision'),'source_sha256':{'inventory':sha(r/'results/bphi_disjoint_catalog_inventory_v2.json'),'calibration':sha(r/'results/bphi_disjoint_response_calibration_v3_58195306.json'),'audit':sha(r/'results/bphi_disjoint_response_audit_v2_58195306.json'),'gate':sha(r/'results/stage6_bphi_disjoint_gate_v1.json')}}
+ out['measured_ph_normalization_diagnostic']={'status':norm.get('status'),'shot_scans':norm.get('shot_scans'),'gate_status':normgate.get('status'),'shape_rejected':normgate.get('shape_rejected'),'source_sha256':{'diagnostic':sha(r/'results/bphi_disjoint_measured_ph_diagnostic_58195815.json'),'gate':sha(r/'results/stage6_response_normalization_diagnostic_v1.json')}}
+ out['rejection_reasons']=list(dict.fromkeys(out.get('rejection_reasons',[])+['disjoint response source is available but the frozen external Pm/M template fails shape chi2/dof=207.04','measured fiducial Ph normalization improves conditional bphi amplitude but both shot variants retain chi2/dof above 198','b1 uncertainty and b1-bphi cross-covariance remain unpropagated']))
+ out['source_sha256'].update({'stage8_v2':sha(r/'results/stage8_holdout_validation_report_v2.json'),'disjoint_bphi_calibration':sha(r/'results/bphi_disjoint_response_calibration_v3_58195306.json'),'disjoint_bphi_audit':sha(r/'results/bphi_disjoint_response_audit_v2_58195306.json'),'stage6_bphi_gate':sha(r/'results/stage6_bphi_disjoint_gate_v1.json'),'measured_ph_norm':sha(r/'results/bphi_disjoint_measured_ph_diagnostic_58195815.json'),'stage6_norm_gate':sha(r/'results/stage6_response_normalization_diagnostic_v1.json')})
+ a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'n_holdout':out['n_holdout'],'chi2_dof':out['disjoint_bphi_response']['chi2_dof']}))
+if __name__=='__main__':main()
