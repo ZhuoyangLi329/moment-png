@@ -86,7 +86,7 @@ def main():
                 rows.append({"node": node, "realization": rid, "status": "SKIP", "positions": str(pos_out)})
                 continue
             pos, mass_code, files = read_group_tab(source, a.snapnum)
-            masses = (mass_code * 1e10).astype(np.float32)
+            masses = (mass_code.astype(np.float64) * 1e10).astype(np.float64)
             selected = masses >= a.mass_threshold
             positions = np.mod(pos[selected] / 1e3, a.boxsize).astype(np.float32)
             masses = masses[selected]
