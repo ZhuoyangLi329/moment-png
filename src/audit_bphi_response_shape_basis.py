@@ -7,7 +7,7 @@ import numpy as np
 def sha(p):
  h=hashlib.sha256();
  with p.open('rb') as f:
-  for b in iter(lambda:f.read(1<<20),b):h.update(b)
+  for b in iter(lambda:f.read(1<<20),b''):h.update(b)
  return h.hexdigest()
 def gls(B,y,C):
  P=np.linalg.pinv(C,rcond=1e-10); u,s,v=np.linalg.svd(C); rank=int(np.sum(s>s[0]*1e-10)) if len(s) else 0; G=B@P@B.T; coeff=np.linalg.pinv(G,rcond=1e-10)@(B@P@y); res=y-coeff@B; chi=float(res@P@res); return {'coefficients':coeff.tolist(),'chi2':chi,'dof':max(rank-B.shape[0],1),'chi2_dof':chi/max(rank-B.shape[0],1),'covariance_rank':rank}
