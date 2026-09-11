@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+import argparse,datetime,json
+from pathlib import Path
+def main():
+ ap=argparse.ArgumentParser(); ap.add_argument('--root',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); ap.add_argument('--commit',required=True); a=ap.parse_args(); old=json.loads((a.root/'results/stage_progress_v18.json').read_text()); old['schema']='stage_progress_v19'; old['github_main_commit']=a.commit; s=old['stages']['6']; s['status']='BLOCKED_DISJOINT_SHAPE'; s['evidence']=list(s.get('evidence',[]))+['results/bphi_disjoint_catalog_inventory_v2.json','results/reconstruction_provenance_v2_58194506.json','results/bphi_disjoint_response_calibration_v3_58195306.json','results/bphi_disjoint_response_audit_v2_58195306.json','results/stage6_bphi_disjoint_gate_v1.json']; s['open']='disjoint LC+/- source is available, but response shape chi2/dof=207.04 rejects the external Pm/M template and b1 uncertainty/cross-covariance remain unpropagated'; old['created_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat(); a.output.parent.mkdir(parents=True,exist_ok=True); a.output.write_text(json.dumps(old,indent=2)+'\n'); print(json.dumps({'status':s['status'],'commit':a.commit}))
+if __name__=='__main__':main()
