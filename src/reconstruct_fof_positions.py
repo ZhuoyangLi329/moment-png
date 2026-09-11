@@ -88,7 +88,7 @@ def main():
             pos, mass_code, files = read_group_tab(source, a.snapnum)
             masses = (mass_code * 1e10).astype(np.float32)
             selected = masses >= a.mass_threshold
-            positions = (pos[selected] / 1e3).astype(np.float32)
+            positions = np.mod(pos[selected] / 1e3, a.boxsize).astype(np.float32)
             masses = masses[selected]
             if np.any(positions < 0) or np.any(positions >= a.boxsize):
                 raise ValueError(f"position outside box for {node}/{rid}")
