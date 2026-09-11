@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+"""Create the Stage 6 gate from the disjoint b_phi response audit."""
+import argparse, datetime, hashlib, json
+from pathlib import Path
+
+def sha(p):
+ h=hashlib.sha256(); h.update(p.read_bytes()); return h.hexdigest()
+def main():
+ ap=argparse.ArgumentParser(); ap.add_argument('--inventory',type=Path,required=True); ap.add_argument('--calibration',type=Path,required=True); ap.add_argument('--audit',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); a=ap.parse_args(); inv=json.loads(a.inventory.read_text()); cal=json.loads(a.calibration.read_text()); aud=json.loads(a.audit.read_text()); chi=float(aud.get('chi2_dof',float('inf'))); out={'schema':'stage6_bphi_disjoint_gate_v1','status':'BLOCKED','created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'decision':'NO_PRODUCTION_BPHI','inventory':str(a.inventory),'inventory_sha256':sha(a.inventory),'calibration':str(a.calibration),'calibration_sha256':sha(a.calibration),'audit':str(a.audit),'audit_sha256':sha(a.audit),'source_available':bool(inv.get('disjoint_png_pair_available') is True and inv.get('decision')=='AVAILABLE_FOR_CALIBRATION'),'nreal_pair':cal.get('nreal'),'conditional_bphi':cal.get('bphi_conditional'),'conditional_sigma':cal.get('bphi_sigma_statistical_conditional'),'chi2_dof':chi,'checks':{'disjoint_selection': 'PASS' if inv.get('disjoint_png_pair_available') else 'BLOCKED','paired_ids': 'PASS' if cal.get('nreal')==400 else 'BLOCKED','response_shape': 'PASS' if chi<=5 else 'BLOCKED','b1_uncertainty_and_cross_covariance':'BLOCKED'},'reasons':['the disjoint response source is now available and excludes frozen training/held-out IDs','the external Pm/M response template has rejected shape fit with chi2/dof above the predeclared threshold','b1 uncertainty and b1-bphi cross-covariance are not included in the conditional fit'],'policy':{'universal_p112_and_p100_remain_assumption_branches':True,'heldout_response_fit':False,'production_promotion':False,'shape_threshold_chi2_dof_le_5':True}}
+ a.output.parent.mkdir(parents=True,exist_ok=True); a.output.write_text(json.dumps(out,indent=2)+'\n'); print(json.dumps({'status':out['status'],'decision':out['decision'],'chi2_dof':chi}))
+if __name__=='__main__': main()
