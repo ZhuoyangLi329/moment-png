@@ -1,0 +1,207 @@
+{
+  "schema": "bphi_disjoint_catalog_inventory_v1",
+  "status": "PASS",
+  "target": {
+    "root": "FoF_z1_mmin1e13_positions",
+    "redshift": 1.0,
+    "halo_finder": "FoF",
+    "mass_cut_msun_h": 10000000000000.0,
+    "selection": "positions+metadata certified"
+  },
+  "roots": [
+    {
+      "root": "/pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions",
+      "exists": true,
+      "nodes": [
+        {
+          "node": "LC_m",
+          "n_realization_dirs": 100,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real097",
+            "real098",
+            "real099"
+          ],
+          "positions_files": 100,
+          "metadata_files": 100,
+          "selection_certified": true
+        },
+        {
+          "node": "LC_p",
+          "n_realization_dirs": 100,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real097",
+            "real098",
+            "real099"
+          ],
+          "positions_files": 100,
+          "metadata_files": 100,
+          "selection_certified": true
+        },
+        {
+          "node": "fiducial",
+          "n_realization_dirs": 500,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real497",
+            "real498",
+            "real499"
+          ],
+          "positions_files": 500,
+          "metadata_files": 500,
+          "selection_certified": true
+        }
+      ]
+    },
+    {
+      "root": "/pscratch/sd/l/lzy/quijote-png/halos/FoF_z1",
+      "exists": true,
+      "nodes": [
+        {
+          "node": "LC_m",
+          "n_realization_dirs": 500,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real497",
+            "real498",
+            "real499"
+          ],
+          "positions_files": 0,
+          "metadata_files": 0,
+          "selection_certified": false
+        },
+        {
+          "node": "LC_m50",
+          "n_realization_dirs": 500,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real497",
+            "real498",
+            "real499"
+          ],
+          "positions_files": 0,
+          "metadata_files": 0,
+          "selection_certified": false
+        },
+        {
+          "node": "LC_p",
+          "n_realization_dirs": 500,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real497",
+            "real498",
+            "real499"
+          ],
+          "positions_files": 0,
+          "metadata_files": 0,
+          "selection_certified": false
+        },
+        {
+          "node": "fiducial",
+          "n_realization_dirs": 500,
+          "first_ids": [
+            "real000",
+            "real001",
+            "real002"
+          ],
+          "last_ids": [
+            "real497",
+            "real498",
+            "real499"
+          ],
+          "positions_files": 0,
+          "metadata_files": 0,
+          "selection_certified": false
+        }
+      ]
+    },
+    {
+      "root": "/pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions_smoke_tmp",
+      "exists": true,
+      "nodes": [
+        {
+          "node": "LC_m",
+          "n_realization_dirs": 1,
+          "first_ids": [
+            "real000"
+          ],
+          "last_ids": [
+            "real000"
+          ],
+          "positions_files": 1,
+          "metadata_files": 1,
+          "selection_certified": true
+        },
+        {
+          "node": "LC_p",
+          "n_realization_dirs": 1,
+          "first_ids": [
+            "real000"
+          ],
+          "last_ids": [
+            "real000"
+          ],
+          "positions_files": 1,
+          "metadata_files": 1,
+          "selection_certified": true
+        },
+        {
+          "node": "fiducial",
+          "n_realization_dirs": 1,
+          "first_ids": [
+            "real000"
+          ],
+          "last_ids": [
+            "real000"
+          ],
+          "positions_files": 1,
+          "metadata_files": 1,
+          "selection_certified": true
+        }
+      ]
+    }
+  ],
+  "standard_node_counts": {
+    "LC_m": 100,
+    "LC_p": 100,
+    "fiducial": 500
+  },
+  "disjoint_png_pair_available": false,
+  "decision": "BLOCKED",
+  "rejection_reasons": [
+    "standard LC_m and LC_p roots stop at real099, so no certified PNG disjoint block beyond frozen 70/30 split",
+    "older FoF_z1 roots contain binary group_tab files without positions_mpc_h.npy/metadata.json and cannot certify the frozen selection",
+    "fiducial-only extra realizations cannot calibrate a PNG response without matched LC\u00b1 catalogs"
+  ],
+  "policy": {
+    "no_uncertified_selection_used": true,
+    "no_heldout_response_fit": true,
+    "production_bphi_requires_disjoint_or_external_match": true
+  },
+  "created_utc": "2026-09-09T06:40:26.400947+00:00"
+}
