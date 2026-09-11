@@ -30,7 +30,8 @@ def fit_response(template: np.ndarray, response: np.ndarray) -> dict:
     mean = response.mean(axis=0)
     cov = np.cov(response, rowvar=False, ddof=1) / n
     precision = np.linalg.pinv(cov, rcond=1e-10)
-    rank = int(np.linalg.matrix_rank(cov, tol=1e-10 * max(float(np.max(np.abs(cov))), 1.0)))
+    singular = np.linalg.svd(cov, compute_uv=False)
+    rank = int(np.sum(singular > singular[0] * 1e-10)) if singular.size else 0
     denom = float(template @ precision @ template)
     c = float(template @ precision @ mean / denom)
     residual = mean - c * template
