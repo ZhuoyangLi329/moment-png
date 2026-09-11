@@ -15,7 +15,7 @@ def main():
  checks.append({'name':'calibration_ids','status':'PASS' if ids==expected and len(ids)==400 else 'BLOCKED','nreal':len(ids),'first':ids[:1],'last':ids[-1:]})
  finite=all(math.isfinite(float(cal.get(k,float('nan')))) for k in ('bphi','bphi_sigma_statistical','chi2_dof'))
  checks.append({'name':'finite_fit_and_error','status':'PASS' if finite and float(cal.get('bphi_sigma_statistical',0))>0 else 'BLOCKED'})
- halves=cal.get('stability_halves',[]); half_delta=abs(float(halves[0]['bphi'])-float(halves[1]['bphi'])) if len(halves)==2 else None
+ halves=cal.get('stability_halves',[]); half_delta=abs(float(halves[0].get('bphi_conditional',halves[0].get('bphi')))-float(halves[1].get('bphi_conditional',halves[1].get('bphi')))) if len(halves)==2 else None
  checks.append({'name':'half_block_report','status':'PASS' if len(halves)==2 and half_delta is not None else 'BLOCKED','half_delta':half_delta})
  checks.append({'name':'batch_provenance','status':'PASS' if str(job.get('slurm_job_id','')).isdigit() and job.get('scope') else 'BLOCKED','slurm_job_id':job.get('slurm_job_id')})
  structural='PASS' if all(x['status']=='PASS' for x in checks) else 'BLOCKED'
