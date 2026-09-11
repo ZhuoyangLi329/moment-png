@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import argparse,hashlib,json
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();r=a.root;out=json.loads((r/'results/stage8_holdout_validation_report_v7.json').read_text());out['schema']='stage8_holdout_validation_report_v8';out['status']='REJECTED_DIAGNOSTIC';d=json.loads((r/'results/b1_bphi_crosscov_disjoint_audit_v1.json').read_text());out['b1_bphi_crosscovariance_diagnostic']={'block_mean_b1':d['block_mean_b1'],'block_mean_bphi':d['block_mean_bphi'],'delta_method_sigma_bphi_with_block_cov':d['delta_method_sigma_bphi_with_block_cov'],'block_correlation_b1_c':d['block_correlation_b1_c'],'blocks':d['blocks'],'source_sha256':sha(r/'results/b1_bphi_crosscov_disjoint_audit_v1.json')};out['rejection_reasons']=list(dict.fromkeys(out.get('rejection_reasons',[])+['joint b1/Pshot and bphi block covariance is a low-sample diagnostic with large uncertainty and cannot replace validated input covariance']));out['source_sha256']['stage8_v7']=sha(r/'results/stage8_holdout_validation_report_v7.json');out['source_sha256']['b1_bphi_crosscovariance']=sha(r/'results/b1_bphi_crosscov_disjoint_audit_v1.json');a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'sigma_bphi':d['delta_method_sigma_bphi_with_block_cov']}))
+if __name__=='__main__':main()
