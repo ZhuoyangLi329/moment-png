@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import argparse,hashlib,json
+from pathlib import Path
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();r=a.root;out=json.loads((r/'results/stage8_holdout_validation_report_v9.json').read_text());out['schema']='stage8_holdout_validation_report_v10';out['status']='REJECTED_DIAGNOSTIC';d=json.loads((r/'results/b1_pshot_covariance_scan_v1.json').read_text());out['covariance_aware_b1_pshot_scan']['corrected_sorted_k_interpolation']=True;out['covariance_aware_b1_pshot_scan']['full_kmax_chi2_dof']={k:v['full']['chi2_dof'] for k,v in d['kmax_scan'].items()};out['rejection_reasons']=list(dict.fromkeys([x for x in out.get('rejection_reasons',[]) if '99.12' not in x]+['high-k b1/Pshot scan fails at kmax=.15 and the low-k candidate still has unresolved calibration/shot covariance']));out['source_sha256']['stage8_v9']=sha(r/'results/stage8_holdout_validation_report_v9.json');out['source_sha256']['b1_pshot_covariance_scan_sorted']=sha(r/'results/b1_pshot_covariance_scan_v1.json');a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'lowk':d['kmax_scan']['0.03']['full']['chi2_dof'],'highk':d['kmax_scan']['0.15']['full']['chi2_dof']}))
+if __name__=='__main__':main()
