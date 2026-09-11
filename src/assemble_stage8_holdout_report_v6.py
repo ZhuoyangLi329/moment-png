@@ -1,0 +1,7 @@
+#!/usr/bin/env python3
+import argparse,hashlib,json
+from pathlib import Path
+def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();r=a.root;out=json.loads((r/'results/stage8_holdout_validation_report_v5.json').read_text());out['schema']='stage8_holdout_validation_report_v6';out['status']='REJECTED_DIAGNOSTIC';fit=json.loads((r/'results/disjoint_fiducial_b1_fit_full_refit_v2.json').read_text());gate=json.loads((r/'results/stage2_disjoint_b1_gate_v2.json').read_text());out['disjoint_gaussian_b1_full_block']['fit_schema']=fit.get('schema');out['disjoint_gaussian_b1_full_block']['realization_block']=fit.get('realization_block');out['disjoint_gaussian_b1_full_block']['fit_source_sha256']=sha(r/'results/disjoint_fiducial_b1_fit_full_refit_v2.json');out['disjoint_gaussian_b1_full_block']['gate_source_sha256']=sha(r/'results/stage2_disjoint_b1_gate_v2.json');out['source_sha256'].update({'stage8_v5':sha(r/'results/stage8_holdout_validation_report_v5.json'),'disjoint_b1_refit_v2':sha(r/'results/disjoint_fiducial_b1_fit_full_refit_v2.json'),'stage2_gate_v2':sha(r/'results/stage2_disjoint_b1_gate_v2.json')});a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':out['status'],'block':fit.get('realization_block')}))
+if __name__=='__main__':main()
