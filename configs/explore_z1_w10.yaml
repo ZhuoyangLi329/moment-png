@@ -1,0 +1,8 @@
+# As explore_z1, with 10 Mpc/h shells (empty shells are dropped per grid).
+base: explore_z1.yaml
+
+paths:
+  results: results/explore_z1_w10
+
+estimator:
+  shell_width: 10.0

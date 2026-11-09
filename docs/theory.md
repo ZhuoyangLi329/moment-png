@@ -7,6 +7,7 @@ halo 计数场经 CIC 赋值得到 δ(x) = n(x)/⟨n⟩ − 1（周期盒，N³ 
     η_s(x) = δ(x) δ_s(x)
     μ1(s)  = ⟨η_s⟩
     μ2(s)  = ⟨(η_s − μ1)²⟩
+    μ3(s)  = ⟨(η_s − μ1)³⟩
 
 这就是 ConKer 的 Γ 矩在周期盒、无 random catalog 时的形式（random 归一化退化为常数）。μ3 暂不做。
 
@@ -19,15 +20,16 @@ halo 计数场经 CIC 赋值得到 δ(x) = n(x)/⟨n⟩ − 1（周期盒，N³ 
     μ1(s)    = V⁻¹ Σ_k P(k) W_s(k)
     μ2_G(s)  = σ0² σ_s² + μ1(s)²,  σ0² = V⁻¹ Σ P,  σ_s² = V⁻¹ Σ P W_s²
 
-其中 W_s = FFT[K_s]，必须用**同一个离散壳核**，不能换成连续的 j0 近似（旧版本的连续窗口在 N=12 的测试里偏差达到 0.087）。网格效应（CIC、混叠）只进 P，不进 W。μ2 − μ2_G 定义为 connected 部分。若用"样本均值中心化"的 μ2，还要再减 Var(⟨η⟩) = 2 Σ (PW)² / V²。这些恒等式都由 `tests/test_estimator.py` 独立验证（roll-sum、平面波、单模 Gauss–Hermite）。
+其中 W_s = FFT[K_s]，必须用**同一个离散壳核**，不能换成连续的 j0 近似（旧版本的连续窗口在 N=12 的测试里偏差达到 0.087）。网格效应（CIC、混叠）只进 P，不进 W。μ2 − μ2_G 定义为 connected 部分。对三阶矩，相关高斯变量 X、Y 满足 ⟨(XY − c)³⟩ = 6cσx²σy² + 2c³，所以 μ3_G = 6 μ1 σ0² σ_s² + 2 μ1³，μ3 − μ3_G 是 connected 的三阶部分（`tests/test_estimator.py` 有点态和场两种检验）。若用"样本均值中心化"的 μ2，还要再减 Var(⟨η⟩) = 2 Σ (PW)² / V²。这些恒等式都由 `tests/test_estimator.py` 独立验证（roll-sum、平面波、单模 Gauss–Hermite）。
 
 ## 3. μ1 模型：tree 级 PNG 偏置
 
-    P_h(k) = [b1 + fNL bφ / M(k)]² P_m(k) T_m(k) + P_shot T_s(k)
+    P_h(k) = [b1 + fNL (bφ / M(k) + Δb1)]² P_m(k) T_m(k) + P_shot T_s(k)
 
 - **bφ 是完整的 PNG 偏置系数**：Δb = fNL bφ / M(k)，其中 δ_L = M φ。universal mass function 关系给出 bφ = 2 δ_c (b1 − p)，δ_c = 1.686，p = 1.12（tracer）或 1.0。
+- **Δb1 = ∂b1/∂fNL 是尺度无关的 PNG 偏置**：在固定质量阈值下，质量函数本身随 fNL 改变，样本的 b1 也随之线性变化。对 z=1、M ≥ 1e13 的 FoF halo，P(k) 层面拟合给出 Δb1 ≈ −4×10⁻⁴（见 findings）。漏掉这一项，μ1 的 PNG 响应在 s ≲ 120 处就会被系统性高估。
 - 网格约定：`cic_both` 是 T_m = T_s = Π sinc⁴(k_i H/2)；`cic_matter` 是 T_s = 1；`none` 是都取 1。这几种都不是严格的：Poisson 点做 CIC 赋值后，shot 项实际是 (1/n̄) Σ_n W²(k + 2k_N n)。
-- 配对的奇响应对 c = b1 bφ 是线性的：[μ1(+f) − μ1(−f)]/(2f) = c · T(s)，其中 T(s) 是 2 P_m T_m / M 的投影。数据真正约束的是 c，bφ = c/b1 依赖于 b1 的取值。
+- 配对的奇响应对 c = b1 bφ 和 Δb1 都是线性的：[X(+f) − X(−f)]/(2f) = c · T_c + Δb1 · T_b，其中 T_c、T_b 分别是 2 P_m T_m / M 和 2 b1 P_m T_m 的分 bin 平均（X = P_h）或精确窗口投影（X = μ1）。数据真正约束的是 c，bφ = c/b1 依赖于 b1 的取值。
 
 ## 4. loop（诊断用）
 

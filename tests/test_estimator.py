@@ -87,6 +87,36 @@ def test_gaussian_random_field_mu2_matches_wick():
     np.testing.assert_allclose(np.mean(ratios, axis=0), 1.0, atol=0.03)
 
 
+def test_product_third_moment_algebra():
+    """For jointly Gaussian X, Y: <(XY - c)^3> = 6 c sx^2 sy^2 + 2 c^3."""
+    from momentpng.moments import gaussian_moments
+    rng = np.random.default_rng(7)
+    sx, sy, rho = 1.3, 0.7, 0.4
+    c = rho * sx * sy
+    x = rng.normal(size=2_000_000)
+    y = sy * (rho * x + np.sqrt(1 - rho**2) * rng.normal(size=x.size))
+    z = sx * x * y
+    pred = gaussian_moments(c, sx**2, sy**2)
+    np.testing.assert_allclose(np.mean((z - c) ** 2), pred["mu2_gaussian"], rtol=0.01)
+    np.testing.assert_allclose(np.mean((z - c) ** 3), pred["mu3_gaussian"], rtol=0.03)
+
+
+def test_gaussian_random_field_mu3_matches_wick():
+    """Field version: mean of mu3 - mu3_G over Gaussian realizations is consistent with 0."""
+    n, box, scales = 32, 1000.0, [80.0, 120.0]
+    k = lattice(n, box).k
+    amp = np.sqrt(np.exp(-(k / 0.06) ** 2))
+    amp[0, 0, 0] = 0
+    diff = []
+    for seed in range(48):
+        d = np.fft.ifftn(np.fft.fftn(np.random.default_rng(100 + seed).normal(size=(n, n, n))) * amp).real
+        m = field_moments(d / d.std(), box, scales, 20.0)
+        diff.append(m["mu3"] - m["mu3_gaussian"])
+    diff = np.asarray(diff)
+    pull = diff.mean(0) / (diff.std(0, ddof=1) / np.sqrt(len(diff)))
+    assert np.all(np.abs(pull) < 4)
+
+
 def test_cic_paint_mean_and_binning():
     pos = np.random.default_rng(1).uniform(0, L, size=(5000, 3))
     d = cic_paint(pos, N, L)

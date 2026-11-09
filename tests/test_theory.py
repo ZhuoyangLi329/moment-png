@@ -61,6 +61,37 @@ def test_gls_recovers_known_amplitude():
     assert 0.3 < r["chi2_dof"] < 3
 
 
+def test_db1_enters_as_scale_independent_bias():
+    from momentpng.theory.tree import response_per_db1
+    pm, M = np.array([0.0, 2.0, 3.0]), np.array([1.0, 0.5, 4.0])
+    b1, bphi, db1, f = 2.7, 3.7, -4e-4, 100.0
+    got = halo_power(pm, M, b1, bphi, f, db1=db1)
+    np.testing.assert_allclose(got[1:], (b1 + f * (bphi / M[1:] + db1)) ** 2 * pm[1:])
+    odd = (halo_power(pm, M, b1, bphi, f, db1=db1) - halo_power(pm, M, b1, bphi, -f, db1=db1)) / (2 * f)
+    np.testing.assert_allclose(odd, b1 * bphi * response_per_c(pm, M) + db1 * response_per_db1(pm, b1))
+
+
+def test_fisher_is_unbiased_with_noisy_derivatives():
+    """Averaged over trials, the corrected Fisher matches d C^-1 d; the uncorrected one is biased high."""
+    from momentpng.stats import fisher
+    rng = np.random.default_rng(3)
+    dim, n, trials = 6, 300, 200
+    A = rng.normal(size=(dim, dim))
+    C = A @ A.T + dim * np.eye(dim)
+    L = np.linalg.cholesky(C)
+    d_true = 0.1 * rng.normal(size=dim)
+    exact = d_true @ np.linalg.solve(C, d_true)
+    fc, fu = [], []
+    for _ in range(trials):
+        fid = rng.normal(size=(n, dim)) @ L.T
+        deriv = d_true + 2.0 * rng.normal(size=(n, dim)) @ L.T
+        fc.append(fisher({"p": deriv}, fid)["F"][0, 0])
+        fu.append(fisher({"p": deriv}, fid, noise_correct=False)["F"][0, 0])
+    se = np.std(fc, ddof=1) / np.sqrt(trials)
+    assert abs(np.mean(fc) - exact) < 4 * se
+    assert np.mean(fu) - exact > 4 * se
+
+
 def test_gls_linear_exact():
     X = np.column_stack([np.linspace(1, 3, 5), np.ones(5)])
     y = X @ np.array([2.0, -1.0])

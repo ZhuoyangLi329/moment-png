@@ -31,7 +31,15 @@ class Protocol:
 
     @property
     def nodes(self) -> dict[str, float]:
+        """Analysis nodes (calibration + validation)."""
         return {k: float(v) for k, v in self.raw["nodes"].items()}
+
+    def fnl(self, node: str) -> float:
+        """fNL of any node, including ``extra_nodes`` (e.g. LC_m50) and the Poisson control."""
+        if node == "poisson":
+            return 0.0
+        table = {**self.raw["nodes"], **self.raw.get("extra_nodes", {})}
+        return float(table[node])
 
     @property
     def scales(self) -> np.ndarray:
@@ -55,6 +63,13 @@ class Protocol:
         start, stop = self.raw["split"][name]
         return range(int(start), int(stop))
 
+    def indices(self, spec: str) -> list[int]:
+        """Realization indices of '+'-joined blocks, e.g. 'train+disjoint'."""
+        out = [i for name in spec.split("+") for i in self.block(name)]
+        if len(set(out)) != len(out):
+            raise ValueError(f"overlapping blocks in {spec!r}")
+        return out
+
     def path(self, key: str) -> Path:
         p = Path(self.raw["paths"][key])
         return p if p.is_absolute() else REPO / p
@@ -68,9 +83,20 @@ class Protocol:
         return self.raw["bias"]
 
 
+def _merge(base: dict, override: dict) -> dict:
+    out = dict(base)
+    for k, v in override.items():
+        out[k] = _merge(out[k], v) if isinstance(v, dict) and isinstance(out.get(k), dict) else v
+    return out
+
+
 def load_protocol(path: str | Path | None = None) -> Protocol:
+    """Load a protocol YAML; a ``base: other.yaml`` key (relative to the file) is deep-merged first."""
     path = Path(path) if path else DEFAULT_PROTOCOL
-    return Protocol(yaml.safe_load(path.read_text()))
+    raw = yaml.safe_load(path.read_text())
+    if "base" in raw:
+        raw = _merge(load_protocol(path.parent / raw.pop("base")).raw, raw)
+    return Protocol(raw)
 
 
 def git_commit() -> str | None:

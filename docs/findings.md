@@ -9,15 +9,16 @@
 | 数据与配对 | ✅ | 三个节点各 500 个 realization，全部配对；LC± 100–499 由 group_tab 重建，读取器逐字节复现了已有目录 |
 | 估计量与精确窗口 | ✅ | μ1、μ2_G 的 Fourier 恒等式成立到机器精度；高斯场下 μ2/μ2_G → 1 |
 | b1、P_shot 标定 | ✅（新） | Pshot = 1/n̄ 时，两个独立块都给出 b1 ≈ 2.756，χ²/dof < 1；旧版的"b1 张力"是方法造成的假象 |
-| bφ（μ1 的 PNG 响应） | ⚠️ | 大尺度（s ≥ 140）的响应和 universal bφ（p ≈ 1.1）一致；s ≲ 120 处 tree 模板系统性高估 |
+| bφ（μ1 的 PNG 响应） | ✅（新） | 加上尺度无关的 Δb1 ≈ −4×10⁻⁴ 后，P(k) 层面的 PNG 响应在 k ≤ 0.05 内 χ²/dof = 0.88，c0 = b1·bφ = 13.9（bφ ≈ 5.0，p ≈ 1.26）；之前的"小尺度形状失效"就是漏了这一项（§5.1） |
 | μ1 留出验证 | ⚠️ | 节点均值的 Hartlap χ²/dof 约 2–7；配对响应检验受上面的小尺度形状问题主导 |
 | loop | ❌ | 固定截断、没有 counterterm，结果对 qmax 极度敏感，不能用 |
 | μ2 connected | ❌ | 只排除了 iid Poisson；halo 的 connected 项随网格 ≈ ∝ N² 增长，没有模型；原初 trispectrum 模块写错了，已删除 |
-| fNL 信息量 | ✅（统计） | 每个 1 (Gpc/h)³ 盒子 σ(fNL) ≈ 31–37（μ1 + R），双侧 68% 覆盖率偏低 |
+| fNL 信息量 | ✅（统计） | Fisher：P(k) 29.3，μ1 31.6，μ2 32.8；P 加全部矩是 28.8，即在 v1 配置下矩相对 P(k) 没有额外信息（§9.1） |
 
 ## 1. 数据
 
 - 位置目录在 `/pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions/{fiducial,LC_m,LC_p}/real000–499`。每个 realization 的平均 halo 数：fiducial 195530，LC_m 193204，LC_p 197729。
+- 2026-11-09 另外重建了 **LC_m50（fNL = −50）real000–499**（`reconstruct_catalogs.py --nodes LC_m50`），只用于外推检验，不参与标定。
 - 旧版的 LC± 只有 real000–099；real100–499 是后来用 `reconstruct_catalogs.py` 从 `FoF_z1` 的 group_tab 重建的。用同一个读取器重建 fiducial real000 和 LC_m real100，和已有文件逐字节一致。
 
 复现：`python scripts/manifest.py`
@@ -76,7 +77,21 @@
 - s ≲ 120 处，tree 模板对响应的高估逐渐增大，到 s=40 达到 28%。可能的原因：非线性 P_m 和 halo 响应（b1·bφ 的 loop、bφδ 等 PNG kernel 插入）、网格约定。
 - 全区间 GLS 给出的 c = 10.24，甚至低于每一个单壳的估计。这是因为壳之间高度相关、模板形状又不对，GLS 被拉着往外推了。所以旧版"bφ = 3.75，显著偏离 universal"的说法不成立，它反映的是模板失效，不是 bφ 的测量值。
 
-复现：`python scripts/fit_bphi.py --block disjoint --b1 2.756 --scan`
+### 5.1 原因：尺度无关的 PNG 偏置 Δb1
+
+直接在 P(k) 上看，c(k) = [dP_h/dfNL]/[2 P_m T/M] 从 k = 0.0075 的 13.5 单调降到 k ≈ 0.107 处为 0，之后变成负值。在固定质量阈值下，PNG 也改变了质量函数（LC_p 比 LC_m 多约 4500 个 halo），因此 b1 本身随 fNL 线性变化。加上模板 2 b1 Δb1 P_m T（train+disjoint，470 对）：
+
+| kmax | 只有 c0 | c0 + Δb1 | c0 | Δb1 | bφ（b1 = 2.756） |
+|---|---|---|---|---|---|
+| 0.05 | 389 | **0.88** | 13.88 ± 0.09 | (−4.26 ± 0.08)×10⁻⁴ | 5.04（p = 1.26） |
+| 0.10 | 1304 | 3.67 | 13.46 ± 0.05 | (−3.85 ± 0.03)×10⁻⁴ | 4.89 |
+| 0.15 | 1908 | 2.86 | 13.49 ± 0.04 | (−3.87 ± 0.02)×10⁻⁴ | 4.90 |
+
+（"只有 c0" 和 "c0 + Δb1" 两列是 χ²/dof。）shot noise 的响应项很小，而且和非线性项简并（kmax = 0.1 时给出 +0.70 ± 0.11，Poisson 预期是 −0.59），定不下来。下一步是用数密度响应独立预测 Δb1（计划 A1）。
+
+复现：`python scripts/fit_response.py --level P --block train+disjoint`
+
+复现：`python scripts/fit_response.py --level mu1 --block disjoint --terms c0 --scan`
 
 ## 6. μ1 留出验证（real070–099，30 个）
 
@@ -126,9 +141,17 @@
 
 复现：`python scripts/fnl_likelihood.py --observables mu1 R`
 
-## 10. 建议的下一步
+### 9.1 和 P(k) 比：模拟 Fisher（N=64，s = 40–300，train+disjoint 470 个，Hartlap + 导数噪声修正）
 
-1. **μ1 响应的小尺度形状**：这是最有物理价值的问题。按 c(s) 的尺度依赖逐项检验：线性 P_m 换成非线性 P_m 的响应；单 PNG 腿的 b1–bφ loop（需要 counterterm）；bφδ 项；shot noise 的 CIC 混叠（(1/n̄) Σ_n W²(k + 2k_N n)）。
-2. **把独立标定冻结下来**：b1 = 2.756（Poisson shot），bφ 用 universal p ≈ 1.1–1.2，或者用 s ≥ 140 的 disjoint 响应。再在大尺度区间 140–300（分辨率稳定）上重做留出验证。
-3. **μ2**：先给出格子尺度 connected 项的解析形式（离散加聚集的重复指标项，≈ ∝ N²），再按 theory.md §5.1 正确地重写原初 trispectrum 的 9 维投影。
-4. 在 μ2 的信息独立于 μ1 之前，R 对 fNL 的增益可以忽略。
+| 观测量 | P | μ1 | μ2 | μ2_G | μ2_c | R | μ3 | μ3_c | μ1+μ2 | μ1+μ2+μ3 | P+μ2 | P+μ1+μ2+μ3 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| σ(fNL) | 29.3 | 31.6 | 32.8 | 32.4 | 131 | 177 | 49.1 | 58.7 | 31.1 | 31.0 | 29.0 | 28.8 |
+
+- μ2 的 fNL 信息几乎全部来自 μ2_G，而 μ2_G 是 P(k) 的泛函；μ2_c 和 μ3_c 加到 P(k) 上都没有增益。
+- 参考文献（Vislosky+2025）的"21%"是相对 μ1 而言的。按他们的条件（125 个 mock、不做 Hartlap），在我们的数据上 μ1 → μ1+μ2 也会出现约 7%（5–11%）的表观增益，真实增益只有 1.6%。
+
+复现：`python scripts/information.py`
+
+## 10. 下一步
+
+见长任务计划（Phase A：独立预测 Δb1、halo–matter 试点、留出验证、LC_m50 外推；Phase B：小 s、高分辨率、稀释下的信息量扫描，以及复现参考文献的统计流程）。

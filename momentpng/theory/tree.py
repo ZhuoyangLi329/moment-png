@@ -1,13 +1,15 @@
 """Tree-level halo power with local-PNG scale-dependent bias, on the mesh lattice.
 
-    P_h(k) = [b1 + fNL bphi / M(k)]^2 P_m(k) T_m(k) + P_shot T_s(k)
+    P_h(k) = [b1 + fNL (bphi / M(k) + db1)]^2 P_m(k) T_m(k) + P_shot T_s(k)
 
-bphi is the *full* PNG bias coefficient (Delta b = fNL bphi / M); the universal
-mass-function relation gives bphi = 2 delta_c (b1 - p). T_m and T_s are the mesh
-transfers applied to the clustering and shot terms (CIC power transfer or 1).
+bphi is the *full* scale-dependent PNG bias coefficient (Delta b = fNL bphi / M);
+the universal mass-function relation gives bphi = 2 delta_c (b1 - p). db1 =
+d b1 / d fNL is the scale-independent PNG bias of a fixed-mass-cut sample (the
+mass function itself responds to fNL). T_m and T_s are the mesh transfers on the
+clustering and shot terms (CIC power transfer or 1).
 
-The paired odd response used to calibrate bphi is linear in c = b1 * bphi:
-    [P_h(+f) - P_h(-f)] / (2 f) = c * 2 P_m T_m / M.
+The paired odd response is linear in c = b1 * bphi and in db1:
+    [P_h(+f) - P_h(-f)] / (2 f) = c * 2 P_m T_m / M  +  db1 * 2 b1 P_m T_m.
 """
 from __future__ import annotations
 
@@ -41,8 +43,8 @@ def transfers(lat: Lattice, convention: str) -> tuple[np.ndarray, np.ndarray]:
     raise ValueError(f"unknown mesh convention {convention!r}")
 
 
-def halo_power(pm, M, b1, bphi=0.0, fnl=0.0, pshot=0.0, t_matter=1.0, t_shot=1.0) -> np.ndarray:
-    bh = b1 + fnl * bphi / np.maximum(np.abs(M), 1e-30)
+def halo_power(pm, M, b1, bphi=0.0, fnl=0.0, pshot=0.0, t_matter=1.0, t_shot=1.0, db1=0.0) -> np.ndarray:
+    bh = b1 + fnl * (bphi / np.maximum(np.abs(M), 1e-30) + db1)
     p = bh * bh * pm * t_matter + pshot * t_shot
     p = np.array(p, dtype=float)
     p.flat[0] = 0.0  # zero mode (index 0 in full-FFT layout)
@@ -50,16 +52,23 @@ def halo_power(pm, M, b1, bphi=0.0, fnl=0.0, pshot=0.0, t_matter=1.0, t_shot=1.0
 
 
 def mu1_tree(lat: Lattice, pm, M, scales, width, b1, bphi=0.0, fnl=0.0, pshot=0.0,
-             convention="cic_both") -> np.ndarray:
+             convention="cic_both", db1=0.0) -> np.ndarray:
     """Exact-window mu1(s) of the tree-level halo power."""
     from ..window import mu1
     tm, ts = transfers(lat, convention)
-    return mu1(halo_power(pm, M, b1, bphi, fnl, pshot, tm, ts), scales, width, lat.boxsize)
+    return mu1(halo_power(pm, M, b1, bphi, fnl, pshot, tm, ts, db1), scales, width, lat.boxsize)
 
 
 def response_per_c(pm, M, t_matter=1.0) -> np.ndarray:
     """d P_h / d fNL per unit c = b1 bphi, i.e. 2 P_m T_m / M (zero mode removed)."""
     out = 2.0 * pm * t_matter / np.where(M == 0, np.inf, M)
     out = np.array(np.broadcast_to(out, np.shape(pm)), dtype=float)
+    out.flat[0] = 0.0
+    return out
+
+
+def response_per_db1(pm, b1, t_matter=1.0) -> np.ndarray:
+    """d P_h / d fNL per unit db1, i.e. 2 b1 P_m T_m (zero mode removed)."""
+    out = np.array(np.broadcast_to(2.0 * b1 * pm * t_matter, np.shape(pm)), dtype=float)
     out.flat[0] = 0.0
     return out

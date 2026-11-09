@@ -1,0 +1,12 @@
+# Phase B exploration: finer and smaller shells, mu3, several grids.
+# Inherits the frozen v1 protocol; only the overrides are listed.
+base: protocol.yaml
+
+paths:
+  results: results/explore_z1
+
+estimator:
+  scales: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150,
+           160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300]
+  shell_width: 20.0
+  nmesh_resolution: [128, 256]

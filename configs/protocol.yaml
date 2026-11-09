@@ -21,6 +21,10 @@ nodes:
   LC_m: -100.0
   LC_p: 100.0
 
+# Further native nodes, used only for out-of-sample checks (never for calibration).
+extra_nodes:
+  LC_m50: -50.0
+
 estimator:
   shell_width: 20.0        # Mpc/h
   scales: [40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300]

@@ -11,18 +11,19 @@
 ## 结构
 
 ```
-configs/protocol.yaml      冻结协议：路径、样本、网格、壳、realization 分块、独立 bias 输入
+configs/protocol.yaml      冻结的 v1 协议：路径、样本、网格、壳、realization 分块、独立 bias 输入
+configs/explore_z1*.yaml   Phase B 探索配置（继承 v1，用 `base:` 只写覆盖项）
 data/                      z=1 线性理论表 (k, P_L, P_phi, M)
 momentpng/                 库
   config.py                协议加载、realization 编号、带 provenance 头的 JSON 输出
   catalogs.py              位置目录、Poisson 对照目录、Quijote group_tab 读取器
   mesh.py                  CIC 赋值、FFT lattice、CIC transfer、模式功率与分 bin
-  moments.py               壳核、μ1/μ2/Wick 分量的测量
+  moments.py               壳核、μ1/μ2/μ3 及其 Wick 预测的测量
   window.py                精确离散窗口投影 μ1[P]、μ2_G[P]
-  products.py              测量产品的存取
-  stats.py                 协方差、Hartlap、χ² 比较、GLS
+  products.py              测量产品的存取、观测量矩阵 features()
+  stats.py                 协方差、Hartlap、χ² 比较、GLS、模拟 Fisher
   theory/inputs.py         理论表 → lattice
-  theory/tree.py           tree 级 P_h(fNL)、universal bφ、响应模板
+  theory/tree.py           tree 级 P_h(fNL)：bφ/M(k) 加尺度无关的 Δb1，以及响应模板
   theory/loops.py          固定截断 one-loop（诊断用）
   theory/contact.py        Poisson contact 项（iid / 精确 CIC）
 scripts/                   流水线，每个脚本做一件事，输出到 results/
@@ -34,7 +35,7 @@ slurm/run.sbatch           通用计算节点包装
 
 ```bash
 export PYTHONPATH=$PWD            # 或 pip install -e .
-python -m pytest -q               # 15 个测试，约 1 秒
+python -m pytest -q               # 19 个测试，约 1 秒
 
 # 1. 数据
 python scripts/manifest.py                                         # 目录清单与配对检查
@@ -45,19 +46,22 @@ for node in fiducial LC_m LC_p; do
   python scripts/measure.py --node $node --start 0 --stop 500 --workers 4
 done
 python scripts/measure.py --node poisson --start 0 --stop 10
+python scripts/measure.py --node LC_m50 --start 0 --stop 500 --workers 4   # 外推检验节点
 for n in 128 256; do for node in fiducial LC_m LC_p poisson; do
   python scripts/measure.py --node $node --start 0 --stop 10 --nmesh $n --workers 4
 done; done
 
 # 3. 标定（只用 train 或 disjoint 块）
 python scripts/fit_b1.py --block disjoint [--fix-shot] [--convention cic_matter]
-python scripts/fit_bphi.py --block disjoint --b1 2.7413 --scan
+python scripts/fit_response.py --level P --block disjoint            # c0 = b1 bphi, db1
+python scripts/fit_response.py --level mu1 --block disjoint --terms c0 --scan
 
 # 4. 留出验证与诊断
-python scripts/validate_mu1.py --b1 2.7413 --pshot 5467.76 --bphi 3.7636 --tag training_bphi
+python scripts/validate_mu1.py --b1 2.756 --pshot poisson --bphi 5.04 --db1 -4.26e-4 --tag A3
 python scripts/loop_mu1.py --bphi 3.7636 --pshot 5467.76 --qmax 0.03 0.05 0.08 --tag training
 python scripts/mu2_connected.py
 python scripts/fnl_likelihood.py --observables mu1 R
+python scripts/information.py --sets P mu1 mu2 P+mu1+mu2+mu3       # Fisher σ(fNL)
 ```
 
 在登录节点上最多用 6 个核（`--workers ≤ 6`）。更大的任务先 `mkdir -p results/slurm`，再 `sbatch slurm/run.sbatch python scripts/...`。

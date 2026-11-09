@@ -21,7 +21,7 @@
 | `momentpng/stats.py` | 各脚本里重复实现的 cov/Hartlap/χ²/GLS（`fit_bphi_disjoint_response.fit_response`、`validate_mu1_nodes`、`audit_b1_pshot_covariance_scan`…） |
 | `scripts/measure.py` | `batch_moments`、`batch_power_real`、`connected_residual`、`poisson_control`、`measure_disjoint_png_moments`、`measure_fiducial_disjoint_power`、`build_nbody_baseline`、`load_nbody_nodes` |
 | `scripts/fit_b1.py` | `fit_b1_linear_pk`、`fit_disjoint_fiducial_b1{,_v2}`、`audit_b1_pshot_covariance_scan`、`scan_mu1_training_theory_conventions`（b1 部分） |
-| `scripts/fit_bphi.py` | `fit_bphi_training_response`、`fit_bphi_disjoint_response`、`scan_bphi_response_scale_windows` |
+| `scripts/fit_response.py` | `fit_bphi_training_response`、`fit_bphi_disjoint_response`、`scan_bphi_response_scale_windows` |
 | `scripts/validate_mu1.py` | `validate_mu1_nodes`、`validate_mu1_analytic_holdout`、`scan_mu1_training_theory_conventions`（验证部分）、`validate_mu1_shotnoise_variants` |
 | `scripts/loop_mu1.py` | `compare_mu1_binned_loops`、`make_loop_*audit`、`make_stage4_loop_cutoff_gate` |
 | `scripts/mu2_connected.py` | `analyze_cic_poisson_contact`、`analyze_halo_contact_excess`、`analyze_stage5_scale_stability`、`compare_resolution_mu1_mu2`、`normalized_mu2_response` |

@@ -17,21 +17,29 @@ def mean_cov(samples: np.ndarray):
     return x.mean(0), np.cov(x, rowvar=False, ddof=1) / len(x)
 
 
-def compare(observed: np.ndarray, model: np.ndarray) -> dict:
-    """Compare the mean of realizations ``observed`` [n, d] with a fixed ``model`` [d]."""
+def compare(observed: np.ndarray, model: np.ndarray, cov_samples: np.ndarray | None = None) -> dict:
+    """Compare the mean of realizations ``observed`` [n, d] with a fixed ``model`` [d].
+
+    The covariance of the mean is estimated from ``observed`` itself, or, if given, from an
+    independent set ``cov_samples`` [m, d] (scaled to n); Hartlap then uses m.
+    """
+    from scipy.stats import chi2 as chi2_dist
     obs = np.asarray(observed, dtype=float)
-    mean, cov = mean_cov(obs)
+    mean = obs.mean(0)
+    ref = obs if cov_samples is None else np.asarray(cov_samples, dtype=float)
+    cov = np.cov(ref, rowvar=False, ddof=1) / len(obs)
     r = mean - np.asarray(model, dtype=float)
     se = np.sqrt(np.diag(cov))
     pull = r / np.maximum(se, 1e-300)
     chi2 = float(r @ np.linalg.pinv(cov, rcond=RCOND) @ r)
     dof = len(r)
-    h = hartlap(len(obs), dof)
-    return {"n": len(obs), "mean": mean, "se": se, "model": np.asarray(model), "pull": pull,
-            "rms_pull": float(np.sqrt(np.mean(pull**2))),
+    h = hartlap(len(ref), dof)
+    return {"n": len(obs), "n_cov": len(ref), "mean": mean, "se": se, "model": np.asarray(model),
+            "pull": pull, "rms_pull": float(np.sqrt(np.mean(pull**2))),
             "frac_abs_pull_le_2": float(np.mean(np.abs(pull) <= 2)),
             "chi2": chi2, "dof": dof, "chi2_dof": chi2 / dof,
-            "hartlap": h, "hartlap_chi2_dof": chi2 * h / dof if h else None}
+            "hartlap": h, "hartlap_chi2_dof": chi2 * h / dof if h else None,
+            "p_value": float(chi2_dist.sf(chi2 * h, dof)) if h else None}
 
 
 def gls_amplitude(template: np.ndarray, samples: np.ndarray) -> dict:
@@ -68,6 +76,42 @@ def gls_linear(design: np.ndarray, y: np.ndarray, cov: np.ndarray) -> dict:
     chi2 = float(np.sum((b - A @ beta) ** 2))
     dof = max(len(y) - X.shape[1], 1)
     return {"beta": beta, "cov": cov_beta, "chi2": chi2, "dof": dof, "chi2_dof": chi2 / dof}
+
+
+def fisher(derivatives: dict, fiducial: np.ndarray, hartlap_correct: bool = True,
+           noise_correct: bool = True) -> dict:
+    """Fisher matrix from simulation-based derivatives.
+
+    ``derivatives`` maps parameter -> [n_a, d] per-realization derivative estimates
+    (e.g. paired (X_+ - X_-) / (2 dp)); the derivative is their mean. Arrays with
+    equal n are assumed realization-aligned, so their cross-covariance enters the
+    noise-bias correction  F_ab -= tr(C^-1 Cov[d_a, d_b]) / n.
+    ``fiducial`` [n, d] realizations give the data covariance.
+    """
+    x = np.asarray(fiducial, dtype=float)
+    n, dim = x.shape
+    ci = np.linalg.inv(np.cov(x, rowvar=False, ddof=1))
+    if hartlap_correct:
+        h = hartlap(n, dim)
+        if h is None:
+            raise ValueError(f"too few fiducial realizations ({n}) for {dim} data")
+        ci *= h
+    names = list(derivatives)
+    D = {a: np.asarray(derivatives[a], dtype=float) for a in names}
+    mean = {a: D[a].mean(0) for a in names}
+    F = np.empty((len(names), len(names)))
+    for i, a in enumerate(names):
+        for j, b in enumerate(names):
+            F[i, j] = mean[a] @ ci @ mean[b]
+            if noise_correct and len(D[a]) == len(D[b]):
+                cab = (D[a] - mean[a]).T @ (D[b] - mean[b]) / (len(D[a]) - 1) / len(D[a])
+                F[i, j] -= float(np.trace(ci @ cab))
+    Finv = np.linalg.inv(F)
+    with np.errstate(invalid="ignore", divide="ignore"):  # noise-corrected F may be non-positive -> NaN
+        sig = np.sqrt(np.diag(Finv))
+        sig_u = 1 / np.sqrt(np.diag(F))
+    return {"params": names, "F": F, "sigma": sig, "sigma_unmarginalised": sig_u,
+            "n_fiducial": n, "n_data": dim}
 
 
 def posterior_summary(grid: np.ndarray, loglike: np.ndarray) -> tuple[float, float, float]:

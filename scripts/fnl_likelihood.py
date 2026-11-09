@@ -19,14 +19,10 @@ from momentpng.config import load_protocol, write_json
 from momentpng.stats import posterior_summary
 
 
-def features(d, observables):
-    cols = {"mu1": d["mu1"], "R": d["mu2"] / d["mu2_gaussian"] - 1, "mu2": d["mu2"]}
-    return np.column_stack([cols[o] for o in observables])
-
-
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--observables", nargs="+", default=["mu1", "R"], help="subset of mu1 R mu2")
+    ap.add_argument("--observables", nargs="+", default=["mu1", "R"],
+                    help="any of products.features: P mu1 mu2 mu3 mu2G mu2c R mu3G mu3c")
     ap.add_argument("--shrink", type=float, default=0.2)
     ap.add_argument("--grid", type=float, nargs=3, default=[-200, 200, 1601])
     ap.add_argument("--protocol", default=None)
@@ -34,7 +30,7 @@ def main():
 
     proto = load_protocol(a.protocol)
     train, hold = list(proto.block("train")), list(proto.block("holdout"))
-    X = {node: features(products.load(proto.results, proto.nmesh, node, train + hold), a.observables)
+    X = {node: products.features(products.load(proto.results, proto.nmesh, node, train + hold), a.observables)
          for node in proto.nodes}
     n = len(train)
     fp, fm = proto.nodes["LC_p"], proto.nodes["LC_m"]
