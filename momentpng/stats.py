@@ -114,6 +114,43 @@ def fisher(derivatives: dict, fiducial: np.ndarray, hartlap_correct: bool = True
             "n_fiducial": n, "n_data": dim}
 
 
+def fisher_crossvalidated(derivatives: dict, fiducial: np.ndarray, k: int = 5, seed: int = 0) -> dict:
+    """Noise-robust Fisher via K-fold score compression.
+
+    For each fold, compression weights W = C^-1 D are estimated on the other folds; on the
+    held-out fold the compressed statistics t = X W (one per parameter) get their own
+    covariance and derivatives, and the small p x p Fisher is formed there. Weight noise can
+    only *lose* information, so this is a conservative (never noise-inflated) estimate.
+    All arrays must be realization-aligned with ``fiducial`` (paired derivative samples).
+    """
+    x = np.asarray(fiducial, dtype=float)
+    names = list(derivatives)
+    D = {a: np.asarray(derivatives[a], dtype=float) for a in names}
+    if any(len(v) != len(x) for v in D.values()):
+        raise ValueError("cross-validated Fisher needs realization-aligned derivative samples")
+    folds = np.array_split(np.random.default_rng(seed).permutation(len(x)), k)
+    Fsum = np.zeros((len(names), len(names)))
+    for f in folds:
+        train = np.setdiff1d(np.arange(len(x)), f)
+        W = np.linalg.solve(np.cov(x[train], rowvar=False, ddof=1),
+                            np.column_stack([D[a][train].mean(0) for a in names]))
+        t = x[f] @ W
+        dts = [D[a][f] @ W for a in names]                              # per-realization, [n_f, p]
+        dt = np.vstack([v.mean(0) for v in dts])                        # [param, compressed]
+        cti = np.linalg.inv(np.atleast_2d(np.cov(t, rowvar=False, ddof=1)))
+        Ff = dt @ cti @ dt.T
+        for i in range(len(names)):                                     # derivative-noise bias
+            for j in range(len(names)):
+                cij = (dts[i] - dts[i].mean(0)).T @ (dts[j] - dts[j].mean(0)) / (len(f) - 1) / len(f)
+                Ff[i, j] -= float(np.trace(cti @ np.atleast_2d(cij)))
+        Fsum += Ff
+    F = Fsum / k
+    with np.errstate(invalid="ignore", divide="ignore"):
+        sig = np.sqrt(np.diag(np.linalg.inv(F)))
+        sig_u = 1 / np.sqrt(np.diag(F))
+    return {"params": names, "F": F, "sigma": sig, "sigma_unmarginalised": sig_u, "k": k}
+
+
 def posterior_summary(grid: np.ndarray, loglike: np.ndarray) -> tuple[float, float, float]:
     """Median and 16/84 percentiles of a 1D gridded posterior with a flat prior."""
     trapz = getattr(np, "trapezoid", None) or np.trapz

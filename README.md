@@ -26,6 +26,7 @@ momentpng/                 库
   theory/tree.py           tree 级 P_h(fNL)：bφ/M(k) 加尺度无关的 Δb1，以及响应模板
   theory/loops.py          固定截断 one-loop（诊断用）
   theory/contact.py        Poisson contact 项（iid / 精确 CIC）
+  theory/massfunction.py   σ(M)、PNG 偏度、Edgeworth 质量函数、PBS 的 Δb
 scripts/                   流水线，每个脚本做一件事，输出到 results/
 tests/                     估计量恒等式和模型代数的测试
 slurm/run.sbatch           通用计算节点包装
@@ -61,7 +62,10 @@ python scripts/validate_mu1.py --b1 2.756 --pshot poisson --bphi 5.04 --db1 -4.2
 python scripts/loop_mu1.py --bphi 3.7636 --pshot 5467.76 --qmax 0.03 0.05 0.08 --tag training
 python scripts/mu2_connected.py
 python scripts/fnl_likelihood.py --observables mu1 R
-python scripts/information.py --sets P mu1 mu2 P+mu1+mu2+mu3       # Fisher σ(fNL)
+python scripts/information.py --sets P mu1 mu2 P+mu1+mu2+mu3 --cv 5   # Fisher σ(fNL)，含交叉验证
+python scripts/abundance.py                                         # 丰度响应 → Δb1 预测
+python scripts/reference_pipeline.py                                # 复现 Vislosky+2025 的统计流程
+sbatch slurm/run.sbatch python scripts/matter_fields.py --node fiducial --start 100 --stop 133   # DM 快照
 ```
 
 在登录节点上最多用 6 个核（`--workers ≤ 6`）。更大的任务先 `mkdir -p results/slurm`，再 `sbatch slurm/run.sbatch python scripts/...`。

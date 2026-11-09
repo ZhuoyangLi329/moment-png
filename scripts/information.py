@@ -17,7 +17,7 @@ import numpy as np
 
 from momentpng import products
 from momentpng.config import load_protocol, write_json
-from momentpng.stats import fisher
+from momentpng.stats import fisher, fisher_crossvalidated
 
 DEFAULT_SETS = ["P", "mu1", "mu2", "mu2G", "mu2c", "R", "mu3", "mu3c",
                 "mu1+mu2", "mu1+mu2+mu3", "P+mu1", "P+mu2", "P+mu2c", "P+mu3c", "P+mu1+mu2+mu3"]
@@ -34,6 +34,8 @@ def main():
     ap.add_argument("--smax", type=float, default=np.inf)
     ap.add_argument("--kmax", type=float, default=None, help="P(k) cut; default 0.95 k_Nyquist (<= 0.3)")
     ap.add_argument("--nuisance", nargs="*", default=[], help="fiducial variants to marginalise over")
+    ap.add_argument("--cv", type=int, default=0, metavar="K",
+                    help="also report the K-fold cross-validated (compression) sigma, robust to noise fitting")
     ap.add_argument("--tag", default="")
     a = ap.parse_args()
 
@@ -58,9 +60,15 @@ def main():
         r = fisher(derivs, X["fiducial"])
         row = {"set": spec, "n_data": r["n_data"], "sigma_fNL": float(r["sigma"][0]),
                "sigma_fNL_unmarginalised": float(r["sigma_unmarginalised"][0])}
+        msg = (f"{spec:18s} dim={r['n_data']:4d}  sigma(fNL)={row['sigma_fNL_unmarginalised']:7.2f}"
+               + (f"   marginalised={row['sigma_fNL']:7.2f}" if a.nuisance else ""))
+        if a.cv:
+            cv = fisher_crossvalidated(derivs, X["fiducial"], k=a.cv)
+            row.update(cv_sigma_fNL=float(cv["sigma"][0]), cv_sigma_fNL_unmarginalised=float(cv["sigma_unmarginalised"][0]))
+            msg += (f"   | CV: {row['cv_sigma_fNL_unmarginalised']:7.2f}"
+                    + (f" / marg {row['cv_sigma_fNL']:7.2f}" if a.nuisance else ""))
         rows.append(row)
-        print(f"{spec:18s} dim={r['n_data']:4d}  sigma(fNL)={row['sigma_fNL_unmarginalised']:7.2f}"
-              + (f"   marginalised={row['sigma_fNL']:7.2f}" if a.nuisance else ""))
+        print(msg)
 
     tag = f"n{nmesh}{a.variant}_smin{a.smin:g}" + (f"_{a.tag}" if a.tag else "")
     path = write_json(proto.results / f"information_{tag}.json",

@@ -15,10 +15,16 @@ import numpy as np
 
 def cic_paint(positions, nmesh: int, boxsize: float) -> np.ndarray:
     """CIC overdensity field delta = n/<n> - 1 on a periodic nmesh^3 grid."""
+    grid = cic_counts(positions, nmesh, boxsize)
+    return grid / grid.mean() - 1.0
+
+
+def cic_counts(positions, nmesh: int, boxsize: float, grid: np.ndarray | None = None) -> np.ndarray:
+    """CIC-assigned counts (unnormalised); accumulates into ``grid`` if given (e.g. per snapshot file)."""
     u = np.asarray(positions, dtype=float) / boxsize * nmesh
     i0 = np.floor(u).astype(np.int64)
     f = u - i0
-    grid = np.zeros(nmesh**3, dtype=np.float64)
+    flat = np.zeros(nmesh**3, dtype=np.float64)
     for dx in (0, 1):
         wx = (1 - f[:, 0]) if dx == 0 else f[:, 0]
         ix = (i0[:, 0] + dx) % nmesh
@@ -28,10 +34,13 @@ def cic_paint(positions, nmesh: int, boxsize: float) -> np.ndarray:
             for dz in (0, 1):
                 wz = (1 - f[:, 2]) if dz == 0 else f[:, 2]
                 iz = (i0[:, 2] + dz) % nmesh
-                grid += np.bincount((ix * nmesh + iy) * nmesh + iz, weights=wx * wy * wz,
+                flat += np.bincount((ix * nmesh + iy) * nmesh + iz, weights=wx * wy * wz,
                                     minlength=nmesh**3)
-    grid = grid.reshape(nmesh, nmesh, nmesh)
-    return grid / grid.mean() - 1.0
+    flat = flat.reshape(nmesh, nmesh, nmesh)
+    if grid is None:
+        return flat
+    grid += flat
+    return grid
 
 
 class Lattice:
@@ -68,6 +77,14 @@ def mode_power(delta: np.ndarray, boxsize: float) -> np.ndarray:
     """Power per Fourier mode, V/N^6 |FFT delta|^2, with the zero mode set to 0."""
     n = delta.shape[0]
     p = boxsize**3 / n**6 * np.abs(np.fft.fftn(delta)) ** 2
+    p[0, 0, 0] = 0.0
+    return p
+
+
+def mode_cross_power(delta_a: np.ndarray, delta_b: np.ndarray, boxsize: float) -> np.ndarray:
+    """Cross power per mode, V/N^6 Re[FFT a FFT b*], zero mode set to 0."""
+    n = delta_a.shape[0]
+    p = boxsize**3 / n**6 * np.real(np.fft.fftn(delta_a) * np.conj(np.fft.fftn(delta_b)))
     p[0, 0, 0] = 0.0
     return p
 

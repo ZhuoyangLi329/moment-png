@@ -16,7 +16,8 @@ import numpy as np
 from .config import realization_index
 from .moments import gaussian_moments
 
-PER_REALIZATION = ("mu1", "mu2", "mu3", "sigma0_sq", "sigma_s_sq", "mu2_gaussian", "P_h", "n_halo")
+PER_REALIZATION = ("mu1", "mu2", "mu3", "sigma0_sq", "sigma_s_sq", "mu2_gaussian", "P_h", "n_halo",
+                   "P_cross")  # P_cross: optional, halo x matter for node="matter_*" products
 SHARED = ("s", "k", "nmodes", "fNL", "nmesh", "boxsize", "shell_width")
 
 

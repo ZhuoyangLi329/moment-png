@@ -97,3 +97,29 @@ def test_gls_linear_exact():
     y = X @ np.array([2.0, -1.0])
     r = gls_linear(X, y, np.diag(np.full(5, 0.1)))
     np.testing.assert_allclose(r["beta"], [2.0, -1.0], atol=1e-12)
+
+
+def test_crossvalidated_fisher_is_conservative():
+    from momentpng.stats import fisher_crossvalidated
+    rng = np.random.default_rng(5)
+    dim, n = 20, 600
+    A = rng.normal(size=(dim, dim))
+    C = A @ A.T + dim * np.eye(dim)
+    L = np.linalg.cholesky(C)
+    d_true = 0.3 * rng.normal(size=dim)
+    exact = d_true @ np.linalg.solve(C, d_true)
+    vals = []
+    for t in range(20):
+        fid = rng.normal(size=(n, dim)) @ L.T
+        deriv = d_true + 0.5 * rng.normal(size=(n, dim)) @ L.T
+        vals.append(fisher_crossvalidated({"p": deriv}, fid, k=5, seed=t)["F"][0, 0])
+    assert 0.7 * exact < np.mean(vals) < 1.02 * exact
+
+
+def test_edgeworth_nu_derivative():
+    from momentpng.theory.massfunction import edgeworth, tophat
+    nu, s3, ds3 = np.linspace(1.5, 4.0, 11), 2.8e-4, -1.5e-4
+    h = 1e-6
+    num = (edgeworth(nu + h, s3, ds3)[0] - edgeworth(nu - h, s3, ds3)[0]) / (2 * h)
+    np.testing.assert_allclose(edgeworth(nu, s3, ds3)[1], num, rtol=1e-6)
+    np.testing.assert_allclose(tophat(np.array([1e-5, 1e-2])), 1.0, atol=2e-5)

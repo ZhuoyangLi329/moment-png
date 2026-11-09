@@ -5,6 +5,7 @@
 paths:
   catalogs: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions
   raw_fof: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1        # Quijote group_tab binaries
+  dm: /pscratch/sd/l/lzy/quijote-png/dm                      # {node}/{i}/snapdir_002/snap_002.{0..7}.hdf5
   theory_table: data/quijote_fiducial_z1_plin_pphi_M.dat     # k, P_L, P_phi, M(k, z=1)
   results: results                                           # relative to repo root
 
@@ -14,6 +15,12 @@ sample:
   boxsize: 1000.0          # Mpc/h, periodic
   mass_min: 1.0e+13        # Msun/h, FoF (YAML needs the explicit exponent sign)
   space: real
+
+cosmology:                 # Quijote fiducial
+  Omega_m: 0.3175
+  h: 0.6711
+  sigma8: 0.834
+  particle_mass: 6.565609345e+11   # Msun/h (512^3 particles in 1 Gpc/h)
 
 # Native Quijote-PNG nodes and their fNL (local shape).
 nodes:
