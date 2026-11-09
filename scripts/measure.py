@@ -53,8 +53,7 @@ def measure_one(job):
     pos = catalog(proto, node, i, dilute, mass_min)
     delta = cic_paint(pos, nmesh, box)
     row = field_moments(delta, box, scales, proto.shell_width)
-    dk, kmax = proto.power_bins
-    k, pk, nmodes = binned_power(mode_power(delta, box), lattice(nmesh, box).k, dk, kmax)
+    k, pk, nmodes = binned_power(mode_power(delta, box), lattice(nmesh, box).k, proto.power_edges)
     row.update(P_h=pk, n_halo=len(pos))
     return row, k, nmodes
 

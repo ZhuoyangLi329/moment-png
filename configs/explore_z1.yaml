@@ -10,3 +10,6 @@ estimator:
            160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300]
   shell_width: 20.0
   nmesh_resolution: [128, 256]
+  # P(k) must reach the k the moments use on fine grids (corner of the n128 cube ~0.7):
+  # 0.005 bins below k=0.1 (where the PNG signal lives), 0.02 bins up to 0.8.
+  power_bins: {dk: 0.005, kmax: 0.8, k_switch: 0.1, dk_high: 0.02}

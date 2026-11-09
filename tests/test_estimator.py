@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from momentpng.mesh import binned_power, cic_paint, lattice, mode_power
+from momentpng.mesh import binned_power, cic_paint, lattice, mode_power, uniform_edges
 from momentpng.moments import field_moments, shell_kernel
 from momentpng.theory.contact import poisson_contact_iid
 from momentpng.window import mu1, mu2_gaussian, shell_window
@@ -122,7 +122,7 @@ def test_cic_paint_mean_and_binning():
     d = cic_paint(pos, N, L)
     assert abs(d.mean()) < 1e-12
     p = mode_power(d, L)
-    k, pk, nm = binned_power(p, lattice(N, L).k, dk=0.05, kmax=1.0)
+    k, pk, nm = binned_power(p, lattice(N, L).k, uniform_edges(0.05, 1.0))
     assert nm.sum() == N**3 - 1  # every nonzero mode lands in exactly one bin
     np.testing.assert_allclose(np.sum(pk * nm), p.sum(), rtol=1e-12)
 

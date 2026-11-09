@@ -56,9 +56,9 @@ def main():
     lat = lattice(proto.nmesh, proto.boxsize)
     pm, _ = on_lattice(load_table(proto.path("theory_table")), lat)
     tm, ts = transfers(lat, a.convention)
-    dk, kmax_all = proto.power_bins
-    xm_all = bin_average(pm * tm, lat.k, dk, kmax_all)
-    xs_all = bin_average(ts * np.ones_like(lat.k), lat.k, dk, kmax_all)
+    edges = proto.power_edges
+    xm_all = bin_average(pm * tm, lat.k, edges)
+    xs_all = bin_average(ts * np.ones_like(lat.k), lat.k, edges)
     k = np.asarray(d["k"])
     nbar = float(np.mean(d["n_halo"])) / proto.boxsize**3
     shot = 1.0 / nbar if a.fix_shot else None

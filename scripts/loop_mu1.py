@@ -50,8 +50,8 @@ def main():
     lat = lattice(proto.nmesh, proto.boxsize)
     pm, M = on_lattice(table, lat)
     tm, ts = transfers(lat, a.convention)
-    dk, kmax = proto.power_bins
-    kb = np.arange(dk / 2, kmax, dk)
+    edges = proto.power_edges
+    kb = 0.5 * (edges[:-1] + edges[1:])
     s, w = proto.scales, proto.shell_width
     idx = list(proto.block(a.block))
     data = {node: products.load(proto.results, proto.nmesh, node, idx)["mu1"] for node in proto.nodes}

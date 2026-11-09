@@ -89,14 +89,18 @@ def mode_cross_power(delta_a: np.ndarray, delta_b: np.ndarray, boxsize: float) -
     return p
 
 
-def binned_power(power: np.ndarray, kmag: np.ndarray, dk: float = 0.005, kmax: float = 0.3):
-    """Isotropic shell average of a mode-power cube.
+def uniform_edges(dk: float, kmax: float) -> np.ndarray:
+    """Bin edges [0, dk, 2 dk, ...] up to kmax (the v1 convention)."""
+    return np.arange(0, kmax + dk, dk)
 
-    Bins are [i dk, (i+1) dk) up to kmax; empty bins and k=0 are dropped.
-    Returns (k_center, P_mean, n_modes).
+
+def binned_power(power: np.ndarray, kmag: np.ndarray, edges) -> tuple:
+    """Isotropic shell average of a mode-power cube over bins [edges[i], edges[i+1]).
+
+    Empty bins and k = 0 are dropped. Returns (k_center, P_mean, n_modes).
     """
+    edges = np.asarray(edges, dtype=float)
     km = np.broadcast_to(kmag, power.shape).ravel()
-    edges = np.arange(0, kmax + dk, dk)
     ib = np.digitize(km, edges) - 1
     ok = (ib >= 0) & (ib < len(edges) - 1) & (km > 0)
     counts = np.bincount(ib[ok], minlength=len(edges) - 1)
@@ -106,6 +110,6 @@ def binned_power(power: np.ndarray, kmag: np.ndarray, dk: float = 0.005, kmax: f
     return centers[good], sums[good] / counts[good], counts[good]
 
 
-def bin_average(values: np.ndarray, kmag: np.ndarray, dk: float = 0.005, kmax: float = 0.3):
+def bin_average(values: np.ndarray, kmag: np.ndarray, edges) -> np.ndarray:
     """Average any lattice quantity (e.g. a CIC transfer) on the binned_power bins."""
-    return binned_power(np.broadcast_to(values, np.broadcast(values, kmag).shape), kmag, dk, kmax)[1]
+    return binned_power(np.broadcast_to(values, np.broadcast(values, kmag).shape), kmag, edges)[1]

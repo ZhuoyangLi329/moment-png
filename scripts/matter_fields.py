@@ -49,10 +49,10 @@ def one(job):
     dm, npart = matter_delta(proto, node, i, nmesh)
     dh = cic_paint(load_positions(proto.path("catalogs"), node, i), nmesh, box)
     row = field_moments(dm, box, scales, proto.shell_width)
-    dk, kmax = proto.power_bins
+    edges = proto.power_edges
     kmag = lattice(nmesh, box).k
-    k, pmm, nm = binned_power(mode_power(dm, box), kmag, dk, kmax)
-    row.update(P_h=pmm, P_cross=binned_power(mode_cross_power(dh, dm, box), kmag, dk, kmax)[1], n_halo=npart)
+    k, pmm, nm = binned_power(mode_power(dm, box), kmag, edges)
+    row.update(P_h=pmm, P_cross=binned_power(mode_cross_power(dh, dm, box), kmag, edges)[1], n_halo=npart)
     return row, k, nm
 
 

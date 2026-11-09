@@ -41,9 +41,9 @@ def main():
 
     proto = load_protocol(a.config)
     nmesh = a.nmesh or proto.nmesh
-    if "holdout" in a.blocks:
-        raise SystemExit("the held-out block is reserved for validation")
     idx = proto.indices(a.blocks)
+    if set(idx) & set(proto.block("holdout")):
+        raise SystemExit("the held-out block is reserved for validation")
     kmax = a.kmax or min(0.3, 0.95 * np.pi * nmesh / proto.boxsize)
     load = lambda node, var: products.load(proto.results, nmesh, node, idx, var)
     data = {n: load(n, a.variant) for n in ("fiducial", "LC_m", "LC_p")}

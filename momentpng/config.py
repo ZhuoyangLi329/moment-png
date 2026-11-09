@@ -54,9 +54,14 @@ class Protocol:
         return int(self.raw["estimator"]["nmesh"])
 
     @property
-    def power_bins(self) -> tuple[float, float]:
+    def power_edges(self) -> np.ndarray:
+        """P(k) bin edges: uniform dk up to kmax, or dk below k_switch and dk_high above it."""
         b = self.raw["estimator"]["power_bins"]
-        return float(b["dk"]), float(b["kmax"])
+        dk, kmax = float(b["dk"]), float(b["kmax"])
+        if "k_switch" not in b:
+            return np.arange(0, kmax + dk, dk)
+        ks, dkh = float(b["k_switch"]), float(b["dk_high"])
+        return np.concatenate([np.arange(0, ks, dk), np.arange(ks, kmax + dkh / 2, dkh)])
 
     def block(self, name: str) -> range:
         """Realization indices of a named split block ('train', 'holdout', 'disjoint')."""
@@ -64,8 +69,13 @@ class Protocol:
         return range(int(start), int(stop))
 
     def indices(self, spec: str) -> list[int]:
-        """Realization indices of '+'-joined blocks, e.g. 'train+disjoint'."""
-        out = [i for name in spec.split("+") for i in self.block(name)]
+        """Realization indices of '+'-joined blocks or 'start:stop' ranges, e.g. 'train+disjoint', '100:133'."""
+        def part(name):
+            if ":" in name:
+                a, b = name.split(":")
+                return range(int(a), int(b))
+            return self.block(name)
+        out = [i for name in spec.split("+") for i in part(name)]
         if len(set(out)) != len(out):
             raise ValueError(f"overlapping blocks in {spec!r}")
         return out
