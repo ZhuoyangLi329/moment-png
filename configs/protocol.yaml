@@ -1,0 +1,46 @@
+# Frozen v1 protocol for the Quijote local-PNG shell-moment study.
+# Ported unchanged from the legacy configs/baseline_v1_canonical.yaml
+# (legacy work root: /pscratch/sd/l/lzy/byd2pcf).
+
+paths:
+  catalogs: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1_mmin1e13_positions
+  raw_fof: /pscratch/sd/l/lzy/quijote-png/halos/FoF_z1        # Quijote group_tab binaries
+  theory_table: data/quijote_fiducial_z1_plin_pphi_M.dat     # k, P_L, P_phi, M(k, z=1)
+  results: results                                           # relative to repo root
+
+sample:
+  redshift: 1.0
+  snapnum: 2
+  boxsize: 1000.0          # Mpc/h, periodic
+  mass_min: 1.0e+13        # Msun/h, FoF (YAML needs the explicit exponent sign)
+  space: real
+
+# Native Quijote-PNG nodes and their fNL (local shape).
+nodes:
+  fiducial: 0.0
+  LC_m: -100.0
+  LC_p: 100.0
+
+estimator:
+  shell_width: 20.0        # Mpc/h
+  scales: [40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300]
+  nmesh: 64                # primary grid
+  nmesh_resolution: [128, 256]
+  power_bins: {dk: 0.005, kmax: 0.3}
+
+# Realization blocks, as half-open index ranges [start, stop).
+split:
+  train: [0, 70]           # real000-real069: calibration only
+  holdout: [70, 100]       # real070-real099: validation only, never fitted
+  disjoint: [100, 500]     # real100-real499: independent calibration block
+
+bias:
+  delta_c: 1.686
+  p_universal: {tracer: 1.12, reconstruction: 1.0}
+  # Independent Gaussian one-loop fit from marisa-b-portable
+  # (fiducial fNL=0 aggregate, kmax=0.18). Not fitted to any PNG response.
+  marisa_b: {b1: 2.7340475186190334, b2: -0.665, bK2: 0.516666666666667, nbar: 1.95530218e-4}
+
+poisson_control:
+  nhalo: 195524            # fiducial real000 halo count
+  seeds: [0, 10]           # [start, stop)
