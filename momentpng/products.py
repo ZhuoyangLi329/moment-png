@@ -54,11 +54,41 @@ def load(results: Path, nmesh: int, node: str, indices=None, variant: str = "") 
     out = {k: np.concatenate([b[k] for b in blocks])[sel] for k in keys}
     out["realization_ids"] = ids[sel]
     out.update({k: blocks[0][k] for k in SHARED})
-    out["mu2_connected"] = out["mu2"] - out["mu2_gaussian"]
-    if "mu3" in out:
-        out["mu3_gaussian"] = gaussian_moments(out["mu1"], out["sigma0_sq"], out["sigma_s_sq"])["mu3_gaussian"]
-        out["mu3_connected"] = out["mu3"] - out["mu3_gaussian"]
-    return out
+    return with_derived(out)
+
+
+def with_derived(d: dict) -> dict:
+    """Add mu2_connected, mu3_gaussian, mu3_connected to a product dict (in place; returned)."""
+    d["mu2_connected"] = d["mu2"] - d["mu2_gaussian"]
+    if "mu3" in d:
+        d["mu3_gaussian"] = gaussian_moments(d["mu1"], d["sigma0_sq"], d["sigma_s_sq"])["mu3_gaussian"]
+        d["mu3_connected"] = d["mu3"] - d["mu3_gaussian"]
+    return d
+
+
+def linearised_variant(base: dict, var: dict) -> dict:
+    """A variant product whose Wick parts moved only by their first-order (chain-rule) change.
+
+    mu2_G = s0 ss + mu1^2 and mu3_G = 6 mu1 s0 ss + 2 mu1^3 are nonlinear in the mode powers, while
+    s0 = sigma0^2, ss = sigma_s^2, mu1 and P are linear. A finite step (e.g. a raised mass cut) then
+    moves the Wick parts by first- *and* second-order terms; because mu2_G is almost a deterministic
+    function of P, that O(step) curvature looks like information that separates the nuisance from fNL
+    and fakes degeneracy breaking (calibrated on Gaussian mocks, docs/findings.md). Here the Wick parts
+    move by  d mu2_G = ss ds0 + s0 dss + 2 mu1 dmu1  (and likewise mu3_G); the connected parts and the
+    linear statistics keep their measured finite differences.
+    """
+    base, var = with_derived(dict(base)), with_derived(dict(var))
+    col = lambda x: x[:, None] if np.ndim(x) == 1 else x
+    s0, ss, m = col(base["sigma0_sq"]), base["sigma_s_sq"], base["mu1"]
+    ds0, dss, dm = col(var["sigma0_sq"]) - s0, var["sigma_s_sq"] - ss, var["mu1"] - m
+    dv = ss * ds0 + s0 * dss
+    out = dict(var)
+    out["mu2_gaussian"] = base["mu2_gaussian"] + dv + 2 * m * dm
+    out["mu2"] = out["mu2_gaussian"] + var["mu2_connected"]
+    if "mu3" in var:
+        d3g = 6 * dm * s0 * ss + 6 * m * dv + 6 * m**2 * dm
+        out["mu3"] = base["mu3_gaussian"] + d3g + var["mu3_connected"]
+    return with_derived(out)
 
 
 def features(d: dict, names, smin: float = 0.0, smax: float = np.inf, kmax: float = np.inf) -> np.ndarray:

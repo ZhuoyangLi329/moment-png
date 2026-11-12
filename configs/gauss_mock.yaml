@@ -1,0 +1,5 @@
+# Gaussian-field calibration mocks (scripts/gaussian_mocks.py), same estimator as explore_z1.
+base: explore_z1.yaml
+
+paths:
+  results: results/gauss_mock

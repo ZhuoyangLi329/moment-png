@@ -5,11 +5,17 @@
 with the Hartlap correction and the derivative-noise bias removed (momentpng.stats.fisher).
 Nuisance directions are other measurement *variants* of the fiducial node (e.g. a raised
 mass cut '_m1.6e+13' ~ bias/amplitude, a dilution '_d2' ~ shot noise); their derivatives are
-paired differences X_variant - X_base and they are marginalised over.
+paired differences X_variant - X_base and they are marginalised over. Finite steps fake
+degeneracy breaking for statistics nonlinear in the mode powers (mu2, mu3), so by default the
+Wick parts of each variant are linearised by the chain rule (products.linearised_variant), and a
+pair 'h:2h' of nested variants one and two steps away gives the Richardson derivative
+2(X_h - X_0) - (X_2h - X_0)/2 for the remaining (connected) parts. Both are calibrated on Gaussian
+mocks (scripts/gaussian_mocks.py, docs/findings.md).
 
     python scripts/information.py --sets P mu1 mu2 mu1+mu2 P+mu1+mu2
     python scripts/information.py --config configs/explore_z1.yaml --nmesh 128 --smin 10 \\
         --nuisance _m1.6e+13 _d2
+    python scripts/information.py ... --nuisance _m1.18e+13:_m1.4e+13 _d1.25:_d1.5    # Richardson
 """
 import argparse
 
@@ -33,7 +39,9 @@ def main():
     ap.add_argument("--smin", type=float, default=0.0)
     ap.add_argument("--smax", type=float, default=np.inf)
     ap.add_argument("--kmax", type=float, default=None, help="P(k) cut; default 0.95 k_Nyquist (<= 0.3)")
-    ap.add_argument("--nuisance", nargs="*", default=[], help="fiducial variants to marginalise over")
+    ap.add_argument("--nuisance", nargs="*", default=[], help="fiducial variants to marginalise over; 'h:2h' = Richardson pair")
+    ap.add_argument("--raw-steps", action="store_true",
+                    help="use plain finite differences for the nuisance variants (biased; for comparison)")
     ap.add_argument("--cv", type=int, default=0, metavar="K",
                     help="also report the K-fold cross-validated (compression) sigma, robust to noise fitting")
     ap.add_argument("--tag", default="")
@@ -47,7 +55,8 @@ def main():
     kmax = a.kmax or min(0.3, 0.95 * np.pi * nmesh / proto.boxsize)
     load = lambda node, var: products.load(proto.results, nmesh, node, idx, var)
     data = {n: load(n, a.variant) for n in ("fiducial", "LC_m", "LC_p")}
-    nuis = {v: load("fiducial", v) for v in a.nuisance}
+    lin = (lambda d: products.linearised_variant(data["fiducial"], d)) if not a.raw_steps else (lambda d: d)
+    nuis = {v: [lin(load("fiducial", part)) for part in v.split(":")] for v in a.nuisance}
     df = proto.nodes["LC_p"] - proto.nodes["LC_m"]
 
     rows = []
@@ -55,8 +64,9 @@ def main():
         names = spec.split("+")
         X = {n: products.features(d, names, a.smin, a.smax, kmax) for n, d in data.items()}
         derivs = {"fNL": (X["LC_p"] - X["LC_m"]) / df}
-        for v, d in nuis.items():
-            derivs[v] = products.features(d, names, a.smin, a.smax, kmax) - X["fiducial"]
+        for v, parts in nuis.items():
+            steps = [products.features(d, names, a.smin, a.smax, kmax) - X["fiducial"] for d in parts]
+            derivs[v] = steps[0] if len(steps) == 1 else 2 * steps[0] - steps[1] / 2
         r = fisher(derivs, X["fiducial"])
         row = {"set": spec, "n_data": r["n_data"], "sigma_fNL": float(r["sigma"][0]),
                "sigma_fNL_unmarginalised": float(r["sigma_unmarginalised"][0])}

@@ -139,3 +139,20 @@ def test_poisson_contact_iid_monte_carlo():
         d = (rng.poisson(lam, size=(n, n, n)) - lam) / lam
         vals.append(np.var(d * np.fft.ifftn(np.fft.fftn(d) * fk).real))
     assert abs(np.mean(vals) - pred) / (np.std(vals, ddof=1) / np.sqrt(len(vals))) < 5
+
+
+def test_linearised_variant_wick_parts():
+    """Rescaling the field by (1+e): linear stats move by f = (1+e)^2 - 1 exactly; the linearised Wick
+    parts move by their first-order change 2 f mu2_G, and the connected parts keep their finite difference."""
+    from momentpng.products import linearised_variant
+    rng = np.random.default_rng(3)
+    s0 = rng.uniform(1, 2, size=4)
+    base = {"mu1": rng.normal(size=(4, 3)), "sigma0_sq": s0, "sigma_s_sq": rng.uniform(0.1, 1, size=(4, 3)),
+            "mu2": rng.uniform(3, 4, size=(4, 3)), "mu3": rng.normal(size=(4, 3))}
+    base["mu2_gaussian"] = base["sigma0_sq"][:, None] * base["sigma_s_sq"] + base["mu1"] ** 2
+    f = (1 + 0.3) ** 2 - 1
+    var = {k: v * (1 + f) ** (2 if k in ("mu2", "mu2_gaussian") else 3 if k == "mu3" else 1) for k, v in base.items()}
+    out = linearised_variant(base, var)
+    np.testing.assert_allclose(out["mu2_gaussian"] - base["mu2_gaussian"], 2 * f * base["mu2_gaussian"], rtol=1e-12)
+    np.testing.assert_allclose(out["mu2_connected"], var["mu2"] - var["mu2_gaussian"], rtol=1e-12)
+    np.testing.assert_allclose(out["mu1"], var["mu1"])
